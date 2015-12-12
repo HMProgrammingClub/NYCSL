@@ -11,7 +11,6 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li id="submitButton" class="loggedIn"><a href="#">Submit</a></li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schools<span class="caret"></span></a>
 					<ul class="dropdown-menu">
@@ -56,10 +55,9 @@
 					</li>
 				</ul>
 			</ul>
-			<ul class="nav navbar-nav navbar-right loggedIn" id="loggedNav">
-				<li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
-				<li><a href="../navbar-static-top/">Static top</a></li>
-				<li><a href="../navbar-fixed-top/">Fixed top</a></li>
+			<ul class="nav navbar-nav navbar-right loggedIn" id="logoutNav">
+				<li><a href="#" id="submitButton">Submit</a><input type="file" id="myFile"></li>
+				<li><a href="#" id="logoutButton">Logout</a></li>
 			</ul>
 		</div>
 	</div>
