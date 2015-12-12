@@ -61,9 +61,10 @@ $(document).ready(function() {
 	populateSchoolTabs(schoolName);
 
 	var index = parseInt(getGET("problemIndex"));
-	if(index == null || index === "" || index === " ") {
+	if(isNaN(index) == true || index == null || index === "" || index === " ") {
 		index = 0;
 	}
+	console.log("ind"+index)
 	var size = getProblemsSize();
 	$("#backButton").click(function() {
 		index++;
