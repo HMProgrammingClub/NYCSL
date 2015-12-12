@@ -32,7 +32,7 @@
 						<div class="panel-heading">
 							<h3 class="panel-title">Rules</h3>
 						</div>
-						<div class="panel-body" id="rulesPanelBody">These are the rules.</div>
+						<div class="panel-body" id="rulesPanelBody">These are the rules: $$\frac{5}{5}$$</div>
 					</div>
 				</div>
 				<div class="col-sm-8">
