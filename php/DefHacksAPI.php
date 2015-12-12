@@ -26,12 +26,14 @@ class DefHacksAPI extends API
 	}
 
 	private function select($sql) {
+		$sql = mysqli_escape_string($sql);
 		$res = mysqli_query($this->mysqli, $sql);
 		if($res) return mysqli_fetch_array($res, MYSQLI_ASSOC);
 		else return NULL;
 	}
 
 	private function selectMultiple($sql) {
+		$sql = mysqli_escape_string($sql);
 		$res = mysqli_query($this->mysqli, $sql);
 		$finalArray = array();
 
@@ -43,6 +45,7 @@ class DefHacksAPI extends API
 	}
 
 	private function insert($sql) {
+		$sql = mysqli_escape_string($sql);
 		mysqli_query($this->mysqli, $sql);
 	}
 
