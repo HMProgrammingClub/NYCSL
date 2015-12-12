@@ -234,3 +234,9 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+problems/scripts/.idea/workspace.xml
+problems/scripts/.idea/misc.xml
+problems/scripts/.idea/modules.xml
+problems/scripts/.idea/scripts.iml
+problems/scripts/.idea/vcs.xml
+problems/scripts/.idea/.name
