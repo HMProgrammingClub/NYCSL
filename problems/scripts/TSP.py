@@ -8,11 +8,6 @@ class Point:
         self.z = z
         self.index = index
 
-class Edge:
-    def __init__(firstPoint, secondPoint):
-        self.firstPoint = firstPoint
-        self.secondPoint = secondPoint
-
 def getDist(a, b):
     return math.sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y) + (a.z - b.z)*(a.z - b.z))
 
@@ -34,7 +29,7 @@ nums = []
 
 with open(filename) as fileIn:
     for line in fileIn:
-        # for w in line.split(' '):
+        for w in line.split(' '):
             if len(w) > 0:
                 try:
                     nums.append(int(w))
