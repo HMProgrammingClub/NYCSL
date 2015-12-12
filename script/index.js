@@ -51,8 +51,14 @@ $( document ).ready(function() {
 
 	var index = parseInt(getGET("problemIndex"));
 	if(isNaN(index) == true || index == null || index === "" || index === " ") {
-		index = 0;
+		index = parseInt(getGET("problemID"));
+		if(isNaN(index) == true || index == null || index === "" || index === " ") {
+			index = 0;
+		} else {
+			index = problemIDToIndex(index)
+		}
 	}
+	console.log("ind"+index)
 	var size = getProblemsSize();
 	$("#backButton").click(function() {
 		index++;

@@ -2,7 +2,7 @@ function populateStudentLeaderboard(userID) {
 	var submissions = getUserSubmissions(userID)
 	for(var a = 0; a < submissions.length; a++) {
 		var problem = getProblem(submissions[a].problemID)
-		$("#leaderboard").append($("<tr><th scope='row'>"+problem.problemName+"</th><td></td><td>"+submissions[a].score+"</td></tr>"))
+		$("#leaderboard").append($("<tr><th scope='row'><a href='index.php?problemID="+problem.problemID+"'>"+problem.problemName+"</a></th><td>"+getRankOfSubmission(submissions[a].submissionID)+"</td><td>"+submissions[a].score+"</td></tr>"))
 	}
 }
 

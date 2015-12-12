@@ -141,6 +141,42 @@ class DefHacksAPI extends API
 		} 
 	}
 
+	protected function rank() {
+		if(isset($_GET['submissionID'])) {
+			$submissionID = $_GET['submissionID'];
+			$submission = $this->select("SELECT problemID FROM Submission WHERE submissionID = $submissionID");
+
+			$problemID = $submission['problemID'];
+			$problemArray = $this->select("SELECT isAscending FROM Problem WHERE problemID = $problemID");
+
+			$submissions = array();
+			if($problemArray['isAscending'] == 0) $submissions = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score DESC");
+			else $submissions = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score ASC");
+			
+			$place = 1;
+			foreach($submissions as $otherSubmission) {
+				if($otherSubmission['submissionID'] == $submissionID) {
+					break;
+				}
+				$place++;
+			}
+			return $place;
+		}
+	}
+
+	protected function toIndex() {
+		if(isset($_GET['problemID'])) {
+			$problemID = $_GET['problemID'];
+
+			$problemArray = $this->selectMultiple("SELECT problemID FROM Problem");
+			for($a = 0; $a < count($problemArray); $a++) {
+				if($problemArray[$a]['problemID'] == $problemID) {
+					return (count($problemArray)-1) - $a;
+				}
+			}
+		}
+	}
+
 	protected function submission() {
 		if(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
@@ -164,7 +200,9 @@ class DefHacksAPI extends API
 			return $submissions;
 		} else if(isset($_GET['problemID'])) {
 			$problemID = $_GET['problemID'];
-			return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID");
+			$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
+			if($problemArray['isAscending'] == 0) return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score DESC");
+			else return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score ASC");
 		} else if($this->method === 'GET') {
 
 			$problemArrayArray = $this->selectMultiple("SELECT * FROM Problem");

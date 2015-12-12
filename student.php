@@ -22,8 +22,8 @@
 		<?php include 'includes/navbar.php'; ?>
 		<div class="pageContent">
 			<div class="jumbotron">
-				<h1 id="jHeader">John Doe</h1>
-				<p id="jParagraph">Horace Mann School</p>
+				<h1 id="jHeader"></h1>
+				<p id="jParagraph"></p>
 			</div>
 			<div id="info" class="row">
 				<div class="col-sm-12">

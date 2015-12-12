@@ -202,6 +202,25 @@ function getProblemsSize() {
     return result.responseJSON;
 }
 
+function getRankOfSubmission(submissionID) {
+	var result = $.ajax({
+		url: url+"rank", 
+		async: false,
+		method: "GET",
+		data: {submissionID: submissionID}
+    });
+    return result.responseJSON;
+}
+
+function problemIDToIndex(problemID) {
+	var result = $.ajax({
+		url: url+"toIndex", 
+		async: false,
+		method: "GET",
+		data: {problemID: problemID}
+    });
+    return result.responseJSON;
+}
 
 // FORM MUST HAVE: userID, outputFile
 function storeSubmissionDatabase(formID, async) {
