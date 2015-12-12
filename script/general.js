@@ -78,6 +78,10 @@ $(document).ready(function() {
 	});
 })
 
+$(window).load(function() {
+	$(".pageContent").fadeIn(500);
+});
+
 function loginError(errorMessage) {
 	$("#errorBox").empty()
 	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Login failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))

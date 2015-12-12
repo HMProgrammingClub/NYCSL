@@ -20,7 +20,7 @@
 <body>
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
-		<div id="pageContent">
+		<div class="pageContent">
 			<div class="jumbotron" id="jumbotron"></div>
 			<div class="row">
 				<div class="col-sm-5">
