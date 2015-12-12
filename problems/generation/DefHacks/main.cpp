@@ -1,6 +1,6 @@
-#include "TSP.h"
+#include "Roomates.h"
 
 int main()
 {
-	tspGenerate();
+	generate("NamesW.txt");
 }
