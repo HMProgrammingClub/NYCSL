@@ -15,7 +15,7 @@ def getDist(a, b):
 for arg in sys.argv:
     filename = arg
 
-input = open('../input/tsp.txt', 'r')
+input = open('../problems/input/tsp.txt', 'r')
 pts = []
 for line in input:
     l = line.split()

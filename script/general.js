@@ -1,9 +1,13 @@
+function fileChanged() {
+	storeSubmissionDatabase("submitForm", false);
+}
+
 function login(user) {
 	$("#loginNav").css("display", "none");
 	$("#logoutNav").css("display", "inline");
 
 	$("#submitForm").append("<input type='hidden' name='userID' value='"+user.userID+"'>");
-
+	
 	$('#submitButton').click(function() {
     	$('#myFile').click();
 	})

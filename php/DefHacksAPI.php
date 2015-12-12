@@ -125,14 +125,14 @@ class DefHacksAPI extends API
 			isset($_FILES['outputFile']['name'])) {
 
 			// Parameters
-			$userID = $_GET['userID'];
+			$userID = $_POST['userID'];
 			//$outputFile = $this->mysqli->real_escape_string(file_get_contents($_FILES['outputFile']["tmp_name"]));
 
 			// Last one is current one
 			$problemArrayArray = $this->selectMultiple("SELECT * FROM Problem");
 			$problemArray = $problemArrayArray[count($problemArrayArray)-1];
 			$problemID = $problemArray['problemID'];
-			$name = $problemArray['problemName'];
+			$problemName = $problemArray['problemName'];
 
 			$targetPath = "../problems/outputs/$problemName/";
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
@@ -140,7 +140,7 @@ class DefHacksAPI extends API
 			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
 
 			// Pass target file to python script
-			exec("python $problemName.py", $pythonOutput);
+			exec("python ../problems/scripts/$problemName.py $targetPath", $pythonOutput);
 			$score = intval($pythonOutput[0]);
 
 			$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");
