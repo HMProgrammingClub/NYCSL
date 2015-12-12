@@ -14,8 +14,7 @@ function populateLeaderboard(problemID, schoolName) {
 	}
 }
 
-function populateSchoolTabs() {
-	var school = getGET("schoolName");
+function populateSchoolTabs(school) {
 	$("#schoolTabs").empty()
 	var schools = getSchools()
 	for(var a = 0; a < schools.length; a++) {
@@ -27,9 +26,9 @@ function populateSchoolTabs() {
 	}
 }
 
-function displayProblem(index) {
+function displayProblem(index, schoolName) {
 	var problem = getProblemWithIndex(index)
-	populateLeaderboard(problem.problemID, getGET("schoolName"))
+	populateLeaderboard(problem.problemID, schoolName)
 
 	var result = $.ajax({
 		url: "problems/descriptions/header"+problem.problemName+".html", 
@@ -53,7 +52,12 @@ function displayProblem(index) {
 }
 
 $(document).ready(function() {
-	populateSchoolTabs();
+
+	var schoolName = getGET("schoolName");
+	if(schoolName == null) {
+		schoolName = getSchools()[0];
+	}
+	populateSchoolTabs(schoolName);
 
 	var index = 0;
 	var size = getProblemsSize();
@@ -66,7 +70,7 @@ $(document).ready(function() {
 			$("#nextButton").css("display", "inline");
 		}
 
-		displayProblem(index)
+		displayProblem(index, schoolName)
 	})
 	$("#nextButton").click(function() {
 		index--;
@@ -77,7 +81,7 @@ $(document).ready(function() {
 			$("#backButton").css("display", "inline");
 		}
 
-		displayProblem(index)
+		displayProblem(index, schoolName)
 	})
 
 	if(index == 0) {
@@ -87,14 +91,14 @@ $(document).ready(function() {
 		$("#backButton").css("display", "none");
 	}
 
-	displayProblem(0)
+	displayProblem(0, schoolName)
 
 	$('.schoolTab').click(function() {
 		$(".schoolTab").each(function(schoolIndex) {
   			$(this).removeClass("active")
 		});
 		$(this).addClass("active")
-		var schoolName = $(this).attr("schoolName")
+		schoolName = $(this).attr("schoolName")
 		populateLeaderboard(index, schoolName)
 	});
 
