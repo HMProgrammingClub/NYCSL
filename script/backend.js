@@ -31,8 +31,33 @@ function storeUserBackend(email, password, firstName, lastName, schoolName, asyn
     });
 }
 
-function storeUserSession(userID, email, password) {
+function storeUserSession(userID, email, password, async) {
+	if(userID != null && password != null) {
+		var result = $.ajax({
+			url: url+"session", 
+			async: async,
+			method: "POST",
+			data: {userID: userID, password: password}
+	    });
+	} else if(email != null && password != null) {
+		var result = $.ajax({
+			url: url+"session", 
+			async: async,
+			method: "POST",
+			data: {email: email, password: password}
+	    });
+	} else {
+		console.log("Your arguements are messed up");
+	}
+}
 
+function getSession() {
+	var result = $.ajax({
+		url: url+"session", 
+		async: false,
+		method: "GET"
+    });
+	return result.responseJSON;
 }
 
 function getProblem(problemID) {
@@ -42,6 +67,7 @@ function getProblem(problemID) {
 		method: "GET",
 		data: {problemID: problemID}
     });
+    return result.responseJSON;
 }
 
 function getProblemSubmissions(problemID) {
@@ -51,6 +77,7 @@ function getProblemSubmissions(problemID) {
 		method: "GET",
 		data: {problemID: problemID}
     });
+    return result.responseJSON;
 }
 
 function getUserSubmissions(userID) {
@@ -60,6 +87,7 @@ function getUserSubmissions(userID) {
 		method: "GET",
 		data: {userID: userID}
     });
+    return result.responseJSON;
 }
 
 function getSubmission(submissionID) {
@@ -69,9 +97,10 @@ function getSubmission(submissionID) {
 		method: "GET",
 		data: {submissionID: submissionID}
     });
+    return result.responseJSON;
 }
 
-// FORM MUST HAVE: userID, problemID, outputFile
+// FORM MUST HAVE: userID, outputFile
 function storeSubmissionDatabase(formID, async) {
 	var formData = new FormData($("#"+formID)[0]);
 	$.ajax({

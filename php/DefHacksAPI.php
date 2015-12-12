@@ -47,6 +47,27 @@ class DefHacksAPI extends API
 	}
 
 	// API ENDPOINTS
+	protected function session() {
+		session_start();
+		if($this->method == 'GET') {
+			return $_SESSION;
+		} else if(isset($_POST['email']) & isset($_POST['password'])) {
+			$email= $_POST['email'];
+			$password = $_POST['password'];
+			$userIDArray = $this->select("SELECT * FROM User WHERE email = '$email' AND password = '$password'");
+			$_SESSION = $userArray;
+		} else if(isset($_POST['userID']) & isset($_POST['password'])) {
+			$userID= $_POST['userID'];
+			$password = $_POST['password'];
+			$userIDArray = $this->select("SELECT * FROM User WHERE userID = '$userID' AND password = '$password'");
+			$_SESSION = $userArray;
+		} else if($this->method == 'DELETE') {
+			session_destroy();
+		} else {
+			return NULL;
+		}
+	}
+
 	protected function user() {
 		if(isset($_GET['userID']) && isset($_GET['password'])) {
 			$userID = $_GET['userID'];
@@ -99,17 +120,17 @@ class DefHacksAPI extends API
 			$submissionID = $_GET['submissionID'];
 			return $this->select("SELECT * FROM Submission WHERE submissionID = $submissionID");
 		} else if(
-			isset($_POST['problemID']) &&
 			isset($_POST['userID']) &&
 			isset($_FILES['outputFile']['name'])) {
 
 			// Parameters
-			$problemID = $_GET['problemID'];
 			$userID = $_GET['userID'];
 			//$outputFile = $this->mysqli->real_escape_string(file_get_contents($_FILES['outputFile']["tmp_name"]));
 
-			// Problem name
-			$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
+			// Last one is current one
+			$problemArrayArray = $this->selectMultiple("SELECT * FROM Problem");
+			$problemArray = $problemArrayArray[count($problemArrayArray)-1];
+			$problemID = $problemArray['problemID'];
 			$name = $problemArray['problemName'];
 
 			$targetPath = "../problems/outputs/$problemName/";

@@ -55,10 +55,12 @@
 					</li>
 				</ul>
 			</ul>
-			<ul class="nav navbar-nav navbar-right loggedIn" id="logoutNav">
-				<li><a href="#" id="submitButton">Submit</a><input type="file" id="myFile"></li>
-				<li><a href="#" id="logoutButton">Logout</a></li>
-			</ul>
+			<form id="submitForm">
+				<ul class="nav navbar-nav navbar-right loggedIn" id="logoutNav">
+					<li><a href="#" id="submitButton">Submit</a><input type="file" id="myFile" name="outputFile"></li>
+					<li><a href="#" id="logoutButton">Logout</a></li>
+				</ul>
+			</form>
 		</div>
 	</div>
 </nav>

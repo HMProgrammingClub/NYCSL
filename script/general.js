@@ -1,3 +1,9 @@
-document.getElementById('submitButton').onclick = function() {
-    document.getElementById('myFile').click();
-};
+
+
+$(document).ready(function() {
+	logIn();
+
+	$('#submitButton').click(function() {
+    	$('#myFile').click();
+	})
+})
