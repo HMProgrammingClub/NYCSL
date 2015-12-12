@@ -93,21 +93,39 @@ function getProblem(problemID) {
     return result.responseJSON;
 }
 
-function getProblemSubmissions() {
-	var result = $.ajax({
-		url: url+"submission", 
-		async: false,
-		method: "GET",
-		success: function(result) {
+function getProblemSubmissions(problemID) {
+	if(problemID == null) {
+		var result = $.ajax({
+			url: url+"submission", 
+			async: false,
+			method: "GET",
+			success: function(result) {
 				console.log(result)
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				console.log(xhr.responseText);
 				console.log(thrownError);
 			}
-    });
-    console.log(result)
-    return result.responseJSON;
+	    });
+	    console.log(result)
+	    return result.responseJSON;
+	} else {
+		var result = $.ajax({
+			url: url+"submission", 
+			async: false,
+			method: "GET",
+			data: {problemID: problemID},
+			success: function(result) {
+				console.log(result)
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				console.log(xhr.responseText);
+				console.log(thrownError);
+			}
+	    });
+	    console.log(result)
+	    return result.responseJSON;
+	}
 }
 
 function getUserSubmissions(userID) {
@@ -145,6 +163,27 @@ function getSchools() {
     });
     return result.responseJSON;
 }
+
+function getProblemWithIndex(index) {
+	var result = $.ajax({
+		url: url+"problem", 
+		async: false,
+		method: "GET",
+		data: {index: index}
+    });
+    return result.responseJSON;
+}
+
+function getProblemsSize() {
+	var result = $.ajax({
+		url: url+"problem", 
+		async: false,
+		method: "GET",
+		data: {size: 1}
+    });
+    return result.responseJSON;
+}
+
 
 // FORM MUST HAVE: userID, outputFile
 function storeSubmissionDatabase(formID, async) {

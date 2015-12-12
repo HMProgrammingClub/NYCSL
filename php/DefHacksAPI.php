@@ -130,6 +130,15 @@ class DefHacksAPI extends API
 			$problemID = $_GET['problemID'];
 			return $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
 		}
+		if(isset($_GET['index'])) {
+			$index = $_GET['index'];
+			$problems = $this->selectMultiple("SELECT * FROM Problem");
+			return $problems[count($problems) - (1+$index)];
+		}
+		if(isset($_GET['size'])) {
+			$problems = $this->selectMultiple("SELECT problemID FROM Problem");
+			return count($problems);
+		} 
 	}
 
 	protected function submission() {
@@ -139,6 +148,9 @@ class DefHacksAPI extends API
 		} else if(isset($_GET['submissionID'])) {
 			$submissionID = $_GET['submissionID'];
 			return $this->select("SELECT * FROM Submission WHERE submissionID = $submissionID");
+		} else if(isset($_GET['problemID'])) {
+			$problemID = $_GET['problemID'];
+			return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID");
 		} else if($this->method === 'GET') {
 
 			$problemArrayArray = $this->selectMultiple("SELECT * FROM Problem");

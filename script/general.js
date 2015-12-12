@@ -62,7 +62,6 @@ function populateSchools() {
 $(document).ready(function() {
 	populateSchools();
 
-	renderMathInElement(document.getElementById("rulesPanelBody"));
 	var user = getSession();
 	console.log(user);
 
