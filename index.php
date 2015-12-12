@@ -39,6 +39,8 @@
 		</div>
 	</div>
 
+	<?php include 'includes/footer.php'; ?>
+
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
 	<script src="script/general.js"></script>
