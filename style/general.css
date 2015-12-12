@@ -24,9 +24,9 @@ body {
 }
 
 #loginNav {
-	display:none;
+	display:inline;
 }
 
 #logoutNav {
-	display:inline;
+	display:none;
 }

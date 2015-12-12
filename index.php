@@ -26,21 +26,23 @@
 				<p id="jParagraph">Herp derp.</p>
 			</div>
 			<div class="row">
-				<div class="col-sm-4">
+				<div class="col-sm-5">
 					<div class="panel panel-primary">
 						<div class="panel-heading">
 							<h3 class="panel-title">Rules</h3>
 						</div>
-						<div class="panel-body" id="rulesPanelBody">These are the rules. $$\frac{5}{5}$$</div>
+						<div class="panel-body" id="rulesPanelBody">
+							<?php include 'problems/descriptions/TSP.html'; ?>
+						</div>
 					</div>
 				</div>
-				<div class="col-sm-8">
+				<div class="col-sm-7">
 					<?php include 'includes/leaderboard.php' ?>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<?php include 'includes/footer.php'; ?>
 
 	<script src="lib/jquery.min.js"></script>

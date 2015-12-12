@@ -31,7 +31,6 @@
 						<thead>
 							<tr>
 								<th>Competition Name</th>
-								<th>Month</th>
 								<th>Place</th>
 								<th>Score</th>
 							</tr>
