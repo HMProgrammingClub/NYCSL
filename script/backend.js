@@ -130,6 +130,22 @@ function getSubmission(submissionID) {
     return result.responseJSON;
 }
 
+function getSchools() {
+	var result = $.ajax({
+		url: url+"schools", 
+		async: false,
+		method: "GET",
+		success: function(result) {
+			console.log(result)
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			console.log(thrownError);
+		}
+    });
+    return result.responseJSON;
+}
+
 // FORM MUST HAVE: userID, outputFile
 function storeSubmissionDatabase(formID, async) {
 	var formData = new FormData($("#"+formID)[0]);

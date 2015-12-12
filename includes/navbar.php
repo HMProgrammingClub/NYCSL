@@ -13,7 +13,7 @@
 			<ul class="nav navbar-nav">
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schools<span class="caret"></span></a>
-					<ul class="dropdown-menu">
+					<ul class="dropdown-menu" id="schoolsDropdown">
 						<li><a href="#">Horace Mann</a></li>
 						<li><a href="#">Stuyvesant</a></li>
 						<li><a href="#">Bronx Science</a></li>

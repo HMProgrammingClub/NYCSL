@@ -51,7 +51,17 @@ function logOut() {
 	})
 }
 
+function populateSchools() {
+	$("#schoolsDropdown").empty()
+	var schools = getSchools()
+	for(var a = 0; a < schools.length; a++) {
+		$("#schoolsDropdown").append("<li><a href='#'>"+schools[a]+"</a></li>");
+	}
+}
+
 $(document).ready(function() {
+	populateSchools();
+
 	renderMathInElement(document.getElementById("rulesPanelBody"));
 	var user = getSession();
 	console.log(user);
@@ -62,14 +72,12 @@ $(document).ready(function() {
 	} else {
 		login(user)
 	}
-})
 
-$(function() {
 	$('.dropdown-toggle').dropdown();
 	$('.dropdown input, .dropdown label').click(function(e) {
 		e.stopPropagation();
 	});
-});
+})
 
 function loginError(errorMessage) {
 	$("#errorBox").empty()

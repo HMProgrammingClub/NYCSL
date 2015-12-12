@@ -47,6 +47,26 @@ class DefHacksAPI extends API
 	}
 
 	// API ENDPOINTS
+	protected function schools() {
+		if($this->method == 'GET') {
+			$schoolNames = array();
+			$users = $this->selectMultiple("SELECT * FROM User");
+			foreach($users as $user) {
+				$alreadyIn = false;
+				foreach($schoolNames as $name) {
+					if($name === $user['schoolName']) {
+						$alreadyIn = true;
+						break;
+					} 
+				}
+				if($alreadyIn == false) {
+					array_push($schoolNames, $user['schoolName']);
+				}
+			}
+			return $schoolNames;
+		}
+	}
+
 	protected function session() {
 		session_start();
 		if($this->method == 'GET') {
@@ -78,6 +98,9 @@ class DefHacksAPI extends API
 			$email = $_GET['email'];
 			$password = $_GET['password'];
 			return $this->select("SELECT * FROM User WHERE email = '$email' and password = '$password'");
+		} else if(isset($_GET['schoolName'])) {
+			$schoolName = $_GET['schoolName'];
+			return $this->selectMultiple("SELECT * FROM User WHERE schoolName = '$schoolName'");
 		} else if(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
 			return $this->select("SELECT * FROM User WHERE userID = $userID");
