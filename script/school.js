@@ -11,6 +11,18 @@ function populateLeaderboard(problemID) {
 		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td></a><td>"+entry.score+"</td></tr>"))
 	}
 }
+function populateSchoolTabs() {
+	var school = getGET("schoolName");
+	$("#schoolTabs").empty()
+	var schools = getSchools()
+	for(var a = 0; a < schools.length; a++) {
+		if (schools[a] === school) {
+			$("#schoolTabs").append("<li role='presentation' class='schoolTab active'><a href='#' id='tab"+schools[a]+"'>"+schools[a]+"</a></li>");
+		} else {
+			$("#schoolTabs").append("<li role='presentation' class='schoolTab'><a href='#' id='tab"+schools[a]+"'>"+schools[a]+"</a></li>");
+		}
+	} populateLeaderboard(school);
+}
 
 function displayProblem(index) {
 	var problem = getProblemWithIndex(index)
@@ -37,17 +49,14 @@ function displayProblem(index) {
     });
 }
 
-$(function() {
-	
-	$('.dropdown-toggle').dropdown();
-	$('.dropdown input, .dropdown label').click(function(e) {
-		e.stopPropagation();
+$(document).ready(function() {
+	populateSchoolTabs();
+	$('.schoolTab').click(function() {
+		$(".schoolTab").each(function(index) {
+  			$(this).removeClass("active")
+		});
+		$(this).addClass("active")
 	});
-});
-
-// FOR TESTING PURPOSES
-$( document ).ready(function() {
-	console.log( "ready!" );
 
 	var index = 0;
 	var size = getProblemsSize();
@@ -84,4 +93,4 @@ $( document ).ready(function() {
 	displayProblem(0)
 
 	renderMathInElement(document.getElementById("rulesPanelBody"));
-});
+})
