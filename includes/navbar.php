@@ -70,4 +70,4 @@
 			</form>
 		</div>
 	</div>
-</nav>
+</nav><div id="errorBox"></div>

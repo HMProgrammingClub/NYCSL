@@ -21,6 +21,7 @@
 	<div id="wrap">
 		<div class="container">
 			<?php include 'includes/navbar.php'; ?>
+
 			<div class="jumbotron">
 				<h1 id="jHeader">TSP</h1>
 				<p id="jParagraph">Herp derp.</p>
