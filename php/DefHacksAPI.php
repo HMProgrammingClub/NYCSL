@@ -35,7 +35,33 @@ class DefHacksAPI extends API
 	}
 
 	// API ENDPOINTS
+	protected function user() {
+		if(isset($_GET['userID']) && isset($_GET['password'])) {
+			$userID = $_GET['userID'];
+			$password = $_GET['password'];
+			return $this->select("SELECT * FROM User WHERE userID = $userID and password = $password");
+		} else if(isset($_GET['email']) && isset($_GET['password'])) {
+			$email = $_GET['email'];
+			$password = $_GET['password'];
+			return $this->select("SELECT * FROM User WHERE email = $email and password = $password");
+		} else if(
+			isset($_POST['email']) && 
+			isset($_POST['password']) &&
+			isset($_POST['firstName']) &&
+			isset($_POST['lastName']) &&
+			isset($_POST['schoolName']) &&) {
 
+			$email = $_POST['email'];
+			$password = $_POST['password'];
+			$email = $_POST['email'];
+			$email = $_POST['email'];
+			$email = $_POST['email'];
+
+			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName) VALUES ()");
+		} else {
+			return "Didnt reach an endpoint";
+		}
+	}
  }
 
  ?>
