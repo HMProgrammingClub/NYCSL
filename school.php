@@ -17,7 +17,6 @@
 </head>
 
 <body>
-
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
 		<div class="jumbotron">
@@ -56,6 +55,8 @@
 			</div>
 		</div>
 	</div>
+
+	<?php include 'includes/footer.php'; ?>
 
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>

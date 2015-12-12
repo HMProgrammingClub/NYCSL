@@ -17,24 +17,25 @@
 </head>
 
 <body>
-
-	<div class="container">
-		<?php include 'includes/navbar.php'; ?>
-		<div class="jumbotron">
-			<h1 id="jHeader">TSP</h1>
-			<p id="jParagraph">Herp derp.</p>
-		</div>
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">Rules</h3>
-					</div>
-					<div class="panel-body">These are the rules.</div>
-				</div>
+	<div id="wrap">
+		<div class="container">
+			<?php include 'includes/navbar.php'; ?>
+			<div class="jumbotron">
+				<h1 id="jHeader">TSP</h1>
+				<p id="jParagraph">Herp derp.</p>
 			</div>
-			<div class="col-sm-8">
-				<?php include 'includes/leaderboard.php' ?>
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Rules</h3>
+						</div>
+						<div class="panel-body">These are the rules.</div>
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<?php include 'includes/leaderboard.php' ?>
+				</div>
 			</div>
 		</div>
 	</div>
