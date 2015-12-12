@@ -49,7 +49,7 @@ class DefHacksAPI extends API
 			isset($_POST['password']) &&
 			isset($_POST['firstName']) &&
 			isset($_POST['lastName']) &&
-			isset($_POST['schoolName']) &&) {
+			isset($_POST['schoolName'])) {
 
 			$email = $_POST['email'];
 			$password = $_POST['password'];
@@ -58,8 +58,17 @@ class DefHacksAPI extends API
 			$email = $_POST['email'];
 
 			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName) VALUES ()");
+
 		} else {
 			return "Didnt reach an endpoint";
+		}
+		return "Success";
+	}
+
+	protected function problem() {
+		if(isset($_GET['problemID'])) {
+			$problemID = $_GET['problemID'];
+			return $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
 		}
 	}
  }
