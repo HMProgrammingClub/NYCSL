@@ -49,7 +49,10 @@ $(function() {
 $( document ).ready(function() {
 	console.log( "ready!" );
 
-	var index = 0;
+	var index = parseInt(getGET("problemIndex"));
+	if(index == null || index === "" || index === " ") {
+		index = 0;
+	}
 	var size = getProblemsSize();
 	$("#backButton").click(function() {
 		index++;
@@ -81,7 +84,7 @@ $( document ).ready(function() {
 		$("#backButton").css("display", "none");
 	}
 
-	displayProblem(0)
+	displayProblem(index)
 
 	renderMathInElement(document.getElementById("rulesPanelBody"));
 });
