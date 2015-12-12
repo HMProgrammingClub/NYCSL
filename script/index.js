@@ -50,7 +50,7 @@ $( document ).ready(function() {
 	console.log( "ready!" );
 
 	var index = parseInt(getGET("problemIndex"));
-	if(index == null || index === "" || index === " ") {
+	if(isNaN(index) == true || index == null || index === "" || index === " ") {
 		index = 0;
 	}
 	var size = getProblemsSize();
