@@ -20,32 +20,31 @@
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
 		<div class="jumbotron">
-			<h1 id="jHeader">TSP</h1>
-			<p id="jParagraph">Herp derp.</p>
+			<?php include 'problems/descriptions/headerTSP.html' ?>
 		</div>
-		<ul class="nav nav-tabs">
-			<li role="presentation" class="active">
-				<a href="#">Horace Mann</a>
-			</li>
-			<li role="presentation">
-				<a href="#">Stuyvesant</a>
-			</li>
-			<li role="presentation">
-				<a href="#">Bronx Science</a>
-			</li>
-		</ul>
-		<div id="info" class="row">
-			<div class="col-sm-4">
+		<div class="row">
+			<div class="col-sm-5">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">Rules</h3>
 					</div>
 					<div class="panel-body" id="rulesPanelBody">
-						<?php include 'problems/descriptions/TSP.html' ?>
+						<?php include 'problems/descriptions/bodyTSP.html' ?>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-8">
+			<div class="col-sm-7">
+				<ul class="nav nav-tabs">
+					<li role="presentation" class="active">
+						<a href="#">Horace Mann</a>
+					</li>
+					<li role="presentation">
+						<a href="#">Stuyvesant</a>
+					</li>
+					<li role="presentation">
+						<a href="#">Bronx Science</a>
+					</li>
+				</ul>
 				<?php include 'includes/leaderboard.php' ?>
 			</div>
 		</div>

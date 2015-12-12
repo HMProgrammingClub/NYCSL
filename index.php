@@ -18,26 +18,24 @@
 </head>
 
 <body>
-	<div id="wrap">
-		<div class="container">
-			<?php include 'includes/navbar.php'; ?>
-			<div class="jumbotron">
-				<?php include 'problems/descriptions/headerTSP.html'; ?>
-			</div>
-			<div class="row">
-				<div class="col-sm-5">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<h3 class="panel-title">Rules</h3>
-						</div>
-						<div class="panel-body" id="rulesPanelBody">
-							<?php include 'problems/descriptions/bodyTSP.html'; ?>
-						</div>
+	<div class="container">
+		<?php include 'includes/navbar.php'; ?>
+		<div class="jumbotron">
+			<?php include 'problems/descriptions/headerTSP.html'; ?>
+		</div>
+		<div class="row">
+			<div class="col-sm-5">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Rules</h3>
+					</div>
+					<div class="panel-body" id="rulesPanelBody">
+						<?php include 'problems/descriptions/bodyTSP.html'; ?>
 					</div>
 				</div>
-				<div class="col-sm-7">
-					<?php include 'includes/leaderboard.php' ?>
-				</div>
+			</div>
+			<div class="col-sm-7">
+				<?php include 'includes/leaderboard.php' ?>
 			</div>
 		</div>
 	</div>
