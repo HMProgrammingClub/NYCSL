@@ -14,8 +14,7 @@ class DefHacksAPI extends API
 
 	// Initializes and returns a mysqli object that represents our mysql database
 	private function initDB() {
-		// 104.131.81.214
-		$this->mysqli = new mysqli("104.131.81.214", 
+		$this->mysqli = new mysqli("localhost", 
 			"root", 
 			"***REMOVED***",
 			"DefHacks");
