@@ -47,7 +47,7 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">Rules</h3>
 					</div>
-					<div class="panel-body">These are the rules.</div>
+					<div class="panel-body" id="rulesPanelBody">These are the rules.</div>
 				</div>
 			</div>
 			<div class="col-sm-8">
@@ -60,6 +60,8 @@
 
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
+	<script src="lib/katex.min.js"></script>
+	<script src="lib/auto-render.min.js"></script>
 	<script src="script/backend.js"></script>
 	<script src="script/general.js"></script>
 </body>

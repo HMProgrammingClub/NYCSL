@@ -44,6 +44,7 @@ function logOut() {
 }
 
 $(document).ready(function() {
+	renderMathInElement(document.getElementById("rulesPanelBody"));
 	var user = getSession();
 	console.log(user);
 
@@ -54,3 +55,4 @@ $(document).ready(function() {
 		login(user)
 	}
 })
+
