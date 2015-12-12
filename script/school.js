@@ -60,7 +60,10 @@ $(document).ready(function() {
 	console.log("scho: "+schoolName)
 	populateSchoolTabs(schoolName);
 
-	var index = 0;
+	var index = parseInt(getGET("problemIndex"));
+	if(index == null || index === "" || index === " ") {
+		index = 0;
+	}
 	var size = getProblemsSize();
 	$("#backButton").click(function() {
 		index++;
@@ -92,7 +95,7 @@ $(document).ready(function() {
 		$("#backButton").css("display", "none");
 	}
 
-	displayProblem(0, schoolName)
+	displayProblem(index, schoolName)
 
 	$('.schoolTab').click(function() {
 		$(".schoolTab").each(function(schoolIndex) {
