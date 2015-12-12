@@ -48,7 +48,7 @@
 						<h3 class="panel-title">Rules</h3>
 					</div>
 					<div class="panel-body" id="rulesPanelBody">
-						<?php include 'includes/leaderboard.php' ?>
+						<?php include 'problems/descriptions/TSP.html' ?>
 					</div>
 				</div>
 			</div>

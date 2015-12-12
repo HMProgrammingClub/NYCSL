@@ -11,6 +11,7 @@ function login(user) {
 	$('#submitButton').click(function() {
     	$('#myFile').click();
 	})
+	
 	$('#logoutButton').click(function() {
     	destroySession(false);
     	logOut();
@@ -60,3 +61,9 @@ $(document).ready(function() {
 	}
 })
 
+$(function() {
+	$('.dropdown-toggle').dropdown();
+	$('.dropdown input, .dropdown label').click(function(e) {
+		e.stopPropagation();
+	});
+});

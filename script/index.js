@@ -7,7 +7,8 @@ function populateLeaderboard() {
 	for(var a = 0; a < entries.length; a++) {
 		var entry = entries[a]
 		var user = getUser(entry.userID);
-		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td>"+user.firstName+"</td><td>"+entry.score+"</td></tr>"))
+		console.log(entry.score);
+		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td>"+user.schoolName+"</td><td>"+user.firstName+"</td><td>"+entry.score+"</td></tr>"))
 	}
 }
 
