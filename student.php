@@ -20,24 +20,26 @@
 
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
-		<div class="jumbotron">
-			<h1 id="jHeader">John Doe</h1>
-			<p id="jParagraph">Horace Mann School</p>
-		</div>
-		<div id="info" class="row">
-			<div class="col-sm-12">
-				<div class="panel panel-default">
-					<table class="table well well-sm">
-						<thead>
-							<tr>
-								<th>Competition Name</th>
-								<th>Place</th>
-								<th>Score</th>
-							</tr>
-						</thead>
-						<tbody id="leaderboard">
-						</tbody>
-					</table>
+		<div id="pageContent">
+			<div class="jumbotron">
+				<h1 id="jHeader">John Doe</h1>
+				<p id="jParagraph">Horace Mann School</p>
+			</div>
+			<div id="info" class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<table class="table well well-sm">
+							<thead>
+								<tr>
+									<th>Competition Name</th>
+									<th>Place</th>
+									<th>Score</th>
+								</tr>
+							</thead>
+							<tbody id="leaderboard">
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
