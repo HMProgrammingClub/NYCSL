@@ -41,7 +41,7 @@ for listy in finalList:
 		summy += letters[a]
 	finalSum += len(listy) * len(listy) * summy
 
-print(finalSum)
+print(int(finalSum))
 
 
 
