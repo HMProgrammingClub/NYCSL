@@ -223,11 +223,11 @@ function problemIDToIndex(problemID) {
 }
 
 // FORM MUST HAVE: userID, outputFile
-function storeSubmissionDatabase(formID, async) {
+function storeSubmissionDatabase(formID) {
 	var formData = new FormData($("#"+formID)[0]);
-	$.ajax({
+	var result = $.ajax({
 		url: url+"submission", 
-		async: async,
+		async: false,
 		method: "POST",
 		data: formData,
 		processData: false,
@@ -244,4 +244,5 @@ function storeSubmissionDatabase(formID, async) {
 			console.log(thrownError);
 		}
 	})
+	return result.responseJSON;
 }

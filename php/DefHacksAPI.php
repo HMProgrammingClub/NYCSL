@@ -16,7 +16,7 @@ class DefHacksAPI extends API
 	private function initDB() {
 		$this->mysqli = new mysqli("104.131.81.214", 
 			"josh", 
-			"***REMOVED***", 
+			"***REMOVED***",
 			"DefHacks");
 		
 		if (mysqli_connect_errno()) { 
@@ -233,12 +233,13 @@ class DefHacksAPI extends API
 
 			// Pass target file to python script
 			exec("python ../problems/scripts/$problemName.py $targetPath", $pythonOutput);
+			if(strcspn($pythonOutput[0], '0123456789') == strlen($pythonOutput[0])) return "nan";
 			$score = intval($pythonOutput[0]);
 
 			
-			$nameArray = $this->select("SELECT * FROM Submission WHERE userID = $userID");
-			if($nameArray['name'] != NULL) {
-				if($nameArray['distance'] > $distance) {
+			$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID");
+			if($userArray['userID'] != NULL) {
+				if($userArray['score'] > $score) {
 					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID");
 				}
 			} else {
