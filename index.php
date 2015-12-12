@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title></title>
+	<title>Home</title>
 
 	<link href="lib/bootstrap.min.css" rel="stylesheet">
 
