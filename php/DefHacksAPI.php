@@ -101,11 +101,25 @@ class DefHacksAPI extends API
 		} else if(
 			isset($_POST['problemID']) &&
 			isset($_POST['userID']) &&
-			isset($_POST['score'])) {
+			isset($_FILES['outputFile']['name'])) {
 
+			// Parameters
 			$problemID = $_GET['problemID'];
 			$userID = $_GET['userID'];
-			$score = $_GET['score'];
+			//$outputFile = $this->mysqli->real_escape_string(file_get_contents($_FILES['outputFile']["tmp_name"]));
+
+			// Problem name
+			$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
+			$name = $problemArray['problemName'];
+
+			$targetPath = "../problems/outputs/$problemName/";
+			$ext = explode('.', basename( $_FILES['outputFile']['name']));
+			$targetPath = $targetPath . md5(uniqid()) . "." . $ext[count($ext)-1];
+			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
+
+			// Pass target file to python script
+			exec("python $problemName.py", $pythonOutput);
+			$score = intval($pythonOutput[0]);
 
 			$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");
 		} else {
