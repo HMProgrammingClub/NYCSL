@@ -157,7 +157,7 @@ class DefHacksAPI extends API
 			foreach($possibleSubmissions as $possibleSubmission) {
 				$userID = $possibleSubmission['userID'];
 				$userArray = $this->select("SELECT userID FROM User WHERE schoolName = '$schoolName' and userID = $userID");
-				if(count($userArray) < 1) {
+				if(count($userArray) > 0) {
 					array_push($submissions, $possibleSubmission);
 				}
 			}

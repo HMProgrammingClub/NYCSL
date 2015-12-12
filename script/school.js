@@ -1,6 +1,8 @@
 function populateLeaderboard(problemID, schoolName) {
 	console.log("start");
 	$("#leaderboard").empty()
+	console.log(problemID)
+	console.log(schoolName)
 	var entries = getProblemSubmissionsWithSchool(problemID, schoolName);
 	console.log("entry")
 	console.log(entries);
@@ -22,7 +24,7 @@ function populateSchoolTabs() {
 		} else {
 			$("#schoolTabs").append("<li role='presentation' class='schoolTab' schoolName='"+schools[a]+"'><a href='#' id='tab"+schools[a]+"'>"+schools[a]+"</a></li>");
 		}
-	} populateLeaderboard(school);
+	}
 }
 
 function displayProblem(index) {
