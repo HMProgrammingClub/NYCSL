@@ -55,7 +55,7 @@ function populateSchools() {
 	$("#schoolsDropdown").empty()
 	var schools = getSchools()
 	for(var a = 0; a < schools.length; a++) {
-		$("#schoolsDropdown").append("<li><a href='#'>"+schools[a]+"</a></li>");
+		$("#schoolsDropdown").append("<li><a href='school.php?schoolName="+schools[a]+"'>"+schools[a]+"</a></li>");
 	}
 }
 
