@@ -234,8 +234,8 @@ class DefHacksAPI extends API
 
 			// Pass target file to python script
 			exec("python ../problems/scripts/$problemName.py $targetPath", $pythonOutput);
-			if(is_nan($pythonOutput[0]) == true) return "nan";
-			$score = intval($pythonOutput[0]);	
+			if(strcspn($pythonOutput[0], '0123456789') == strlen($pythonOutput[0])) return "nan";
+			$score = intval($pythonOutput[0]);
 
 			
 			$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID");
