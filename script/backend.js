@@ -17,6 +17,14 @@ function getUser(userID, email, password) {
 			data: {email: email, password: password}
 	    });
 	    return result.responseJSON;
+	}else if(userID != null) {
+		var result = $.ajax({
+			url: url+"user", 
+			async: false,
+			method: "GET",
+			data: {userID: userID}
+	    });
+	    return result.responseJSON;
 	} else {
 		console.log("Your arguements are messed up");
 	}
@@ -85,13 +93,20 @@ function getProblem(problemID) {
     return result.responseJSON;
 }
 
-function getProblemSubmissions(problemID) {
+function getProblemSubmissions() {
 	var result = $.ajax({
 		url: url+"submission", 
 		async: false,
 		method: "GET",
-		data: {problemID: problemID}
+		success: function(result) {
+				console.log(result)
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				console.log(xhr.responseText);
+				console.log(thrownError);
+			}
     });
+    console.log(result)
     return result.responseJSON;
 }
 

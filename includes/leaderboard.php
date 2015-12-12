@@ -1,4 +1,4 @@
-<div class="panel panel-default" id="leaderboard">
+<div class="panel panel-default">
 	<table class="table well well-sm">
 		<thead>
 			<tr>

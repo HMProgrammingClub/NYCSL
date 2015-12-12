@@ -1,9 +1,13 @@
 function populateLeaderboard() {
+	console.log("start");
 	$("#leaderboard").empty()
-	var entries = getOrderedEntries()
+	var entries = getProblemSubmissions();
+	console.log("entry")
+	console.log(entries);
 	for(var a = 0; a < entries.length; a++) {
 		var entry = entries[a]
-		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td>"+entry.name+"</td><td>"+entry.distance+"</td></tr>"))
+		var user = getUser(entry.userID);
+		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td>"+user.firstName+"</td><td>"+entry.score+"</td></tr>"))
 	}
 }
 
@@ -18,4 +22,5 @@ $(function() {
 // FOR TESTING PURPOSES
 $( document ).ready(function() {
 	console.log( "ready!" );
+	populateLeaderboard();
 });

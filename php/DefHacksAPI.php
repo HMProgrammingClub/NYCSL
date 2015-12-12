@@ -78,6 +78,9 @@ class DefHacksAPI extends API
 			$email = $_GET['email'];
 			$password = $_GET['password'];
 			return $this->select("SELECT * FROM User WHERE email = '$email' and password = '$password'");
+		} else if(isset($_GET['userID'])) {
+			$userID = $_GET['userID'];
+			return $this->select("SELECT * FROM User WHERE userID = $userID");
 		} else if(
 			isset($_POST['email']) && 
 			isset($_POST['password']) &&
@@ -107,19 +110,21 @@ class DefHacksAPI extends API
 	}
 
 	protected function submission() {
-		if(isset($_GET['problemID'])) {
-			$problemID = $_GET['problemID'];
-
-			$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
-
-			if($problemArray['isAscending'] == 0) return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score DESC");
-			else return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score ASC");
-		} else if(isset($_GET['userID'])) {
+		if(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
 			return $this->selectMultiple("SELECT * FROM Submission WHERE userID = $userID");
 		} else if(isset($_GET['submissionID'])) {
 			$submissionID = $_GET['submissionID'];
 			return $this->select("SELECT * FROM Submission WHERE submissionID = $submissionID");
+		} else if($this->method === 'GET') {
+
+			$problemArrayArray = $this->selectMultiple("SELECT * FROM Problem");
+			$problemArray = $problemArrayArray[count($problemArrayArray)-1];
+
+			$problemID = $problemArray['problemID'];
+
+			if($problemArray['isAscending'] == 0) return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score DESC");
+			else return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score ASC");
 		} else if(
 			isset($_POST['userID']) &&
 			isset($_FILES['outputFile']['name'])) {
