@@ -87,13 +87,17 @@ class DefHacksAPI extends API
 	protected function submission() {
 		if(isset($_GET['problemID'])) {
 			$problemID = $_GET['problemID'];
-			return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID");
+
+			$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
+
+			if($problemArray['isAscending'] == 0) return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score DESC");
+			else return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score ASC");
 		} else if(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
 			return $this->selectMultiple("SELECT * FROM Submission WHERE userID = $userID");
 		} else if(isset($_GET['submissionID'])) {
 			$submissionID = $_GET['submissionID'];
-			return $this->selectMultiple("SELECT * FROM Submission WHERE submissionID = $submissionID");
+			return $this->select("SELECT * FROM Submission WHERE submissionID = $submissionID");
 		} else if(
 			isset($_POST['problemID']) &&
 			isset($_POST['userID']) &&
@@ -102,7 +106,7 @@ class DefHacksAPI extends API
 			$problemID = $_GET['problemID'];
 			$userID = $_GET['userID'];
 			$score = $_GET['score'];
-			
+
 			$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");
 		} else {
 			return "Didn't reach endpoint";
