@@ -42,8 +42,12 @@
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Register<strong class="caret"></strong></a>
 						<ul class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 							<div class="form-group">
-								<label for="register_name">Name</label>
-								<input id="register_name"  type="text" size="30" />
+								<label for="register_first">First Name</label>
+								<input id="register_first"  type="text" size="30" />
+							</div>
+							<div class="form-group">
+								<label for="register_last">Last Name</label>
+								<input id="register_last"  type="text" size="30" />
 							</div>
 							<div class="form-group">
 								<label for="register_school">School</label>

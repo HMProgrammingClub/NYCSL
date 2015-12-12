@@ -36,14 +36,16 @@ function logOut() {
 		}
 	})
 	$("#registerButton").click(function() {
-		var email = $("#register_user").val();
+		var email = $("#register_email").val();
 		var password = $("#register_pass").val();
 		var firstName = $("#register_first").val();
 		var lastName = $("#register_last").val();
 		var schoolName = $("#register_school").val();
+		console.log(email+""+password+firstName+lastName+schoolName)
 
 		storeUserBackend(email, password, firstName, lastName, schoolName, false);
 		storeUserSession(null, email, password, false);
+		console.log(getSession())
 		login(getSession());
 	})
 }
