@@ -29,7 +29,7 @@ function logOut() {
 
 		// Does not exist. LOG IN FAIL
 		if(getUser(null, email, password) == null) {
-			console.log("log in fail");
+			loginError("That email password combination does not exist")
 		} else {
 			storeUserSession(null, email, password, false);
 			console.log(getSession());
