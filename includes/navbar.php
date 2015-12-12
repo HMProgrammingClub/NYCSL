@@ -11,7 +11,7 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li id="submitButton"><a href="#">Submit</a></li>
+				<li id="submitButton" class="loggedIn"><a href="#">Submit</a></li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schools<span class="caret"></span></a>
 					<ul class="dropdown-menu">
@@ -21,14 +21,14 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right" id="loginNav">
+			<ul class="nav navbar-nav navbar-right loggedOut" id="loginNav">
 				<ul class="nav navbar-nav">
 					<li class="dropdown">
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Login<strong class="caret"></strong></a>
 						<ul class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 							<div class="form-group">
 								<label for="login_user">Email</label>
-								<input id="login_user"  type="text" size="30" />
+								<input id="login_user"  type="email" size="30" />
 							</div>
 							<div class="form-group">
 								<label for="login_pass">Password</label>
@@ -44,7 +44,7 @@
 						<ul class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 							<div class="form-group">
 								<label for="register_user">Email</label>
-								<input id="register_user"  type="text" size="30" />
+								<input id="register_user"  type="email" size="30" />
 							</div>
 							<div class="form-group">
 								<label for="register_pass">Password</label>
@@ -56,7 +56,7 @@
 					</li>
 				</ul>
 			</ul>
-			<ul class="nav navbar-nav navbar-right" id="loggedNav">
+			<ul class="nav navbar-nav navbar-right loggedIn" id="loggedNav">
 				<li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
 				<li><a href="../navbar-static-top/">Static top</a></li>
 				<li><a href="../navbar-fixed-top/">Fixed top</a></li>

@@ -7,10 +7,11 @@ body {
 	margin-bottom: 20px;
 }
 
-#loginNav {
+.loggedIn {
+	display:none;
+}
+
+.loggedOut {
 	display:inline;
 }
 
-#loggedNav {
-	display:none;
-}
