@@ -37,10 +37,10 @@ public class TSP
 	
 	public static void outputSolutionsToFile(String name, ArrayList<Integer> solutions)
 	{
-		String filename = name + System.currenTimeMillis(), content = new String();
+		String filename = name + System.currentTimeMillis() + ".txt", content = new String();
 		for(Integer i : solution) content += i.toString() + " ";
 		try {
-			FileWriter writer = new FileWriter(new File("output.txt"), false);
+			FileWriter writer = new FileWriter(new File(filename), false);
             writer.write(content);
             writer.close();
 		} catch(Exception e) {
