@@ -25,15 +25,17 @@
 			<p id="jParagraph">Herp derp.</p>
 		</div>
 		<div class="row">
-			<div class="col-sm-4">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">Rules</h3>
-					</div>
-					<div class="panel-body">These are the rules.</div>
-				</div>
-			</div>
-			<div class="col-sm-8">
+			<div class="col-sm-12">
+				<ul class="nav nav-tabs">
+  					<li role="presentation" class="dropdown">
+    					<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+      						Dropdown <span class="caret"></span>
+    					</a>
+    					<ul class="dropdown-menu">
+    					</ul>
+  					</li>
+				</ul>
+				<!--
 				<div class="panel panel-default">
 					<table class="table well well-sm">
 						<thead>
@@ -48,6 +50,7 @@
 						</tbody>
 					</table>
 				</div>
+				-->
 			</div>
 		</div>
 	</div>
