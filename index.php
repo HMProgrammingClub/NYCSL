@@ -12,6 +12,8 @@
 
 	<link href="lib/bootstrap.min.css" rel="stylesheet">
 
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+
 	<link href="style/general.css" rel="stylesheet">
 	<link href="style/index.css" rel="stylesheet">
 </head>
@@ -30,7 +32,7 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">Rules</h3>
 					</div>
-					<div class="panel-body">These are the rules.</div>
+					<div class="panel-body" id="rulesPanel">These are the rules: $$\frac{5}{5}$$.</div>
 				</div>
 			</div>
 			<div class="col-sm-8">
@@ -39,8 +41,16 @@
 		</div>
 	</div>
 
+	
+
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
 	<script src="script/general.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+	<script src="/lib/auto-render.min.js"></script>
+	<script>
+      renderMathInElement(
+          document.getElementById("rulesPanel"));
+    </script>
 </body>
 </html>
