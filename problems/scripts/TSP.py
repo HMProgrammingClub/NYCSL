@@ -29,25 +29,37 @@ nums = []
 
 with open(filename) as fileIn:
     for line in fileIn:
-        for w in line.split():
-            nums.append(int(w))
+        for w in line.split(' '):
+            if len(w) > 0:
+                try:
+                    nums.append(int(w))
+                except ValueError:
+                    print('Error')
+                    sys.exit(-1)
+
+for a in nums:
+    if a > 500 or a < 1:
+        print('Error')
+        sys.exit(-1)
+
 
 beenTo = []
-for a in range(0, 200):
+for a in range(0, 500):
     beenTo.append(False)
 
 dist = 0.0
 for a in range(1, len(nums)):
-    if beenTo[nums[a]]:
+    if beenTo[nums[a] - 1]:
         print('Error')
         sys.exit(-1)
-    beenTo[nums[a]] = True
+    beenTo[nums[a] - 1] = True
     b = a - 1
-    dist += getDist(pts[nums[b]], pts[nums[a]])
-if beenTo[nums[0]]:
+    dist += getDist(pts[nums[b] - 1], pts[nums[a] - 1])
+if beenTo[nums[0] - 1]:
     print('Error')
     sys.exit(-1)
-dist += getDist(pts[nums[0]], pts[nums[-1]])
+beenTo[nums[0] - 1] = True
+dist += getDist(pts[nums[0] - 1], pts[nums[-1] - 1])
 
 for a in beenTo:
     if not(a):
