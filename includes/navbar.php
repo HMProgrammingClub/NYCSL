@@ -7,27 +7,56 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Project name</a>
+			<a class="navbar-brand" href="/">NYCSL</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#">About</a></li>
-				<li><a href="#">Contact</a></li>
+				<li id="submitButton"><a href="#">Submit</a></li>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Schools<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li role="separator" class="divider"></li>
-						<li class="dropdown-header">Nav header</li>
-						<li><a href="#">Separated link</a></li>
-						<li><a href="#">One more separated link</a></li>
+						<li><a href="#">Horace Mann</a></li>
+						<li><a href="#">Stuyvesant</a></li>
+						<li><a href="#">Bronx Science</a></li>
 					</ul>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-right" id="loginNav">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Login<strong class="caret"></strong></a>
+						<ul class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+							<div class="form-group">
+								<label for="login_user">Email</label>
+								<input id="login_user"  type="text" size="30" />
+							</div>
+							<div class="form-group">
+								<label for="login_pass">Password</label>
+								<input id="login_pass"  type="password" size="30" />
+							</div>
+
+							<input id="loginButton" class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px; margin-bottom:15px" type="submit" name="commit" value="Login" />
+						</ul>
+					</li>
+
+					<li class="dropdown">
+						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Register<strong class="caret"></strong></a>
+						<ul class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+							<div class="form-group">
+								<label for="register_user">Email</label>
+								<input id="register_user"  type="text" size="30" />
+							</div>
+							<div class="form-group">
+								<label for="register_pass">Password</label>
+								<input id="register_pass"  type="password" size="30" />
+							</div>
+
+							<input id="registerButton" class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px; margin-bottom:15px" type="submit" name="commit" value="Register" />
+						</ul>
+					</li>
+				</ul>
+			</ul>
+			<ul class="nav navbar-nav navbar-right" id="loggedNav">
 				<li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
 				<li><a href="../navbar-static-top/">Static top</a></li>
 				<li><a href="../navbar-fixed-top/">Fixed top</a></li>

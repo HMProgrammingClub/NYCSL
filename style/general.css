@@ -6,3 +6,11 @@ body {
 .navbar {
 	margin-bottom: 20px;
 }
+
+#loginNav {
+	display:inline;
+}
+
+#loggedNav {
+	display:none;
+}

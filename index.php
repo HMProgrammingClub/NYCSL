@@ -28,5 +28,6 @@
 
     <script src="lib/jquery.min.js"></script>
     <script src="lib/bootstrap.min.js"></script>
+    <script src="script/general.js"></script>
 </body>
 </html>
