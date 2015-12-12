@@ -146,6 +146,26 @@ function getSchools() {
     return result.responseJSON;
 }
 
+function getProblemWithIndex(index) {
+	var result = $.ajax({
+		url: url+"problem", 
+		async: false,
+		method: "GET",
+		data: {index: index}
+    });
+    return result.responseJSON;
+}
+
+function getProblemsSize() {
+	var result = $.ajax({
+		url: url+"problem", 
+		async: false,
+		method: "GET",
+		data: {size: 1}
+    });
+    return result.responseJSON;
+}
+
 // FORM MUST HAVE: userID, outputFile
 function storeSubmissionDatabase(formID, async) {
 	var formData = new FormData($("#"+formID)[0]);

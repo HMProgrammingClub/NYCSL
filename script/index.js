@@ -24,4 +24,32 @@ $(function() {
 $( document ).ready(function() {
 	console.log( "ready!" );
 	populateLeaderboard();
+
+	var index = 0;
+	var size = getProblemsSize();
+	$("#backButton").click(function() {
+		index++;
+		if(index == size-1) {
+			$("#backButton").css("display", "none");
+		}
+		if(index == 1) {
+			$("#nextButton").css("display", "inline");
+		}
+	})
+	$("#nextButton").click(function() {
+		index--;
+		if(index == 0) {
+			$("#nextButton").css("display", "none");
+		}
+		if(index == size-2) {
+			$("#backButton").css("display", "inline");
+		}
+	})
+
+	if(index == 0) {
+		$("#nextButton").css("display", "none");
+	}
+	if(index == size-1) {
+		$("#backButton").css("display", "none");
+	}
 });
