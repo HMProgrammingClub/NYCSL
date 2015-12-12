@@ -31,6 +31,17 @@ class DefHacksAPI extends API
 		else return NULL;
 	}
 
+	private function selectMultiple($sql) {
+		$res = mysqli_query($this->mysqli, $sql);
+		$finalArray = array();
+
+		while($temp = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
+			array_push($finalArray, $temp);
+		}
+
+		return $finalArray;
+	}
+
 	private function insert($sql) {
 		mysqli_query($this->mysqli, $sql);
 	}
@@ -70,6 +81,19 @@ class DefHacksAPI extends API
 		if(isset($_GET['problemID'])) {
 			$problemID = $_GET['problemID'];
 			return $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
+		}
+	}
+
+	protected function submission() {
+		if(isset($_GET['problemID'])) {
+			$problemID = $_GET['problemID'];
+			return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID");
+		} else if(isset($_GET['userID'])) {
+			$userID = $_GET['userID'];
+			return $this->selectMultiple("SELECT * FROM Submission WHERE userID = $userID");
+		} else if(isset($_GET['submissionID'])) {
+			$submissionID = $_GET['submissionID'];
+			return $this->selectMultiple("SELECT * FROM Submission WHERE submissionID = $submissionID");
 		}
 	}
  }
