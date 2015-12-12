@@ -7,3 +7,6 @@ $(function() {
 });
 
 // FOR TESTING PURPOSES
+$( document ).ready(function() {
+	console.log( "ready!" );
+});
