@@ -1,6 +1,5 @@
 function fileChanged() {
-	storeSubmissionDatabase("submitForm", false);
-	var score = "5"
+	var score = storeSubmissionDatabase("submitForm", false);
 
 	if (isNaN(score)) parseError()
 	else congratsError(score)
