@@ -27,7 +27,8 @@ class DefHacksAPI extends API
 
 	private function select($sql) {
 		$res = mysqli_query($this->mysqli, $sql);
-		return mysqli_fetch_array($res, MYSQLI_ASSOC);
+		if($res) return mysqli_fetch_array($res, MYSQLI_ASSOC);
+		else return NULL;
 	}
 
 	private function insert($sql) {
@@ -39,11 +40,11 @@ class DefHacksAPI extends API
 		if(isset($_GET['userID']) && isset($_GET['password'])) {
 			$userID = $_GET['userID'];
 			$password = $_GET['password'];
-			return $this->select("SELECT * FROM User WHERE userID = $userID and password = $password");
+			return $this->select("SELECT * FROM User WHERE userID = $userID and password = '$password'");
 		} else if(isset($_GET['email']) && isset($_GET['password'])) {
 			$email = $_GET['email'];
 			$password = $_GET['password'];
-			return $this->select("SELECT * FROM User WHERE email = $email and password = $password");
+			return $this->select("SELECT * FROM User WHERE email = '$email' and password = '$password'");
 		} else if(
 			isset($_POST['email']) && 
 			isset($_POST['password']) &&
@@ -53,11 +54,11 @@ class DefHacksAPI extends API
 
 			$email = $_POST['email'];
 			$password = $_POST['password'];
-			$email = $_POST['email'];
-			$email = $_POST['email'];
-			$email = $_POST['email'];
+			$firstName = $_POST['firstName'];
+			$lastName = $_POST['lastName'];
+			$schoolName = $_POST['schoolName'];
 
-			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName) VALUES ()");
+			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName')");
 
 		} else {
 			return "Didnt reach an endpoint";
