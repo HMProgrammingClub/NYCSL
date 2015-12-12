@@ -54,9 +54,10 @@ function displayProblem(index, schoolName) {
 $(document).ready(function() {
 
 	var schoolName = getGET("schoolName");
-	if(schoolName == null) {
+	if(schoolName == null || schoolName === "" || schoolName === " ") {
 		schoolName = getSchools()[0];
 	}
+	console.log("scho: "+schoolName)
 	populateSchoolTabs(schoolName);
 
 	var index = 0;
