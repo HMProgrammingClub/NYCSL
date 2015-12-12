@@ -10,12 +10,12 @@ function login(user) {
 	$("#submitForm").append("<input type='hidden' name='userID' value='"+user.userID+"'>");
 	
 	$('#submitButton').click(function() {
-    	$('#myFile').click();
+		$('#myFile').click();
 	})
 	
 	$('#logoutButton').click(function() {
-    	destroySession(false);
-    	logOut();
+		destroySession(false);
+		logOut();
 	})
 }
 
@@ -36,6 +36,7 @@ function logOut() {
 			login(getSession());
 		}
 	})
+	
 	$("#registerButton").click(function() {
 		var email = $("#register_email").val();
 		var password = $("#register_pass").val();
@@ -76,6 +77,22 @@ $(document).ready(function() {
 	$('.dropdown input, .dropdown label').click(function(e) {
 		e.stopPropagation();
 	});
+
+	$('.dropdown').on('show.bs.dropdown', function(e){
+		var $dropdown = $(this).find('.dropdown-menu');
+		var orig_margin_top = parseInt($dropdown.css('margin-top'));
+		$dropdown.css({'margin-top': (orig_margin_top + 10) + 'px', opacity: 0}).animate({'margin-top': orig_margin_top + 'px', opacity: 1}, 300, function(){
+			$(this).css({'margin-top':''});
+		});
+	});
+
+	$('.dropdown').on('hide.bs.dropdown', function(e){
+		var $dropdown = $(this).find('.dropdown-menu');
+		var orig_margin_top = parseInt($dropdown.css('margin-top'));
+		$dropdown.css({'margin-top': orig_margin_top + 'px', opacity: 1, display: 'block'}).animate({'margin-top': (orig_margin_top + 10) + 'px', opacity: 0}, 300, function(){
+			$(this).css({'margin-top':'', display:''});
+		});
+	});
 })
 
 $(window).load(function() {
@@ -87,9 +104,14 @@ function loginError(errorMessage) {
 	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Login failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
 }
 
+function parseError(errorMessage) {
+	$("#errorBox").empty()
+	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
+}
+
 function getGET(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	results = regex.exec(location.search);
+	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
