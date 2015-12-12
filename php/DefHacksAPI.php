@@ -148,6 +148,20 @@ class DefHacksAPI extends API
 		} else if(isset($_GET['submissionID'])) {
 			$submissionID = $_GET['submissionID'];
 			return $this->select("SELECT * FROM Submission WHERE submissionID = $submissionID");
+		} else if(isset($_GET['problemID']) && isset($_GET['schoolName'])) {
+			$problemID = $_GET['problemID'];
+			$schoolName = $_GET['schoolName'];
+
+			$submissions = array();
+			$possibleSubmissions = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID");
+			foreach($possibleSubmissions as $possibleSubmission) {
+				$userID = $possibleSubmission['userID'];
+				$userArray = $this->select("SELECT userID FROM User WHERE schoolName = '$schoolName' and userID = $userID");
+				if(count($userArray) < 1) {
+					array_push($submissions, $possibleSubmission);
+				}
+			}
+			return $submissions;
 		} else if(isset($_GET['problemID'])) {
 			$problemID = $_GET['problemID'];
 			return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID");

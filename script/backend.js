@@ -128,6 +128,24 @@ function getProblemSubmissions(problemID) {
 	}
 }
 
+function getProblemSubmissionsWithSchool(problemID, schoolName) {
+	var result = $.ajax({
+		url: url+"submission", 
+		async: false,
+		method: "GET",
+		data: {problemID: problemID, schoolName: schoolName},
+		success: function(result) {
+			console.log(result)
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			console.log(thrownError);
+		}
+    });
+    console.log(result)
+    return result.responseJSON;
+}
+
 function getUserSubmissions(userID) {
 	var result = $.ajax({
 		url: url+"submission", 
