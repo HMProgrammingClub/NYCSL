@@ -21,8 +21,8 @@
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
 		<div class="jumbotron">
-			<h1 id="jHeader">John Cena</h1>
-			<p id="jParagraph">WWE School</p>
+			<h1 id="jHeader">John Doe</h1>
+			<p id="jParagraph">Horace Mann School</p>
 		</div>
 		<div id="info" class="row">
 			<div class="col-sm-12">
@@ -47,5 +47,6 @@
 	<script src="lib/bootstrap.min.js"></script>
 	<script src="script/backend.js"></script>
 	<script src="script/general.js"></script>
+	<script src="script/student.js"></script>
 </body>
 </html>
