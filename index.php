@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Home</title>
+	<title>NYCSL Home</title>
 
 	<link href="lib/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="lib/katex.min.css">

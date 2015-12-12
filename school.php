@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>School Leaderboard</title>
+	<title>NYCSL School Leaderboards</title>
 
 	<link href="lib/bootstrap.min.css" rel="stylesheet">
 
