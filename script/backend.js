@@ -44,7 +44,14 @@ function storeUserSession(userID, email, password, async) {
 			url: url+"session", 
 			async: async,
 			method: "POST",
-			data: {email: email, password: password}
+			data: {email: email, password: password},
+			success: function(result) {
+				console.log(result)
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				console.log(xhr.responseText);
+				console.log(thrownError);
+			}
 	    });
 	} else {
 		console.log("Your arguements are messed up");
@@ -58,6 +65,14 @@ function getSession() {
 		method: "GET"
     });
 	return result.responseJSON;
+}
+
+function destroySession(async) {
+	var result = $.ajax({
+		url: url+"session", 
+		async: async,
+		method: "DELETE"
+    });
 }
 
 function getProblem(problemID) {

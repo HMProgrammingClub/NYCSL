@@ -50,16 +50,17 @@ class DefHacksAPI extends API
 	protected function session() {
 		session_start();
 		if($this->method == 'GET') {
-			return $_SESSION;
+			if(count($_SESSION) > 0) return $_SESSION;
+			else return NULL;
 		} else if(isset($_POST['email']) & isset($_POST['password'])) {
 			$email= $_POST['email'];
 			$password = $_POST['password'];
-			$userIDArray = $this->select("SELECT * FROM User WHERE email = '$email' AND password = '$password'");
+			$userArray = $this->select("SELECT * FROM User WHERE email = '$email' AND password = '$password'");
 			$_SESSION = $userArray;
 		} else if(isset($_POST['userID']) & isset($_POST['password'])) {
 			$userID= $_POST['userID'];
 			$password = $_POST['password'];
-			$userIDArray = $this->select("SELECT * FROM User WHERE userID = '$userID' AND password = '$password'");
+			$userArray = $this->select("SELECT * FROM User WHERE userID = '$userID' AND password = '$password'");
 			$_SESSION = $userArray;
 		} else if($this->method == 'DELETE') {
 			session_destroy();
