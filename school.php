@@ -19,8 +19,8 @@
 <body>
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
-		<div class="jumbotron">
-			<?php include 'problems/descriptions/headerTSP.html' ?>
+		<div class="jumbotron" id="jumbotron">
+
 		</div>
 		<div class="row">
 			<div class="col-sm-5">
@@ -29,7 +29,7 @@
 						<h3 class="panel-title">Rules</h3>
 					</div>
 					<div class="panel-body" id="rulesPanelBody">
-						<?php include 'problems/descriptions/bodyTSP.html' ?>
+					
 					</div>
 				</div>
 			</div>
