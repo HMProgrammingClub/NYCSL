@@ -42,14 +42,21 @@
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Register<strong class="caret"></strong></a>
 						<ul class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 							<div class="form-group">
-								<label for="register_user">Email</label>
-								<input id="register_user"  type="email" size="30" />
+								<label for="register_name">Name</label>
+								<input id="register_name"  type="text" size="30" />
+							</div>
+							<div class="form-group">
+								<label for="register_school">School</label>
+								<input id="register_school" type="text" size="30" />
+							</div>
+							<div class="form-group">
+								<label for="register_email">Email</label>
+								<input id="register_email"  type="email" size="30" />
 							</div>
 							<div class="form-group">
 								<label for="register_pass">Password</label>
 								<input id="register_pass"  type="password" size="30" />
 							</div>
-
 							<input id="registerButton" class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px; margin-bottom:15px" type="submit" name="commit" value="Register" />
 						</ul>
 					</li>
