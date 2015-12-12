@@ -58,5 +58,6 @@
 	<script src="lib/auto-render.min.js"></script>
 	<script src="script/backend.js"></script>
 	<script src="script/general.js"></script>
+	<script src="script/school.js"></script>
 </body>
 </html>

@@ -1,17 +1,3 @@
-function populateLeaderboard(problemID) {
-	console.log("start");
-	$("#leaderboard").empty()
-	var entries = getProblemSubmissions(problemID);
-	console.log("entry")
-	console.log(entries);
-	for(var a = 0; a < entries.length; a++) {
-		var entry = entries[a]
-		var user = getUser(entry.userID);
-		console.log(entry.score);
-		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td></a><td>"+entry.score+"</td></tr>"))
-	}
-}
-
 function displayProblem(index) {
 	var problem = getProblemWithIndex(index)
 	populateLeaderboard(problem.problemID)
@@ -36,19 +22,7 @@ function displayProblem(index) {
 		}
     });
 }
-
-$(function() {
-	
-	$('.dropdown-toggle').dropdown();
-	$('.dropdown input, .dropdown label').click(function(e) {
-		e.stopPropagation();
-	});
-});
-
-// FOR TESTING PURPOSES
-$( document ).ready(function() {
-	console.log( "ready!" );
-
+$(document).ready(function() {
 	var index = 0;
 	var size = getProblemsSize();
 	$("#backButton").click(function() {
@@ -84,4 +58,4 @@ $( document ).ready(function() {
 	displayProblem(0)
 
 	renderMathInElement(document.getElementById("rulesPanelBody"));
-});
+})
