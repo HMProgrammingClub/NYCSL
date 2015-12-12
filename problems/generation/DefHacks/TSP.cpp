@@ -18,17 +18,18 @@ void randomPoint()
 void tspGenerate()
 {
 	pts.clear();
-	const int NUM_PTS = 500;
+	const int NUM_PTS = 100;
 	for(int a = 0; a < NUM_PTS; a++)
 	{
 		randomPoint();
 		pts.back().index = a + 1;
 	}
 	std::ofstream o;
-	o.open("tsp-input.txt");
+	o.open("st-input.txt");
 	for(auto a = pts.begin(); a != pts.end(); a++)
 	{
-		o << a->index << ' ' << a->x << ' ' << a->y << ' ' << a->z << std::endl;
+		//o << a->index << ' ' << a->x << ' ' << a->y << ' ' << a->z << std::endl;
+		o << a->x << ' ' << a->y << ' ' << a->z << std::endl;
 	}
 	o.flush();
 	o.close();
