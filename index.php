@@ -20,22 +20,22 @@
 <body>
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
-		<div class="jumbotron" id="jumbotron">
-			
-		</div>
-		<div class="row">
-			<div class="col-sm-5">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">Rules</h3>
-					</div>
-					<div class="panel-body" id="rulesPanelBody">
-						
+		<div id="pageContent">
+			<div class="jumbotron" id="jumbotron"></div>
+			<div class="row">
+				<div class="col-sm-5">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Rules</h3>
+						</div>
+						<div class="panel-body" id="rulesPanelBody">
+							
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-sm-7">
-				<?php include 'includes/leaderboard.php' ?>
+				<div class="col-sm-7">
+					<?php include 'includes/leaderboard.php' ?>
+				</div>
 			</div>
 		</div>
 	</div>
