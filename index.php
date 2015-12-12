@@ -42,7 +42,7 @@
 									<th>#</th>
 									<th>Name</th>
 									<th>School</th>
-									<th>Distance</th>
+									<th>Score</th>
 								</tr>
 							</thead>
 							<tbody id="leaderboard">
