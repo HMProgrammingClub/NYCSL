@@ -34,7 +34,17 @@
 				</div>
 				<div class="col-sm-7">
 					<ul class="nav nav-tabs" id="schoolTabs"></ul>
-					<?php include 'includes/leaderboard.php' ?>
+					<table class="table well well-sm">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Name</th>
+								<th>Distance</th>
+							</tr>
+						</thead>
+						<tbody id="leaderboard">
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
