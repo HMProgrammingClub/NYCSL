@@ -24,11 +24,11 @@
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Login<strong class="caret"></strong></a>
 						<ul class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 							<div class="form-group">
-								<label for="login_user">Email</label>
+								<label for="login_user">Email</label><br />
 								<input id="login_user"  type="email" size="30" />
 							</div>
 							<div class="form-group">
-								<label for="login_pass">Password</label>
+								<label for="login_pass">Password</label><br />
 								<input id="login_pass"  type="password" size="30" />
 							</div>
 
@@ -40,23 +40,23 @@
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Register<strong class="caret"></strong></a>
 						<ul class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 							<div class="form-group">
-								<label for="register_first">First Name</label>
+								<label for="register_first">First Name</label><br />
 								<input id="register_first"  type="text" size="30" />
 							</div>
 							<div class="form-group">
-								<label for="register_last">Last Name</label>
+								<label for="register_last">Last Name</label><br />
 								<input id="register_last"  type="text" size="30" />
 							</div>
 							<div class="form-group">
-								<label for="register_school">School</label>
+								<label for="register_school">School</label><br />
 								<input id="register_school" type="text" size="30" />
 							</div>
 							<div class="form-group">
-								<label for="register_email">Email</label>
+								<label for="register_email">Email</label><br />
 								<input id="register_email"  type="email" size="30" />
 							</div>
 							<div class="form-group">
-								<label for="register_pass">Password</label>
+								<label for="register_pass">Password</label><br />
 								<input id="register_pass"  type="password" size="30" />
 							</div>
 							<input id="registerButton" class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px; margin-bottom:15px" type="submit" name="commit" value="Register" />
