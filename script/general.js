@@ -36,6 +36,7 @@ function logOut() {
 			login(getSession());
 		}
 	})
+	
 	$("#registerButton").click(function() {
 		var email = $("#register_email").val();
 		var password = $("#register_pass").val();
@@ -101,6 +102,11 @@ $(window).load(function() {
 function loginError(errorMessage) {
 	$("#errorBox").empty()
 	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Login failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
+}
+
+function parseError(errorMessage) {
+	$("#errorBox").empty()
+	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
 }
 
 function getGET(name) {
