@@ -235,7 +235,17 @@ class DefHacksAPI extends API
 			exec("python ../problems/scripts/$problemName.py $targetPath", $pythonOutput);
 			$score = intval($pythonOutput[0]);
 
-			$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");
+			
+			$nameArray = $this->select("SELECT * FROM Submission WHERE userID = $userID");
+			if($nameArray['name'] != NULL) {
+				if($nameArray['distance'] > $distance) {
+					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID");
+				}
+			} else {
+				$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");
+			}
+
+			return $score."";
 		} else {
 			return "Didn't reach endpoint";
 		}
