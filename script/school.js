@@ -1,3 +1,6 @@
+var index;
+var schoolName;
+
 function populateLeaderboard(problemID, schoolName, problemIndex) {
 	console.log("start");
 	$("#leaderboard").empty()
@@ -26,6 +29,10 @@ function populateSchoolTabs(school) {
 	}
 }
 
+function reloadTables() {
+	populateLeaderboard(getProblemWithIndex(index).problemID, schoolName, index)
+}
+
 function displayProblem(index, schoolName) {
 	var problem = getProblemWithIndex(index)
 	populateLeaderboard(problem.problemID, schoolName, index)
@@ -52,15 +59,14 @@ function displayProblem(index, schoolName) {
 }
 
 $(document).ready(function() {
-
-	var schoolName = getGET("schoolName");
+	schoolName = getGET("schoolName");
 	if(schoolName == null || schoolName === "" || schoolName === " ") {
 		schoolName = getSchools()[0];
 	}
 	console.log("scho: "+schoolName)
 	populateSchoolTabs(schoolName);
 
-	var index = parseInt(getGET("problemIndex"));
+	index = parseInt(getGET("problemIndex"));
 	if(isNaN(index) == true || index == null || index === "" || index === " ") {
 		index = 0;
 	}

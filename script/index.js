@@ -1,3 +1,5 @@
+var index;
+
 function populateLeaderboard(problemID) {
 	console.log("start");
 	$("#leaderboard").empty()
@@ -45,11 +47,12 @@ $(function() {
 	});
 });
 
-// FOR TESTING PURPOSES
-$( document ).ready(function() {
-	console.log( "ready!" );
+function reloadTables() {
+	displayProblem(index)
+}
 
-	var index = parseInt(getGET("problemIndex"));
+$( document ).ready(function() {
+	index = parseInt(getGET("problemIndex"));
 	if(isNaN(index) == true || index == null || index === "" || index === " ") {
 		index = parseInt(getGET("problemID"));
 		if(isNaN(index) == true || index == null || index === "" || index === " ") {

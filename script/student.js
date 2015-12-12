@@ -1,9 +1,14 @@
-function populateStudentLeaderboard(userID) {
+function populateLeaderboard(userID) {
 	var submissions = getUserSubmissions(userID)
 	for(var a = 0; a < submissions.length; a++) {
 		var problem = getProblem(submissions[a].problemID)
 		$("#leaderboard").append($("<tr><th scope='row'><a href='index.php?problemID="+problem.problemID+"'>"+problem.problemName+"</a></th><td>"+getRankOfSubmission(submissions[a].submissionID)+"</td><td>"+submissions[a].score+"</td></tr>"))
 	}
+}
+
+function reloadTables() {
+	var userID = parseInt(getGET("userID"))
+	populateLeaderboard(userID)
 }
 
 $(document).ready(function() {
@@ -16,6 +21,5 @@ $(document).ready(function() {
 	$("#jHeader").html(user.firstName + " " + user.lastName)
 	$("#jParagraph").html(user.schoolName)
 
-	populateStudentLeaderboard(userID)
-
+	populateLeaderboard(userID)
 })
