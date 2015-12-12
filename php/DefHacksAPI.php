@@ -94,7 +94,20 @@ class DefHacksAPI extends API
 		} else if(isset($_GET['submissionID'])) {
 			$submissionID = $_GET['submissionID'];
 			return $this->selectMultiple("SELECT * FROM Submission WHERE submissionID = $submissionID");
+		} else if(
+			isset($_POST['problemID']) &&
+			isset($_POST['userID']) &&
+			isset($_POST['score'])) {
+
+			$problemID = $_GET['problemID'];
+			$userID = $_GET['userID'];
+			$score = $_GET['score'];
+			
+			$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");
+		} else {
+			return "Didn't reach endpoint";
 		}
+		return "Success";
 	}
  }
 
