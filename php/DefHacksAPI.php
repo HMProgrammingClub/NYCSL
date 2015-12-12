@@ -190,7 +190,12 @@ class DefHacksAPI extends API
 			$schoolName = $_GET['schoolName'];
 
 			$submissions = array();
-			$possibleSubmissions = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID");
+			$problemArray = $this->select("SELECT isAscending FROM Problem WHERE problemID = $problemID");
+			$possibleSubmissions = NULL;
+
+			if($problemArray['isAscending'] == 0) $possibleSubmissions = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score DESC");
+			else $possibleSubmissions = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score ASC");
+			
 			foreach($possibleSubmissions as $possibleSubmission) {
 				$userID = $possibleSubmission['userID'];
 				$userArray = $this->select("SELECT userID FROM User WHERE schoolName = '$schoolName' and userID = $userID");
