@@ -33,13 +33,6 @@
 			<li role="presentation">
 				<a href="#">Bronx Science</a>
 			</li>
-			<li role="presentation" class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-					Dropdown <span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu">
-				</ul>
-			</li>
 		</ul>
 		<div id="info" class="row">
 			<div class="col-sm-4">
