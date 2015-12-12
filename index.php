@@ -19,38 +19,38 @@
 </head>
 
 <body>
-
-	<div class="container">
-		<?php include 'includes/navbar.php'; ?>
-		<div class="jumbotron">
-			<h1 id="jHeader">TSP</h1>
-			<p id="jParagraph">Herp derp.</p>
-		</div>
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">Rules</h3>
-					</div>
-					<div class="panel-body" id="rulesPanel">These are the rules: $$\frac{5}{5}$$.</div>
-				</div>
+	<div id="wrap">
+		<div class="container">
+			<?php include 'includes/navbar.php'; ?>
+			<div class="jumbotron">
+				<h1 id="jHeader">TSP</h1>
+				<p id="jParagraph">Herp derp.</p>
 			</div>
-			<div class="col-sm-8">
-				<?php include 'includes/leaderboard.php' ?>
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Rules</h3>
+						</div>
+						<div class="panel-body" id="rulesPanelBody">These are the rules.</div>
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<?php include 'includes/leaderboard.php' ?>
+				</div>
 			</div>
 		</div>
 	</div>
-
-	
+	<?php include 'includes/footer.php'; ?>
 
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
+	<script src="script/backend.js"></script>
 	<script src="script/general.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
 	<script src="/lib/auto-render.min.js"></script>
 	<script>
-      renderMathInElement(
-          document.getElementById("rulesPanel"));
+      renderMathInElement(document.getElementById("rulesPanelBody"));
     </script>
 </body>
 </html>

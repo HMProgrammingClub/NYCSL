@@ -1,6 +1,5 @@
 body {
 	padding-top: 20px;
-	padding-bottom: 20px;
 }
 
 .navbar {
@@ -17,6 +16,11 @@ body {
 
 #myFile {
 	display:none;
+}
+
+#navCont {
+	margin:0 auto;
+	width:90%;
 }
 
 #loginNav {
