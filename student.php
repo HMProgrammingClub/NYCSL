@@ -20,7 +20,7 @@
 
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
-		<div id="pageContent">
+		<div class="pageContent">
 			<div class="jumbotron">
 				<h1 id="jHeader">John Doe</h1>
 				<p id="jParagraph">Horace Mann School</p>

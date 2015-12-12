@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer pageContent">
 	<div class="container">
 		<div id="footer">
 			<ul class="pager">

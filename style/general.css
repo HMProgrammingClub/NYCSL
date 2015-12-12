@@ -31,6 +31,10 @@ body {
 	display:none;
 }
 
+.pageContent {
+	display:none;
+}
+
 /*
 #goToBottom {
 	width: 100%;
