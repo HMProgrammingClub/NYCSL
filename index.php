@@ -34,20 +34,7 @@
 				</div>
 			</div>
 			<div class="col-sm-8">
-				<div class="panel panel-default">
-					<table class="table well well-sm">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Name</th>
-								<th>School</th>
-								<th>Distance</th>
-							</tr>
-						</thead>
-						<tbody id="leaderboard">
-						</tbody>
-					</table>
-				</div>
+				<?php include 'includes/leaderboard.php' ?>
 			</div>
 		</div>
 	</div>

@@ -13,7 +13,7 @@
 	<link href="lib/bootstrap.min.css" rel="stylesheet">
 
 	<link href="style/general.css" rel="stylesheet">
-	<link href="style/index.css" rel="stylesheet">
+	<link href="style/school.css" rel="stylesheet">
 </head>
 
 <body>
@@ -24,33 +24,35 @@
 			<h1 id="jHeader">TSP</h1>
 			<p id="jParagraph">Herp derp.</p>
 		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<ul class="nav nav-tabs">
-  					<li role="presentation" class="dropdown">
-    					<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-      						Dropdown <span class="caret"></span>
-    					</a>
-    					<ul class="dropdown-menu">
-    					</ul>
-  					</li>
+		<ul class="nav nav-tabs">
+			<li role="presentation" class="active">
+				<a href="#">Horace Mann</a>
+			</li>
+			<li role="presentation">
+				<a href="#">Stuyvesant</a>
+			</li>
+			<li role="presentation">
+				<a href="#">Bronx Science</a>
+			</li>
+			<li role="presentation" class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+					Dropdown <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
 				</ul>
-				<!--
-				<div class="panel panel-default">
-					<table class="table well well-sm">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Name</th>
-								<th>School</th>
-								<th>Distance</th>
-							</tr>
-						</thead>
-						<tbody id="leaderboard">
-						</tbody>
-					</table>
+			</li>
+		</ul>
+		<div id="info" class="row">
+			<div class="col-sm-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Rules</h3>
+					</div>
+					<div class="panel-body">These are the rules.</div>
 				</div>
-				-->
+			</div>
+			<div class="col-sm-8">
+				<?php include 'includes/leaderboard.php' ?>
 			</div>
 		</div>
 	</div>
