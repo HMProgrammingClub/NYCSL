@@ -1,4 +1,4 @@
-function populateLeaderboard(problemID, schoolName) {
+function populateLeaderboard(problemID, schoolName, problemIndex) {
 	console.log("start");
 	$("#leaderboard").empty()
 	console.log(problemID)
@@ -10,7 +10,7 @@ function populateLeaderboard(problemID, schoolName) {
 		var entry = entries[a]
 		var user = getUser(entry.userID);
 		console.log(entry.score);
-		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td></a><td>"+entry.score+"</td></tr>"))
+		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"&problemIndex="+problemIndex+"'>"+user.schoolName+"</a></td></a><td>"+entry.score+"</td></tr>"))
 	}
 }
 
@@ -28,7 +28,7 @@ function populateSchoolTabs(school) {
 
 function displayProblem(index, schoolName) {
 	var problem = getProblemWithIndex(index)
-	populateLeaderboard(problem.problemID, schoolName)
+	populateLeaderboard(problem.problemID, schoolName, index)
 
 	var result = $.ajax({
 		url: "problems/descriptions/header"+problem.problemName+".html", 
@@ -103,7 +103,7 @@ $(document).ready(function() {
 		});
 		$(this).addClass("active")
 		schoolName = $(this).attr("schoolName")
-		populateLeaderboard(index, schoolName)
+		populateLeaderboard(getProblemWithIndex(index).problemID, schoolName, index)
 	});
 
 	renderMathInElement(document.getElementById("rulesPanelBody"));
