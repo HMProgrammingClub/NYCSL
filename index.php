@@ -21,10 +21,8 @@
 	<div id="wrap">
 		<div class="container">
 			<?php include 'includes/navbar.php'; ?>
-
 			<div class="jumbotron">
-				<h1 id="jHeader">TSP</h1>
-				<p id="jParagraph">Herp derp.</p>
+				<?php include 'problems/descriptions/headerTSP.html'; ?>
 			</div>
 			<div class="row">
 				<div class="col-sm-5">
@@ -33,7 +31,7 @@
 							<h3 class="panel-title">Rules</h3>
 						</div>
 						<div class="panel-body" id="rulesPanelBody">
-							<?php include 'problems/descriptions/TSP.html'; ?>
+							<?php include 'problems/descriptions/bodyTSP.html'; ?>
 						</div>
 					</div>
 				</div>
