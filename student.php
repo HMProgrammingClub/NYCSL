@@ -21,40 +21,34 @@
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
 		<div class="jumbotron">
-			<h1 id="jHeader">TSP</h1>
-			<p id="jParagraph">Herp derp.</p>
+			<h1 id="jHeader">John Cena</h1>
+			<p id="jParagraph">WWE School</p>
 		</div>
-		<ul class="nav nav-tabs">
-			<li role="presentation" class="active">
-				<a href="#">Horace Mann</a>
-			</li>
-			<li role="presentation">
-				<a href="#">Stuyvesant</a>
-			</li>
-			<li role="presentation">
-				<a href="#">Bronx Science</a>
-			</li>
-			<li role="presentation" class="dropdown">
-				<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-					Dropdown <span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu">
-				</ul>
-			</li>
-		</ul>
 		<div id="info" class="row">
-			<div class="col-sm-4">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">Rules</h3>
-					</div>
-					<div class="panel-body">These are the rules.</div>
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+					<table class="table well well-sm">
+						<thead>
+							<tr>
+								<th>Competition Name</th>
+								<th>Month</th>
+								<th>Place</th>
+								<th>Score</th>
+							</tr>
+						</thead>
+						<tbody id="leaderboard">
+						</tbody>
+					</table>
 				</div>
-			</div>
-			<div class="col-sm-8">
-				<?php include 'includes/leaderboard.php' ?>
+
 			</div>
 		</div>
+		<nav>
+			<ul class="pager">
+				<li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
+				<li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+			</ul>
+		</nav>
 	</div>
 
 	<script src="lib/jquery.min.js"></script>
