@@ -1,5 +1,6 @@
 function fileChanged() {
 	storeSubmissionDatabase("submitForm", false);
+	location.reload()
 }
 
 function login(user) {
