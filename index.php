@@ -13,6 +13,7 @@
 	<link href="lib/bootstrap.min.css" rel="stylesheet">
 
 	<link href="style/general.css" rel="stylesheet">
+	<link href="style/index.css" rel="stylesheet">
   </head>
 
   <body>
@@ -20,13 +21,9 @@
   	<div class="container">
   		<?php include 'includes/navbar.php'; ?>
   		<div class="jumbotron">
-  			<h1>Navbar example</h1>
-  			<p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-  			<p>
-  				<a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-  			</p>
+  			<h1 id="jHeader">TSP</h1>
+  			<p id="jParagraph">Herp derp.</p>
   		</div>
-
   	</div>
 
     <script src="lib/jquery.min.js"></script>
