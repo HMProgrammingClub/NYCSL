@@ -11,7 +11,13 @@
 
 	<title>Student Page</title>
 
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 	<link href="lib/bootstrap.min.css" rel="stylesheet">
+	<link href="lib/bootstrap-material-design.css" rel="stylesheet">
+	<link href="lib/ripples.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="lib/katex.min.css">
 
 	<link href="style/general.css" rel="stylesheet">
 	<link href="style/school.css" rel="stylesheet">

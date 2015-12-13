@@ -12,6 +12,9 @@
 	<title>NYCSL School Leaderboards</title>
 
 	<link href="lib/bootstrap.min.css" rel="stylesheet">
+	<link href="lib/bootstrap-material-design.css" rel="stylesheet">
+	<link href="lib/ripples.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="lib/katex.min.css">
 
 	<link href="style/general.css" rel="stylesheet">
 	<link href="style/school.css" rel="stylesheet">
