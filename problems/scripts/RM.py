@@ -7,31 +7,26 @@ for arg in sys.argv:
 input = open('../problems/input/rm.txt', 'r')
 names = []
 for line in input:
+	line = line.rstrip()
 	names.append(line)
 
 namesSet = set(names)
-
 
 finalList = []
 alreadyUsed = []
 
 with open(filename) as fileIn:
-	listy = []
 	for line in fileIn:
+		listy = []
 		for w in line.split(' '):
-			if w in namesSet and not w in alreadyUsed:
+			w = w.rstrip()
+			if w in namesSet: #and not(w in alreadyUsed):
 				listy.append(w)
 				alreadyUsed.append(w)
 			else:
 				print('ERROR')
 				sys.exit(-1)
-	finalList.append(listy)
-
-
-beenTo = []
-for a in range(0, 500):
-	beenTo.append(False)
-
+		finalList.append(listy)
 
 finalSum = 0.0
 for listy in finalList:
@@ -46,12 +41,7 @@ for listy in finalList:
 		summy += letters[a]
 	finalSum += len(listy) * len(listy) * summy
 
-for a in beenTo:
-	if not(a):
-		print('Error')
-		sys.exit(-1)
-
-print(finalSum)
+print(int(finalSum))
 
 
 

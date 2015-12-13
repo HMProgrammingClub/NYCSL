@@ -7,6 +7,7 @@
 
 	<meta name="description" content="">
 	<meta name="author" content="">
+	<link rel="shortcut icon" href="img/favicon.ico" />
 
 	<title>NYCSL School Leaderboards</title>
 
@@ -39,7 +40,7 @@
 							<tr>
 								<th>#</th>
 								<th>Name</th>
-								<th>Distance</th>
+								<th>Score</th>
 							</tr>
 						</thead>
 						<tbody id="leaderboard">

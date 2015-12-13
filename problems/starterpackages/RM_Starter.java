@@ -10,19 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RM_Starter {
-
-	private static class Room
-	{
-		public String firstPerson, secondPerson;
-		public Room(String firstPerson, String secondPerson) {
-			this.firstPerson = firstPerson;
-			this.secondPerson = secondPerson;
-		}
-	}
-	
-	/**
-	 * @param args
-	 */
 	
 	public static ArrayList<String> getProblem(String filename)
 	{
