@@ -54,6 +54,8 @@
 
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
+	<script src="lib/material.min.js"></script>
+	<script src="lib/ripples.min.js"></script>
 	<script src="script/backend.js"></script>
 	<script src="script/general.js"></script>
 	<script src="script/student.js"></script>
