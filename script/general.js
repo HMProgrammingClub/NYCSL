@@ -98,6 +98,8 @@ $(document).ready(function() {
 		destroySession(false);
 		logOut();
 	})
+
+	$.material.init()
 })
 
 $(window).load(function() {

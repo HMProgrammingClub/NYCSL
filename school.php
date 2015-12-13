@@ -58,6 +58,8 @@
 
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
+	<script src="lib/material.min.js"></script>
+	<script src="lib/ripples.min.js"></script>
 	<script src="lib/katex.min.js"></script>
 	<script src="lib/auto-render.min.js"></script>
 	<script src="script/backend.js"></script>
