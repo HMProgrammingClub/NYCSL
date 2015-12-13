@@ -28,7 +28,7 @@
 				<div class="col-sm-5">
 					<div class="panel panel-primary">
 						<div class="panel-heading">
-							<h3 class="panel-title">Rules</h3>
+							<h3 class="panel-title">Problem</h3>
 						</div>
 						<div class="panel-body" id="rulesPanelBody">
 							
@@ -36,7 +36,11 @@
 					</div>
 				</div>
 				<div class="col-sm-7">
-					<div class="panel panel-default">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Leaderboard</h3>
+						</div>
+
 						<table class="table well well-sm">
 							<thead>
 								<tr>
