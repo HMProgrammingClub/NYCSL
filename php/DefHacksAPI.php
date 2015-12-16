@@ -14,10 +14,11 @@ class DefHacksAPI extends API
 
 	// Initializes and returns a mysqli object that represents our mysql database
 	private function initDB() {
-		$this->mysqli = new mysqli("localhost", 
-			"root", 
-			"***REMOVED***",
-			"DefHacks");
+		$config = include("config.php");
+		$this->mysqli = new mysqli($config['hostname'], 
+			$config['usernane'], 
+			$config['password'], 
+			$config['databaseName']);
 		
 		if (mysqli_connect_errno()) { 
 			echo "<br><br>There seems to be a problem with our database. Reload the page or try again later.";
