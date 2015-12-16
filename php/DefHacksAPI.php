@@ -94,7 +94,7 @@ class DefHacksAPI extends API
 	}
 
 	protected function user() {
-		if(isset($_GET['userID']) && isset($_GET['password'])) {
+		if (isset($_GET['userID']) && isset($_GET['password'])) {
 			$userID = $_GET['userID'];
 			$password = $_GET['password'];
 			return $this->select("SELECT * FROM User WHERE userID = $userID and password = '$password'");
@@ -108,23 +108,34 @@ class DefHacksAPI extends API
 		} else if(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
 			return $this->select("SELECT * FROM User WHERE userID = $userID");
-		} else if(
+		} elseif(
 			isset($_POST['email']) && 
 			isset($_POST['password']) &&
 			isset($_POST['firstName']) &&
-			isset($_POST['lastName']) &&
-			isset($_POST['schoolName'])) {
+			isset($_POST['lastName'])) {
 
 			$email = $_POST['email'];
 			$password = $_POST['password'];
 			$firstName = $_POST['firstName'];
 			$lastName = $_POST['lastName'];
-			$schoolName = $_POST['schoolName'];
+			$schoolName = "";
+
+			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+				$domain = array_pop(explode('@', $email));
+				if ($domain == "dalton.org") $schoolName = "Dalton";
+				elseif ($domain == "horacemann.org") $schoolName = "Horace Mann";
+				elseif ($domain == "dalton.org") $schoolName = "Dalton";
+				elseif ($domain == "stuy.edu") $schoolName = "Stuyvesant";
+				elseif ($domain == "ecfs.org") $schoolName = "Fieldston";
+				elseif ($domain == "trinityschoolnyc.org") $schoolName = "Trinity";
+				elseif ($domain == "bxscience.edu") $schoolName = "Bronx Science";
+				else return "School not recognized.  You must use your school email."; 
+			} else return "Email is invalid.";
 
 			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName')");
 
 		} else {
-			return "Didnt reach an endpoint";
+			return $_POST['lastName'];
 		}
 		return "Success";
 	}

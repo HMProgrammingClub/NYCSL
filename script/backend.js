@@ -30,12 +30,15 @@ function getUser(userID, email, password) {
 	}
 }
 
-function storeUserBackend(email, password, firstName, lastName, schoolName, async) {
+function storeUserBackend(email, password, firstName, lastName, async, callback) {
 	var result = $.ajax({
 		url: url+"user", 
 		async: async,
 		method: "POST",
-		data: {email: email, password: password, firstName: firstName, lastName: lastName, schoolName: schoolName, async: async}
+		data: {email: email, password: password, firstName: firstName, lastName: lastName, async: async},
+    	success: function (data) {
+        	callback(data);            
+    	}
     });
 }
 
