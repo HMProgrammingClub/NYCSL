@@ -122,7 +122,7 @@ $(document).ready(function() {
 })
 
 $(window).load(function() {
-	$(".pageContent").fadeIn(500);
+	$(".pageContent").fadeIn(300);
 });
 
 function loginError(errorMessage) {
