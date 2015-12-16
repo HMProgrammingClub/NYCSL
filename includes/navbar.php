@@ -53,18 +53,14 @@
 								<span class="material-input"></span>
 							</div>
 							<div class="form-group label-floating is-empty">
-								<label for="register_school" class="control-label">School</label>
-								<input id="register_school" class="form-control" type="text" size="30" >
-								<span class="material-input"></span>
-							</div>
-							<div class="form-group label-floating is-empty">
 								<label for="register_email" class="control-label">Email</label>
 								<input id="register_email" class="form-control" type="email" size="30" >
+								<span class="help-block" id="schoolField">Enter your school email.</span>
 								<span class="material-input"></span>
 							</div>
 							<div class="form-group label-floating is-empty">
-								<label for="register_password" class="control-label">Password</label>
-								<input id="register_password" class="form-control" type="password" size="30" >
+								<label for="register_pass" class="control-label">Password</label>
+								<input id="register_pass" class="form-control" type="password" size="30" >
 								<span class="material-input"></span>
 							</div>
 							<input id="registerButton" class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px; margin-bottom:15px" type="submit" name="commit" value="Register" />
