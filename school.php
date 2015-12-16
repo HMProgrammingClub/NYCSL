@@ -12,6 +12,9 @@
 	<title>NYCSL School Leaderboards</title>
 
 	<link href="lib/bootstrap.min.css" rel="stylesheet">
+	<link href="lib/bootstrap-material-design.css" rel="stylesheet">
+	<link href="lib/ripples.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="lib/katex.min.css">
 
 	<link href="style/general.css" rel="stylesheet">
 	<link href="style/school.css" rel="stylesheet">
@@ -26,7 +29,7 @@
 				<div class="col-sm-5">
 					<div class="panel panel-primary">
 						<div class="panel-heading">
-							<h3 class="panel-title">Rules</h3>
+							<h3 class="panel-title">Problem</h3>
 						</div>
 						<div class="panel-body" id="rulesPanelBody">
 							
@@ -55,6 +58,8 @@
 
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>
+	<script src="lib/material.min.js"></script>
+	<script src="lib/ripples.min.js"></script>
 	<script src="lib/katex.min.js"></script>
 	<script src="lib/auto-render.min.js"></script>
 	<script src="script/backend.js"></script>

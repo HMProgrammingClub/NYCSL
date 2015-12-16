@@ -107,8 +107,11 @@ $(document).ready(function() {
 	$('.schoolTab').click(function() {
 		$(".schoolTab").each(function(schoolIndex) {
   			$(this).removeClass("active")
+  			$(this).css("color","#606060")
+  			console.log("Color: " + $(this).css("color"))
 		});
 		$(this).addClass("active")
+		$(this).css("color","#ffffff")
 		schoolName = $(this).attr("schoolName")
 		populateLeaderboard(getProblemWithIndex(index).problemID, schoolName, index)
 	});

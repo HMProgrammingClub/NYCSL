@@ -19,7 +19,7 @@ $(document).ready(function() {
 	var user = getUser(userID, null, null)
 
 	$("#jHeader").html(user.firstName + " " + user.lastName)
-	$("#jParagraph").html(user.schoolName)
+	$("#jParagraph").html("<a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a>")
 
 	populateLeaderboard(userID)
 })

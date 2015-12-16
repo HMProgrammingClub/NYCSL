@@ -81,13 +81,32 @@ $(document).ready(function() {
 		var password = $("#register_pass").val();
 		var firstName = $("#register_first").val();
 		var lastName = $("#register_last").val();
-		var schoolName = $("#register_school").val();
-		console.log(email+""+password+firstName+lastName+schoolName)
 
-		storeUserBackend(email, password, firstName, lastName, schoolName, false);
-		storeUserSession(null, email, password, false);
-		console.log(getSession())
-		login(getSession());
+		var resp = storeUserBackend(email, password, firstName, lastName, false, function(resp) {
+			console.log("callback");
+			if (resp === "Success") {
+				storeUserSession(null, email, password, false);
+				login(getSession());
+			} else registerError(resp);
+		});
+
+	})
+
+	$("#register_email").keyup(function() {
+		var email = $('#register_email').val();
+		var ind = email.indexOf("@");
+		var domain = email.slice((ind+1),email.length);
+		
+		console.log("DOMAIN: " + domain);
+
+		var response = "Enter your school email.";
+		if (domain === "horacemann.org") response = "Horace Mann School";
+		else if (domain === "dalton.org") response = "The Dalton School";
+		else if (domain === "stuy.edu") response = "Stuyvesant High School";
+		else if (domain === "ecfs.org") response = "Ethical Culture Fieldston School";
+		else if (domain === "trinityschoolnyc.org") response = "Trinity School";
+
+		$("#schoolField").html(response);
 	})
 
 	$('#submitButton').click(function() {
@@ -98,6 +117,8 @@ $(document).ready(function() {
 		destroySession(false);
 		logOut();
 	})
+
+	$.material.init()
 })
 
 $(window).load(function() {
@@ -107,6 +128,11 @@ $(window).load(function() {
 function loginError(errorMessage) {
 	$("#errorBox").empty()
 	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Login failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
+}
+
+function registerError(errorMessage) {
+	$("#errorBox").empty()
+	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Registration failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
 }
 
 function parseError() {
