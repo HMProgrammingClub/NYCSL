@@ -15,6 +15,7 @@ class DefHacksAPI extends API
 	// Initializes and returns a mysqli object that represents our mysql database
 	private function initDB() {
 		$config = include("config.php");
+		var_dump($config);
 		$this->mysqli = new mysqli($config['hostname'], 
 			$config['username'], 
 			$config['password'], 
@@ -51,6 +52,10 @@ class DefHacksAPI extends API
 	}
 
 	// API ENDPOINTS
+	protected function test() {
+		
+	}
+
 	protected function schools() {
 		if($this->method == 'GET') {
 			$schoolNames = array();
