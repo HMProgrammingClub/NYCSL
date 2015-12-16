@@ -16,7 +16,7 @@ class DefHacksAPI extends API
 	private function initDB() {
 		$config = include("config.php");
 		$this->mysqli = new mysqli($config['hostname'], 
-			$config['usernane'], 
+			$config['username'], 
 			$config['password'], 
 			$config['databaseName']);
 		
