@@ -1,6 +1,5 @@
 function fileChanged() {
 	var score = storeSubmissionDatabase("submitForm", false);
-	console.log("score: " + score)
 	if (isNaN(score)) parseError()
 	else congratsError(score)
 
@@ -32,7 +31,6 @@ $(document).ready(function() {
 	populateSchools();
 
 	var user = getSession();
-	console.log(user);
 
 	// not logged in
 	if(user == null) {
@@ -70,7 +68,6 @@ $(document).ready(function() {
 			loginError("Email password combination could not be found.")
 		} else {
 			storeUserSession(null, email, password, false);
-			console.log(getSession());
 			login(getSession());
 		}
 	})
@@ -82,7 +79,6 @@ $(document).ready(function() {
 		var lastName = $("#register_last").val();
 
 		var resp = storeUserBackend(email, password, firstName, lastName, false, function(resp) {
-			console.log("callback");
 			if (resp === "Success") {
 				$("#errorBox").empty()
 				storeUserSession(null, email, password, false);
@@ -97,8 +93,6 @@ $(document).ready(function() {
 		var ind = email.indexOf("@");
 		var domain = email.slice((ind+1),email.length);
 		
-		console.log("DOMAIN: " + domain);
-
 		var response = "Enter your school email.";
 		if (domain === "horacemann.org") response = "Horace Mann School";
 		else if (domain === "dalton.org") response = "The Dalton School";

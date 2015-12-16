@@ -26,7 +26,7 @@ function getUser(userID, email, password) {
 	    });
 	    return result.responseJSON;
 	} else {
-		console.log("Your arguements are messed up");
+		console.log("Your arguments are messed up");
 	}
 }
 
@@ -56,16 +56,14 @@ function storeUserSession(userID, email, password, async) {
 			async: async,
 			method: "POST",
 			data: {email: email, password: password},
-			success: function(result) {
-				console.log(result)
-			},
+			success: function(result) {},
 			error: function (xhr, ajaxOptions, thrownError) {
 				console.log(xhr.responseText);
 				console.log(thrownError);
 			}
 	    });
 	} else {
-		console.log("Your arguements are messed up");
+		console.log("Your arguments are messed up");
 	}
 }
 
@@ -102,15 +100,12 @@ function getProblemSubmissions(problemID) {
 			url: url+"submission", 
 			async: false,
 			method: "GET",
-			success: function(result) {
-				console.log(result)
-			},
+			success: function(result) {},
 			error: function (xhr, ajaxOptions, thrownError) {
 				console.log(xhr.responseText);
 				console.log(thrownError);
 			}
 	    });
-	    console.log(result)
 	    return result.responseJSON;
 	} else {
 		var result = $.ajax({
@@ -118,15 +113,12 @@ function getProblemSubmissions(problemID) {
 			async: false,
 			method: "GET",
 			data: {problemID: problemID},
-			success: function(result) {
-				console.log(result)
-			},
+			success: function(result) {},
 			error: function (xhr, ajaxOptions, thrownError) {
 				console.log(xhr.responseText);
 				console.log(thrownError);
 			}
 	    });
-	    console.log(result)
 	    return result.responseJSON;
 	}
 }
@@ -137,15 +129,12 @@ function getProblemSubmissionsWithSchool(problemID, schoolName) {
 		async: false,
 		method: "GET",
 		data: {problemID: problemID, schoolName: schoolName},
-		success: function(result) {
-			console.log(result)
-		},
+		success: function(result) {},
 		error: function (xhr, ajaxOptions, thrownError) {
 			console.log(xhr.responseText);
 			console.log(thrownError);
 		}
     });
-    console.log(result)
     return result.responseJSON;
 }
 
@@ -174,9 +163,7 @@ function getSchools() {
 		url: url+"schools", 
 		async: false,
 		method: "GET",
-		success: function(result) {
-			console.log(result)
-		},
+		success: function(result) {},
 		error: function (xhr, ajaxOptions, thrownError) {
 			console.log(xhr.responseText);
 			console.log(thrownError);
@@ -239,9 +226,7 @@ function storeSubmissionDatabase(formID) {
 			var myXhr = $.ajaxSettings.xhr();
 			return myXhr;
 		},
-		success: function(result) {
-			console.log(result)
-		},
+		success: function(result) {},
 		error: function (xhr, ajaxOptions, thrownError) {
 			console.log(xhr.responseText);
 			console.log(thrownError);

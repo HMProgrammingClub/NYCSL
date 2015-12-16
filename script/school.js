@@ -2,17 +2,11 @@ var index;
 var schoolName;
 
 function populateLeaderboard(problemID, schoolName, problemIndex) {
-	console.log("start");
 	$("#leaderboard").empty()
-	console.log(problemID)
-	console.log(schoolName)
 	var entries = getProblemSubmissionsWithSchool(problemID, schoolName);
-	console.log("entry")
-	console.log(entries);
 	for(var a = 0; a < entries.length; a++) {
 		var entry = entries[a]
 		var user = getUser(entry.userID);
-		console.log(entry.score);
 		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td>"+entry.score+"</td></tr>"))
 	}
 }
@@ -63,14 +57,12 @@ $(document).ready(function() {
 	if(schoolName == null || schoolName === "" || schoolName === " ") {
 		schoolName = getSchools()[0];
 	}
-	console.log("scho: "+schoolName)
 	populateSchoolTabs(schoolName);
 
 	index = parseInt(getGET("problemIndex"));
 	if(isNaN(index) == true || index == null || index === "" || index === " ") {
 		index = 0;
 	}
-	console.log("ind"+index)
 	var size = getProblemsSize();
 	$("#backButton").click(function() {
 		index++;
@@ -108,7 +100,6 @@ $(document).ready(function() {
 		$(".schoolTab").each(function(schoolIndex) {
   			$(this).removeClass("active")
   			$(this).css("color","#606060")
-  			console.log("Color: " + $(this).css("color"))
 		});
 		$(this).addClass("active")
 		$(this).css("color","#ffffff")
