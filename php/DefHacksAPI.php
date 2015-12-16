@@ -132,10 +132,16 @@ class DefHacksAPI extends API
 				else return "School not recognized.  You must use your school email."; 
 			} else return "Email is invalid.";
 
+			$otherEmail = $this->select("SELECT * FROM User WHERE email = '".$email."'");
+			if ($otherEmail !== NULL) return "Email already registered.";
+			if (strlen($password) < 4) return "Password too short.";
+			if (strlen(preg_replace('/\s+/','',$firstName)) < 2 && strlen(preg_replace('/\s+/','',$lastName)) < 2) return "Must enter a valid name.";
+
 			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName')");
 
+
 		} else {
-			return $_POST['lastName'];
+			return "PHP error.  Tell me 'bout it.";
 		}
 		return "Success";
 	}

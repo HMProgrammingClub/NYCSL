@@ -66,9 +66,8 @@ $(document).ready(function() {
 		var email = $("#login_user").val();
 		var password = $("#login_pass").val();
 		
-		// Does not exist. LOG IN FAIL
 		if(getUser(null, email, password) == null) {
-			loginError("That email password combination does not exist")
+			loginError("Email password combination could not be found.")
 		} else {
 			storeUserSession(null, email, password, false);
 			console.log(getSession());
@@ -85,6 +84,7 @@ $(document).ready(function() {
 		var resp = storeUserBackend(email, password, firstName, lastName, false, function(resp) {
 			console.log("callback");
 			if (resp === "Success") {
+				$("#errorBox").empty()
 				storeUserSession(null, email, password, false);
 				login(getSession());
 			} else registerError(resp);
@@ -117,6 +117,13 @@ $(document).ready(function() {
 		destroySession(false);
 		logOut();
 	})
+
+	$("#register_email").val('');
+	$("#register_pass").val('');
+	$("#register_first").val('');
+	$("#register_last").val('');
+	$("#login_user").val('');
+	$("#login_pass").val('');
 
 	$.material.init()
 })
