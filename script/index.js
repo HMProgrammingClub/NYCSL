@@ -14,18 +14,13 @@ function displayProblem(index) {
 	var problem = getProblemWithIndex(index)
 	populateLeaderboard(problem.problemID)
 
-	var result = $.ajax({
-		url: "problems/descriptions/header"+problem.problemName+".html", 
-		async: true,
-		method: "GET",
-		success: function(result) {
-			$("#jumbotron").empty()
-			$("#jumbotron").append(result);
-		}
-    });
+    $("#jHeader").empty()
+	$("#jHeader").append(problem.problemFullName);
+	$("#jParagraph").empty()
+	$("#jParagraph").append(problem.problemDescription);
 
 	var result = $.ajax({
-		url: "problems/descriptions/body"+problem.problemName+".html", 
+		url: "problems/descriptions/"+problem.problemName+".html", 
 		async: true,
 		method: "GET",
 		success: function(result) {
