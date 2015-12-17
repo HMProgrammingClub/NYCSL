@@ -24,7 +24,7 @@
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
 		<div class="pageContent">
-			<div class="jumbotron" id="jumbotron"></div>
+			<?php include 'includes/jumbo.php'; ?>
 			<div class="row">
 				<div class="col-sm-5">
 					<div class="panel panel-primary">
