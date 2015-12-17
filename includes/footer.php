@@ -19,7 +19,7 @@
 			</div>
 			<div class="modal-body">
 				<p>NYCSL, or the New York Computer Science League, is a programming competition website created by programmers Josh Gruenstein, Luca Koval, Ben Spector, and Michael Truell during the defhacks("Winter",2015) hackathon.</p>
-				<p>Each month, a new problem is posted on the website.  Each programmer in NYCSL (any high school students in the New York is eligible) has one month to upload a solution to the problem.  Their solutions are graded and then put up on both global and school-wide leaderboards.<p>
+				<p>Each month, a new problem is posted on the website.  Each programmer in NYCSL (any high school student in the New York is eligible) has one month to upload a solution to the problem.  Their solutions are instantly graded and put up on both global and school-wide leaderboards.<p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

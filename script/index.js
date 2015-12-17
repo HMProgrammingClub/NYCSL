@@ -56,10 +56,10 @@ $( document ).ready(function() {
 	$("#backButton").click(function() {
 		index++;
 		if(index == size-1) {
-			$("#backButton").css("display", "none");
+			$("#backButton").css("visibility", "hidden");
 		}
 		if(index == 1) {
-			$("#nextButton").css("display", "inline");
+			$("#nextButton").css("visibility", "visible");
 		}
 
 		displayProblem(index)
@@ -67,20 +67,20 @@ $( document ).ready(function() {
 	$("#nextButton").click(function() {
 		index--;
 		if(index == 0) {
-			$("#nextButton").css("display", "none");
+			$("#nextButton").css("visibility", "hidden");
 		}
 		if(index == size-2) {
-			$("#backButton").css("display", "inline");
+			$("#backButton").css("visibility", "visible");
 		}
 
 		displayProblem(index)
 	})
 
 	if(index == 0) {
-		$("#nextButton").css("display", "none");
+		$("#nextButton").css("visibility", "hidden");
 	}
 	if(index == size-1) {
-		$("#backButton").css("display", "none");
+		$("#backButton").css("visibility", "visible");
 	}
 
 	displayProblem(index)
