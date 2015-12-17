@@ -28,6 +28,7 @@ function populateSchools() {
 }
 
 $(document).ready(function() {
+	$(".pageContent").css("display", "none");
 	populateSchools();
 
 	var user = getSession();
@@ -124,6 +125,16 @@ $(document).ready(function() {
 
 $(window).load(function() {
 	$(".pageContent").fadeIn(300);
+
+	$("a").click(function(event){
+        event.preventDefault();
+        linkLocation = this.href;
+        if (linkLocation.indexOf("#") == -1) $(".pageContent").fadeOut(200, redirectPage);
+    });
+
+    function redirectPage() {
+		window.location = linkLocation;
+    }
 });
 
 function loginError(errorMessage) {
