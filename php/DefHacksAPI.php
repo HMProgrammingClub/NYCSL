@@ -9,6 +9,9 @@ class DefHacksAPI extends API
 
 	public function __construct($request, $origin) {
 		$this->initDB();
+		foreach ($_GET as $key => $value) {
+			$_GET[$key] = $this->mysqli->real_escape_string($value);
+		}
 		parent::__construct($request);
 	}
 
@@ -27,14 +30,12 @@ class DefHacksAPI extends API
 	}
 
 	private function select($sql) {
-		//$sql = mysqli_real_escape_string($this->mysqli, $sql);
 		$res = mysqli_query($this->mysqli, $sql);
 		if($res) return mysqli_fetch_array($res, MYSQLI_ASSOC);
 		else return NULL;
 	}
 
 	private function selectMultiple($sql) {
-		//$sql = mysqli_real_escape_string($this->mysqli, $sql);
 		$res = mysqli_query($this->mysqli, $sql);
 		$finalArray = array();
 
@@ -46,7 +47,6 @@ class DefHacksAPI extends API
 	}
 
 	private function insert($sql) {
-		//$sql = mysqli_real_escape_string($this->mysqli, $sql);
 		mysqli_query($this->mysqli, $sql);
 	}
 
@@ -77,7 +77,7 @@ class DefHacksAPI extends API
 			if(count($_SESSION) > 0) return $_SESSION;
 			else return NULL;
 		} else if(isset($_POST['email']) & isset($_POST['password'])) {
-			$email= $_POST['email'];
+			$email = $_POST['email'];
 			$password = $_POST['password'];
 			$userArray = $this->select("SELECT * FROM User WHERE email = '$email' AND password = '$password'");
 			$_SESSION = $userArray;
@@ -132,16 +132,10 @@ class DefHacksAPI extends API
 				else return "School not recognized.  You must use your school email."; 
 			} else return "Email is invalid.";
 
-			$otherEmail = $this->select("SELECT * FROM User WHERE email = '".$email."'");
-			if ($otherEmail !== NULL) return "Email already registered.";
-			if (strlen($password) < 4) return "Password too short.";
-			if (strlen(preg_replace('/\s+/','',$firstName)) < 2 && strlen(preg_replace('/\s+/','',$lastName)) < 2) return "Must enter a valid name.";
-
 			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName')");
 
-
 		} else {
-			return "PHP error.  Tell me 'bout it.";
+			return $_POST['lastName'];
 		}
 		return "Success";
 	}
