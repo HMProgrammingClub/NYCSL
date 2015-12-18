@@ -16,9 +16,9 @@ function populateSchoolTabs(school) {
 	var schools = getSchools()
 	for(var a = 0; a < schools.length; a++) {
 		if (schools[a] === school) {
-			$("#schoolTabs").append("<li role='presentation' class='schoolTab active' schoolName='"+schools[a]+"'><a href='#' id='tab"+schools[a]+"'>"+schools[a]+"</a></li>");
+			$("#schoolTabs").append("<li role='presentation' class='schoolTab active' schoolName='"+schools[a]+"'><a href='#' id='tab"+schools[a]+"' class='tabby'>"+schools[a]+"</a></li>");
 		} else {
-			$("#schoolTabs").append("<li role='presentation' class='schoolTab' schoolName='"+schools[a]+"'><a href='#' id='tab"+schools[a]+"'>"+schools[a]+"</a></li>");
+			$("#schoolTabs").append("<li role='presentation' class='schoolTab' schoolName='"+schools[a]+"'><a href='#' id='tab"+schools[a]+"' class='tabby'>"+schools[a]+"</a></li>");
 		}
 	}
 }
@@ -52,12 +52,14 @@ $(document).ready(function() {
 	if(schoolName == null || schoolName === "" || schoolName === " ") {
 		schoolName = getSchools()[0];
 	}
-	populateSchoolTabs(schoolName);
 
 	index = parseInt(getGET("problemIndex"));
 	if(isNaN(index) == true || index == null || index === "" || index === " ") {
 		index = 0;
 	}
+
+	populateSchoolTabs(schoolName);
+
 	var size = getProblemsSize();
 	$("#backButton").click(function() {
 		index++;
@@ -93,14 +95,26 @@ $(document).ready(function() {
 
 	$('.schoolTab').click(function() {
 		$(".schoolTab").each(function(schoolIndex) {
-  			$(this).removeClass("active")
-  			$(this).css("color","#606060")
+  			setSelected($(this).children('a')[0],false)
 		});
-		$(this).addClass("active")
-		$(this).css("color","#ffffff")
+		setSelected($(this).children('a')[0],true)
 		schoolName = $(this).attr("schoolName")
 		populateLeaderboard(getProblemWithIndex(index).problemID, schoolName, index)
-	});
+	}); $("#tab"+schoolName).trigger("click");
 
 	renderMathInElement(document.getElementById("rulesPanelBody"));
 })
+
+function setSelected(element, isSelected) {
+	if (!isSelected) {
+		element.style.setProperty("color", "#fff", "important")
+  		element.style.setProperty("background", "none", "important")
+ 		element.style.setProperty("border-style", "none", "important")
+		element.style.setProperty("box-shadow","inset 0px 0px 0px 0px #841212","important")
+	} else {
+		element.style.setProperty("color", "#841212", "important")
+		element.style.setProperty("background-color", "#fff", "important")
+		element.style.setProperty("border-style", "solid", "important")
+		element.style.setProperty("box-shadow","inset 0px 0px 0px 8px #841212","important")
+	}
+}
