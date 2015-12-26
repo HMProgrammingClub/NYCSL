@@ -10,7 +10,7 @@ class DefHacksAPI extends API
 	public function __construct($request, $origin) {
 		$this->initDB();
 
-		sanitizeHTTPParameters();
+		$this->sanitizeHTTPParameters();
 		
 		parent::__construct($request);
 	}
@@ -21,12 +21,6 @@ class DefHacksAPI extends API
 		}
 		foreach ($_POST as $key => $value) {
 			$_POST[$key] = $this->mysqli->real_escape_string($value);
-		}
-		foreach ($_PUT as $key => $value) {
-			$_PUT[$key] = $this->mysqli->real_escape_string($value);
-		}
-		foreach ($_DELETE as $key => $value) {
-			$_DELETE[$key] = $this->mysqli->real_escape_string($value);
 		}
 	}
 
