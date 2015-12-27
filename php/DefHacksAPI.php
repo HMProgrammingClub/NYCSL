@@ -123,7 +123,7 @@ class DefHacksAPI extends API
 			return $this->selectMultiple("SELECT * FROM User WHERE schoolName = '$schoolName'");
 		} else if(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
-			return $this->select("SELECT * FROM User WHERE userID = $userID");
+			return $this->select("SELECT userID, email, schoolName, firstName, lastName FROM User WHERE userID = $userID");
 		} elseif(
 			isset($_POST['email']) && 
 			isset($_POST['password']) &&
