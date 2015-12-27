@@ -1,5 +1,5 @@
 var url = "php/"
-getUser(1, null, "test");
+
 function getUser(userID, email, password) {
 	if(userID != null && password != null) {
 		var result = $.ajax({
