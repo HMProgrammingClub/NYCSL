@@ -258,8 +258,7 @@ class DefHacksAPI extends API
 
 			// Parameters
 			$userID = $_POST['userID'];
-			//$outputFile = $this->mysqli->real_escape_string(file_get_contents($_FILES['outputFile']["tmp_name"]));
-
+			
 			// Last one is current one
 			$problemArrayArray = $this->selectMultiple("SELECT * FROM Problem");
 			$problemArray = $problemArrayArray[count($problemArrayArray)-1];
