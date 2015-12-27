@@ -1,13 +1,17 @@
 <?php
 
 require_once 'API.class.php';
+
 class DefHacksAPI extends API
 {
 
 	// The database
-	private $mysqli = NULL;
+	private $mysqli;
+	private $config;
 
 	public function __construct($request, $origin) {
+		$this->config = include('config.php');
+
 		$this->initDB();
 
 		$this->sanitizeHTTPParameters();
@@ -24,13 +28,16 @@ class DefHacksAPI extends API
 		}
 	}
 
+	private function encryptPassword($password) {
+		return $this->mysqli->real_escape_string(crypt($password, $this->config['salt']));
+	}
+
 	// Initializes and returns a mysqli object that represents our mysql database
 	private function initDB() {
-		$config = include("config.php");
-		$this->mysqli = new mysqli($config['hostname'], 
-			$config['username'], 
-			$config['password'], 
-			$config['databaseName']);
+		$this->mysqli = new mysqli($this->config['hostname'], 
+			$this->config['username'], 
+			$this->config['password'], 
+			$this->config['databaseName']);
 		
 		if (mysqli_connect_errno()) { 
 			echo "<br><br>There seems to be a problem with our database. Reload the page or try again later.";
@@ -87,12 +94,12 @@ class DefHacksAPI extends API
 			else return NULL;
 		} else if(isset($_POST['email']) & isset($_POST['password'])) {
 			$email = $_POST['email'];
-			$password = $_POST['password'];
+			$password = $this->encryptPassword($_POST['password']);
 			$userArray = $this->select("SELECT * FROM User WHERE email = '$email' AND password = '$password'");
 			$_SESSION = $userArray;
 		} else if(isset($_POST['userID']) & isset($_POST['password'])) {
 			$userID= $_POST['userID'];
-			$password = $_POST['password'];
+			$password = $this->encryptPassword($_POST['password']);
 			$userArray = $this->select("SELECT * FROM User WHERE userID = '$userID' AND password = '$password'");
 			$_SESSION = $userArray;
 		} else if($this->method == 'DELETE') {
@@ -105,11 +112,11 @@ class DefHacksAPI extends API
 	protected function user() {
 		if (isset($_GET['userID']) && isset($_GET['password'])) {
 			$userID = $_GET['userID'];
-			$password = $_GET['password'];
+			$password = $this->encryptPassword($_GET['password']);
 			return $this->select("SELECT * FROM User WHERE userID = $userID and password = '$password'");
 		} else if(isset($_GET['email']) && isset($_GET['password'])) {
 			$email = $_GET['email'];
-			$password = $_GET['password'];
+			$password = $this->encryptPassword($_GET['password']);
 			return $this->select("SELECT * FROM User WHERE email = '$email' and password = '$password'");
 		} else if(isset($_GET['schoolName'])) {
 			$schoolName = $_GET['schoolName'];
@@ -124,7 +131,7 @@ class DefHacksAPI extends API
 			isset($_POST['lastName'])) {
 
 			$email = $_POST['email'];
-			$password = $_POST['password'];
+			$password = $this->encryptPassword($_POST['password']);
 			$firstName = $_POST['firstName'];
 			$lastName = $_POST['lastName'];
 			$schoolName = "";
@@ -143,12 +150,12 @@ class DefHacksAPI extends API
 
 			$otherEmail = $this->select("SELECT * FROM User WHERE email = '".$email."'");
 			if ($otherEmail !== NULL) return "Email already registered.";
-			if (strlen($password) < 4) return "Password too short.";
+			if (strlen($_POST['password']) < 4) return "Password too short.";
 			if (strlen(preg_replace('/\s+/','',$firstName)) < 2 && strlen(preg_replace('/\s+/','',$lastName)) < 2) return "Must enter a valid name.";
 
 			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName')");
 		} else {
-			return $_POST['lastName'];
+			return NULL;
 		}
 		return "Success";
 	}
