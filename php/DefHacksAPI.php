@@ -181,9 +181,9 @@ class DefHacksAPI extends API
 
 			$verificationCode = rand(0, 99999);
 			$this->insert("INSERT INTO Verification (userID, verificationCode) VALUES ($userID, $verificationCode)");
-			mail($email, 
+			/*mail($email, 
 				"Verify Your Account", 
-				"Verify your NYCSL account by visiting this link: 104.131.81.214/verify?userID={$userID}&code={$verificationCode}. After that, you can log in.");
+				"Verify your NYCSL account by visiting this link: 104.131.81.214/verify?userID={$userID}&code={$verificationCode}. After that, you can log in.");*/
 		} else {
 			return NULL;
 		}
