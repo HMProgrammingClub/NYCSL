@@ -62,12 +62,15 @@ $(document).ready(function() {
 	});
 
 	$("#loginButton").click(function() {
+		console.log("log in")
 		var email = $("#login_user").val();
 		var password = $("#login_pass").val();
 		
 		if(getUser(null, email, password) == null) {
+			console.log("error")
 			loginError("Email password combination could not be found.")
 		} else {
+			console.log("not error")
 			storeUserSession(null, email, password, false);
 			login(getSession());
 		}
