@@ -70,7 +70,7 @@ class DefHacksAPI extends API
 	protected function schools() {
 		if($this->method == 'GET') {
 			$schoolNames = array();
-			$users = $this->selectMultiple("SELECT * FROM User");
+			$users = $this->selectMultiple("SELECT * FROM User WHERE isVerified = 1");
 			foreach($users as $user) {
 				$alreadyIn = false;
 				foreach($schoolNames as $name) {
@@ -95,15 +95,35 @@ class DefHacksAPI extends API
 		} else if(isset($_POST['email']) & isset($_POST['password'])) {
 			$email = $_POST['email'];
 			$password = $this->encryptPassword($_POST['password']);
-			$userArray = $this->select("SELECT * FROM User WHERE email = '$email' AND password = '$password'");
+			$userArray = $this->select("SELECT * FROM User WHERE email = '$email' AND password = '$password' AND isVerified = 1");
 			$_SESSION = $userArray;
 		} else if(isset($_POST['userID']) & isset($_POST['password'])) {
 			$userID= $_POST['userID'];
 			$password = $this->encryptPassword($_POST['password']);
-			$userArray = $this->select("SELECT * FROM User WHERE userID = '$userID' AND password = '$password'");
+			$userArray = $this->select("SELECT * FROM User WHERE userID = '$userID' AND password = '$password' AND isVerified = 1");
 			$_SESSION = $userArray;
 		} else if($this->method == 'DELETE') {
 			session_destroy();
+		} else {
+			return NULL;
+		}
+	}
+
+	protected function verify() {
+		if(isset($_GET["userID"]) && isset($_GET["code"])) {
+			// To stop brute forcing of the verification codes, sleep 1 second
+			sleep(1);
+
+			$userID = $_GET['userID'];
+			$verificationCode = $_GET['code'];
+
+			$returnArray = $this->select("SELECT userID FROM Verification WHERE userID = $userID and verificationCode = $verificationCode");
+			if(count($returnArray) < 1) {
+				return NULL;
+			} else {
+				$this->insert("UPDATE User SET isVerified = 1");
+				return "Success";
+			}
 		} else {
 			return NULL;
 		}
@@ -113,17 +133,17 @@ class DefHacksAPI extends API
 		if (isset($_GET['userID']) && isset($_GET['password'])) {
 			$userID = $_GET['userID'];
 			$password = $this->encryptPassword($_GET['password']);
-			return $this->select("SELECT * FROM User WHERE userID = $userID and password = '$password'");
+			return $this->select("SELECT * FROM User WHERE userID = $userID and password = '$password' and isVerified = 1");
 		} else if(isset($_GET['email']) && isset($_GET['password'])) {
 			$email = $_GET['email'];
 			$password = $this->encryptPassword($_GET['password']);
-			return $this->select("SELECT * FROM User WHERE email = '$email' and password = '$password'");
+			return $this->select("SELECT * FROM User WHERE email = '$email' and password = '$password' and isVerified = 1");
 		} else if(isset($_GET['schoolName'])) {
 			$schoolName = $_GET['schoolName'];
-			return $this->selectMultiple("SELECT * FROM User WHERE schoolName = '$schoolName'");
+			return $this->selectMultiple("SELECT * FROM User WHERE schoolName = '$schoolName' and isVerified = 1");
 		} else if(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
-			return $this->select("SELECT userID, email, schoolName, firstName, lastName FROM User WHERE userID = $userID");
+			return $this->select("SELECT userID, email, schoolName, firstName, lastName FROM User WHERE userID = $userID and isVerified = 1");
 		} elseif(
 			isset($_POST['email']) && 
 			isset($_POST['password']) &&
@@ -149,11 +169,21 @@ class DefHacksAPI extends API
 			} else return "Email is invalid.";
 
 			$otherEmail = $this->select("SELECT * FROM User WHERE email = '".$email."'");
+
 			if ($otherEmail !== NULL) return "Email already registered.";
 			if (strlen($_POST['password']) < 4) return "Password too short.";
 			if (strlen(preg_replace('/\s+/','',$firstName)) < 2 && strlen(preg_replace('/\s+/','',$lastName)) < 2) return "Must enter a valid name.";
 
-			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName')");
+			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName, isVerified) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName', 0)");
+
+			$userIDArray = $this->select("SELECT userID FROM User WHERE email = '$email' LIMIT 1");
+			$userID = $userIDArray['userID'];
+
+			$verificationCode = rand(0, 99999);
+			$this->insert("INSERT INTO Verification (userID, verificationCode) VALUES ($userID, $verificationCode)");
+			mail($email, 
+				"Verify Your Account", 
+				"Verify your NYCSL account by visiting this link: 104.131.81.214/verify?userID={$userID}&code={$verificationCode}. After that, you can log in.");
 		} else {
 			return NULL;
 		}
@@ -232,7 +262,7 @@ class DefHacksAPI extends API
 			
 			foreach($possibleSubmissions as $possibleSubmission) {
 				$userID = $possibleSubmission['userID'];
-				$userArray = $this->select("SELECT userID FROM User WHERE schoolName = '$schoolName' and userID = $userID");
+				$userArray = $this->select("SELECT userID FROM User WHERE schoolName = '$schoolName' and userID = $userID and isVerified = 1");
 				if(count($userArray) > 0) {
 					array_push($submissions, $possibleSubmission);
 				}

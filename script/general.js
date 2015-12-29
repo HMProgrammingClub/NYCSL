@@ -81,9 +81,9 @@ $(document).ready(function() {
 
 		var resp = storeUserBackend(email, password, firstName, lastName, false, function(resp) {
 			if (resp === "Success") {
-				$("#errorBox").empty()
+				$("#messageBox").empty()
 				storeUserSession(null, email, password, false);
-				login(getSession());
+				verifyAccountMessage();
 			} else registerError(resp);
 		});
 
@@ -138,23 +138,28 @@ $(window).load(function() {
 });
 
 function loginError(errorMessage) {
-	$("#errorBox").empty()
-	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Login failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
+	$("#messageBox").empty()
+	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Login failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
+}
+
+function verifyAccountMessage() {
+	$("#messageBox").empty()
+	$("#messageBox").append($("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Verify Your Account.</strong>&nbsp;&nbsp;Your registration was sucessful. Visit your email to verify your account! You have to do this before you log in.</div>"))
 }
 
 function registerError(errorMessage) {
-	$("#errorBox").empty()
-	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Registration failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
+	$("#messageBox").empty()
+	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Registration failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
 }
 
 function parseError() {
-	$("#errorBox").empty()
-	$("#errorBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;Please check your output file and try again.</div>"))
+	$("#messageBox").empty()
+	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;Please check your output file and try again.</div>"))
 }
 
 function congratsError(score) {
-	$("#errorBox").empty()
-	$("#errorBox").append($("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Congratulations!</strong>&nbsp;&nbsp;You got a score of <strong>"+score+"</strong>.</div>"))
+	$("#messageBox").empty()
+	$("#messageBox").append($("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Congratulations!</strong>&nbsp;&nbsp;You got a score of <strong>"+score+"</strong>.</div>"))
 }
 
 function getGET(name) {
