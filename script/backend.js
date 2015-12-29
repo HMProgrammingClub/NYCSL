@@ -24,6 +24,7 @@ function getUser(userID, email, password) {
 			method: "GET",
 			data: {userID: userID}
 	    });
+	    console.log(responseJSON);
 	    return result.responseJSON;
 	} else {
 		console.log("Your arguments are messed up");
