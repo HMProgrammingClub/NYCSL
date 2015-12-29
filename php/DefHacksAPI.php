@@ -92,17 +92,17 @@ class DefHacksAPI extends API
 		if($this->method == 'GET') {
 			if(count($_SESSION) > 0) return $_SESSION;
 			else return NULL;
-		} else if(isset($_POST['email']) & isset($_POST['password'])) {
+		} elseif(isset($_POST['email']) & isset($_POST['password'])) {
 			$email = $_POST['email'];
 			$password = $this->encryptPassword($_POST['password']);
 			$userArray = $this->select("SELECT * FROM User WHERE email = '$email' AND password = '$password' AND isVerified = 1");
 			$_SESSION = $userArray;
-		} else if(isset($_POST['userID']) & isset($_POST['password'])) {
+		} elseif(isset($_POST['userID']) & isset($_POST['password'])) {
 			$userID= $_POST['userID'];
 			$password = $this->encryptPassword($_POST['password']);
 			$userArray = $this->select("SELECT * FROM User WHERE userID = '$userID' AND password = '$password' AND isVerified = 1");
 			$_SESSION = $userArray;
-		} else if($this->method == 'DELETE') {
+		} elseif($this->method == 'DELETE') {
 			session_destroy();
 		} else {
 			return NULL;
@@ -134,14 +134,14 @@ class DefHacksAPI extends API
 			$userID = $_GET['userID'];
 			$password = $this->encryptPassword($_GET['password']);
 			return $this->select("SELECT * FROM User WHERE userID = $userID and password = '$password' and isVerified = 1");
-		} else if(isset($_GET['email']) && isset($_GET['password'])) {
+		} elseif(isset($_GET['email']) && isset($_GET['password'])) {
 			$email = $_GET['email'];
 			$password = $this->encryptPassword($_GET['password']);
 			return $this->select("SELECT * FROM User WHERE email = '$email' and password = '$password' and isVerified = 1");
-		} else if(isset($_GET['schoolName'])) {
+		} elseif(isset($_GET['schoolName'])) {
 			$schoolName = $_GET['schoolName'];
 			return $this->selectMultiple("SELECT * FROM User WHERE schoolName = '$schoolName' and isVerified = 1");
-		} else if(isset($_GET['userID'])) {
+		} elseif(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
 			return $this->select("SELECT userID, email, schoolName, firstName, lastName FROM User WHERE userID = $userID and isVerified = 1");
 		} elseif(
@@ -246,10 +246,10 @@ class DefHacksAPI extends API
 		if(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
 			return $this->selectMultiple("SELECT * FROM Submission WHERE userID = $userID");
-		} else if(isset($_GET['submissionID'])) {
+		} elseif(isset($_GET['submissionID'])) {
 			$submissionID = $_GET['submissionID'];
 			return $this->select("SELECT * FROM Submission WHERE submissionID = $submissionID");
-		} else if(isset($_GET['problemID']) && isset($_GET['schoolName'])) {
+		} elseif(isset($_GET['problemID']) && isset($_GET['schoolName'])) {
 			$problemID = $_GET['problemID'];
 			$schoolName = $_GET['schoolName'];
 
@@ -268,12 +268,12 @@ class DefHacksAPI extends API
 				}
 			}
 			return $submissions;
-		} else if(isset($_GET['problemID'])) {
+		} elseif(isset($_GET['problemID'])) {
 			$problemID = $_GET['problemID'];
 			$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
 			if($problemArray['isAscending'] == 0) return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score DESC");
 			else return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score ASC");
-		} else if($this->method === 'GET') {
+		} elseif($this->method === 'GET') {
 
 			$problemArrayArray = $this->selectMultiple("SELECT * FROM Problem");
 			$problemArray = $problemArrayArray[count($problemArrayArray)-1];
@@ -282,7 +282,7 @@ class DefHacksAPI extends API
 
 			if($problemArray['isAscending'] == 0) return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score DESC");
 			else return $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score ASC");
-		} else if(
+		} elseif(
 			isset($_POST['userID']) &&
 			isset($_FILES['outputFile']['name'])) {
 
