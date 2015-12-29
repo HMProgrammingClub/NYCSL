@@ -76,4 +76,4 @@
 			</form>
 		</div>
 	</div>
-</nav><div id="errorBox"></div>
+</nav><div id="messageBox"></div>
