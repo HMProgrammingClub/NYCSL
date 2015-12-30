@@ -109,6 +109,15 @@ class DefHacksAPI extends API
 		}
 	}
 
+	protected function email() {
+		if(isset($_GET['email'])) {
+			mail($_GET['email'], 
+				"Verify Your Account", 
+				"Verify your NYCSL account by visiting this link: . After that, you can log in.");
+			return "Success";
+		}
+	}
+
 	protected function verify() {
 		if(isset($_GET["userID"]) && isset($_GET["code"])) {
 			// To stop brute forcing of the verification codes, sleep 1 second
