@@ -1,7 +1,6 @@
 <?php
 
 require_once 'API.class.php';
-require_once 'MailOperation.php';
 
 class DefHacksAPI extends API
 {
@@ -110,6 +109,15 @@ class DefHacksAPI extends API
 		}
 	}
 
+	protected function email() {
+		if(isset($_GET['email'])) {
+			mail($_GET['email'], 
+				"Verify Your Account", 
+				"Verify your NYCSL account by visiting this link: . After that, you can log in.");
+			return "Success";
+		}
+	}
+
 	protected function verify() {
 		if(isset($_GET["userID"]) && isset($_GET["code"])) {
 			// To stop brute forcing of the verification codes, sleep 1 second
@@ -182,8 +190,9 @@ class DefHacksAPI extends API
 
 			$verificationCode = rand(0, 99999);
 			$this->insert("INSERT INTO Verification (userID, verificationCode) VALUES ($userID, $verificationCode)");
-			
-			exec("php MailOperation.php $email $userID $verificationCode");
+			/*mail($email, 
+				"Verify Your Account", 
+				"Verify your NYCSL account by visiting this link: 104.131.81.214/verify?userID={$userID}&code={$verificationCode}. After that, you can log in.");*/
 		} else {
 			return NULL;
 		}
