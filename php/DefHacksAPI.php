@@ -1,7 +1,6 @@
 <?php
 
 require_once 'API.class.php';
-require_once 'MailOperation.php';
 
 class DefHacksAPI extends API
 {
