@@ -73,6 +73,10 @@ function storeUserSession(userID, email, password, async) {
 	}
 }
 
+function updateUserPasswordBackend(userID, oldPassword, newPassword) {
+	
+}
+
 function getSession() {
 	var result = $.ajax({
 		url: url+"session", 
