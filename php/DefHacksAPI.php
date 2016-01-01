@@ -144,6 +144,17 @@ class DefHacksAPI extends API
 		} elseif(isset($_GET['userID'])) {
 			$userID = $_GET['userID'];
 			return $this->select("SELECT userID, email, schoolName, firstName, lastName FROM User WHERE userID = $userID and isVerified = 1");
+		} elseif(isset($_POST['userID']) && isset($_POST['oldPassword']) && isset($_POST['newPassword'])) {
+			$userID = $_POST['userID'];
+			$oldPassword = $_POST['oldPassword'];
+			$newPassword = $_POST['newPassword'];
+
+			$passwordArray = $this->select("SELECT userID FROM User WHERE userID = $userID and password = '$oldPassword'");
+			if(count($passwordArray) > 0) {
+				$this->insert("UPDATE User SET password = '$newPassword' WHERE userID = $userID");
+				return "Success";
+			}
+
 		} elseif(
 			isset($_POST['email']) && 
 			isset($_POST['password']) &&
