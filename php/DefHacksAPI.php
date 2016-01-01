@@ -184,7 +184,7 @@ class DefHacksAPI extends API
 			$verificationCode = rand(0, 99999);
 			$this->insert("INSERT INTO Verification (userID, verificationCode) VALUES ($userID, $verificationCode)");
 			
-			exec("php MailOperation.php $email $userID $verificationCode > /dev/null 2>/dev/null &");
+			exec("php MailOperation.php \"$email\" $userID $verificationCode \"$firstName $lastName\"> /dev/null 2>/dev/null &");
 		} else {
 			return NULL;
 		}

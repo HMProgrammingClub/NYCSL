@@ -64,31 +64,34 @@ $(document).ready(function() {
 	$("#backButton").click(function() {
 		index++;
 		if(index == size-1) {
-			$("#backButton").css("display", "none");
+			$("#backButton").css("visibility", "hidden");
 		}
 		if(index == 1) {
-			$("#nextButton").css("display", "inline");
+			$("#nextButton").css("visibility", "visible");
+			$("#archivedTag").css("display", "block");
 		}
 
-		displayProblem(index, schoolName)
+		displayProblem(index,schoolName)
 	})
 	$("#nextButton").click(function() {
 		index--;
 		if(index == 0) {
-			$("#nextButton").css("display", "none");
+			$("#nextButton").css("visibility", "hidden");
+			$("#archivedTag").css("display", "none");
 		}
 		if(index == size-2) {
-			$("#backButton").css("display", "inline");
+			$("#backButton").css("visibility", "visible");
 		}
 
-		displayProblem(index, schoolName)
+		displayProblem(index,schoolName)
 	})
 
 	if(index == 0) {
-		$("#nextButton").css("display", "none");
+		$("#nextButton").css("visibility", "hidden");
+		$("#archivedTag").css("display", "none");
 	}
 	if(index == size-1) {
-		$("#backButton").css("display", "none");
+		$("#backButton").css("visibility", "visible");
 	}
 
 	displayProblem(index, schoolName)
