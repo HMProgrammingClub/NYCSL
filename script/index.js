@@ -60,6 +60,7 @@ $( document ).ready(function() {
 		}
 		if(index == 1) {
 			$("#nextButton").css("visibility", "visible");
+			$("#archivedTag").css("display", "block");
 		}
 
 		displayProblem(index)
@@ -68,6 +69,7 @@ $( document ).ready(function() {
 		index--;
 		if(index == 0) {
 			$("#nextButton").css("visibility", "hidden");
+			$("#archivedTag").css("display", "none");
 		}
 		if(index == size-2) {
 			$("#backButton").css("visibility", "visible");
@@ -78,6 +80,7 @@ $( document ).ready(function() {
 
 	if(index == 0) {
 		$("#nextButton").css("visibility", "hidden");
+		$("#archivedTag").css("display", "none");
 	}
 	if(index == size-1) {
 		$("#backButton").css("visibility", "visible");
