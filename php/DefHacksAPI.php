@@ -111,7 +111,7 @@ class DefHacksAPI extends API
 
 	protected function verify() {
 		if(isset($_GET["userID"]) && isset($_GET["code"])) {
-			// To stop brute forcing of the verification codes, sleep 1 second
+			// To stop the brute forcing of the verification codes, sleep 1 second
 			sleep(1);
 
 			$userID = $_GET['userID'];
@@ -155,6 +155,7 @@ class DefHacksAPI extends API
 			$firstName = $_POST['firstName'];
 			$lastName = $_POST['lastName'];
 			$schoolName = "";
+			exec("php MailOperation.php \"truell20@gmail.com\" 12 12 \"$firstName $lastName\"> /dev/null 2>/dev/null &");
 
 			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				$domain = array_pop(explode('@', $email));

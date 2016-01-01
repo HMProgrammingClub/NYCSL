@@ -3,8 +3,10 @@
 	$email = $argv[1];
 	$userID = $argv[2];
 	$verificationCode = $argv[3];
+	$name = $argv[4];
 
 	mail($email, 
-		"Verify Your Account", 
-		"Verify your NYCSL account by visiting this link: 104.131.81.214/verify?userID={$userID}&code={$verificationCode}. After that, you can log in.");
+		"NYCSL.io Registration Confirmation", 
+		"Click <a href='nycsl.io/verify.php?code={$verificationCode}&userID={$userID}'>here</a> to confirm registration for $name at NYCSL.io. If you did not register, ignore this message.",
+		"Content-Type: text/html; charset=ISO-8859-1\r\n");
 ?>
