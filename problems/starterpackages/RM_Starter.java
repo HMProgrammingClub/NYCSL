@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RM_Starter {
-	
+	// Loads in names of all roommates from the input file into an ArrayList
 	public static ArrayList<String> getProblem(String filename)
 	{
 		String line = null;
@@ -27,7 +27,7 @@ public class RM_Starter {
             ArrayList<String> names = new ArrayList<String>(0);
            
             while((line = bufferedReader.readLine()) != null) {
-            	names.add(line);
+            	names.add(line.trim());
             }
             
             bufferedReader.close();   
@@ -48,37 +48,50 @@ public class RM_Starter {
         }
 		return null;
 	}
-	
+
+	/* Outputs your solution to a text file
+	 * The solutions should be a two dimensional vector of names
+	 * Each vector inside the solution vector represents a room
+	*/
 	public static void output(String name, ArrayList<ArrayList<String>> solution) {
 		PrintWriter writer;
-		String filename = name + System.currentTimeMillis();
+		String filename = name + System.currentTimeMillis() + ".txt";
 		try {
 			writer = new PrintWriter(filename, "UTF-8");
 			for (ArrayList<String> p : solution)
 			{
 				for(String s : p)
 				{
-					writer.println(s + " ");
+					writer.print(s + " ");
 				}
 				writer.println();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ArrayList<String> p = getProblem("Your file here");
+		// Get the names of all the roommates and put them in the names vector
+		// Make sure that this code can access the input file 
+		// and that the input file is named input.txt
+		ArrayList<String> names = getProblem("input.txt");
 		
-		ArrayList<ArrayList<String>> template;
-		
-		//There is an error because you need set template to something.
-		output("Your name here", template);
+		// Will be a 2-d vector of names. Every vector inside this vector represents a room.
+		ArrayList<ArrayList<String>> solution = new ArrayList<ArrayList<String>>();
+
+		// EXAMPLE SOLUTION: put people into rooms of two using their order in the names vector
+		for(int a = 0; a < names.size(); a += 2) {
+			ArrayList<String> room = new ArrayList<String>();
+			room.add(names.get(a));
+			room.add(names.get(a+1));
+
+			solution.add(room);
+		}
+
+		output("PUT NAME HERE", solution);
 	}
 
 }
