@@ -110,17 +110,18 @@ class DefHacksAPI extends API
 	}
 
 	protected function verify() {
-		if(isset($_GET["userID"]) && isset($_GET["code"])) {
+		if(isset($_POST["userID"]) && isset($_POST["code"])) {
 			// To stop the brute forcing of the verification codes, sleep 1 second
 			sleep(1);
 
-			$userID = $_GET['userID'];
-			$verificationCode = $_GET['code'];
+			$userID = $_POST['userID'];
+			$verificationCode = $_POST['code'];
 
 			$returnArray = $this->select("SELECT userID FROM Verification WHERE userID = $userID and verificationCode = $verificationCode");
 			if(count($returnArray) < 1) {
 				return NULL;
 			} else {
+				$this->insert("DELETE FROM Verification WHERE userID = $userID and verificationCode = $verificationCode");
 				$this->insert("UPDATE User SET isVerified = 1");
 				return "Success";
 			}

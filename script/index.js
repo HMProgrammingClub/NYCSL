@@ -85,5 +85,19 @@ $( document ).ready(function() {
 
 	displayProblem(index)
 
+	console.log("ver: "+getGET("didVerify"))
+	if(getGET("didVerify") != null) verifySuccess()
+	if(getGET("didNotVerify") != null) verifyError()
+
 	renderMathInElement(document.getElementById("rulesPanelBody"));
 });
+
+function verifySuccess() {
+	$("#messageBox").empty()
+	$("#messageBox").append($("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Email Verification Success.</strong>&nbsp;&nbsp;Your email has been verified. You may now log in.</div>"))
+}
+
+function verifyError() {
+	$("#messageBox").empty()
+	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Email Verification Failed.</strong>&nbsp;&nbsp;There was a problem verifying your email.</div>"))
+}

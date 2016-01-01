@@ -7,25 +7,25 @@ function getUser(userID, email, password) {
 			async: false,
 			method: "GET",
 			data: {userID: userID, password: password}
-	    });
-	    return result.responseJSON;
+		});
+		return result.responseJSON;
 	} else if(email != null && password != null) {
 		var result = $.ajax({
 			url: url+"user", 
 			async: false,
 			method: "GET",
 			data: {email: email, password: password}
-	    });
-	    return result.responseJSON;
+		});
+		return result.responseJSON;
 	}else if(userID != null) {
 		var result = $.ajax({
 			url: url+"user", 
 			async: false,
 			method: "GET",
 			data: {userID: userID}
-	    });
-	    console.log(result.responseJSON);
-	    return result.responseJSON;
+		});
+		console.log(result.responseJSON);
+		return result.responseJSON;
 	} else {
 		console.log("Your arguments are messed up");
 	}
@@ -37,15 +37,15 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 		async: async,
 		method: "POST",
 		data: {email: email, password: password, firstName: firstName, lastName: lastName, async: async},
-    	success: function (data) {
-    		console.log(data);
-        	callback(data);            
-    	},
-    	error: function (xhr, ajaxOptions, thrownError) {
+		success: function (data) {
+			console.log(data);
+			callback(data);            
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
 			console.log(xhr.responseText);
 			console.log(thrownError);
 		}
-    });
+	});
 }
 
 function storeUserSession(userID, email, password, async) {
@@ -55,7 +55,7 @@ function storeUserSession(userID, email, password, async) {
 			async: async,
 			method: "POST",
 			data: {userID: userID, password: password}
-	    });
+		});
 	} else if(email != null && password != null) {
 		var result = $.ajax({
 			url: url+"session", 
@@ -67,7 +67,7 @@ function storeUserSession(userID, email, password, async) {
 				console.log(xhr.responseText);
 				console.log(thrownError);
 			}
-	    });
+		});
 	} else {
 		console.log("Your arguments are messed up");
 	}
@@ -78,7 +78,7 @@ function getSession() {
 		url: url+"session", 
 		async: false,
 		method: "GET"
-    });
+	});
 	return result.responseJSON;
 }
 
@@ -87,7 +87,7 @@ function destroySession(async) {
 		url: url+"session", 
 		async: async,
 		method: "DELETE"
-    });
+	});
 }
 
 function getProblem(problemID) {
@@ -96,8 +96,8 @@ function getProblem(problemID) {
 		async: false,
 		method: "GET",
 		data: {problemID: problemID}
-    });
-    return result.responseJSON;
+	});
+	return result.responseJSON;
 }
 
 function getProblemSubmissions(problemID) {
@@ -111,8 +111,8 @@ function getProblemSubmissions(problemID) {
 				console.log(xhr.responseText);
 				console.log(thrownError);
 			}
-	    });
-	    return result.responseJSON;
+		});
+		return result.responseJSON;
 	} else {
 		var result = $.ajax({
 			url: url+"submission", 
@@ -124,8 +124,8 @@ function getProblemSubmissions(problemID) {
 				console.log(xhr.responseText);
 				console.log(thrownError);
 			}
-	    });
-	    return result.responseJSON;
+		});
+		return result.responseJSON;
 	}
 }
 
@@ -140,8 +140,8 @@ function getProblemSubmissionsWithSchool(problemID, schoolName) {
 			console.log(xhr.responseText);
 			console.log(thrownError);
 		}
-    });
-    return result.responseJSON;
+	});
+	return result.responseJSON;
 }
 
 function getUserSubmissions(userID) {
@@ -150,8 +150,8 @@ function getUserSubmissions(userID) {
 		async: false,
 		method: "GET",
 		data: {userID: userID}
-    });
-    return result.responseJSON;
+	});
+	return result.responseJSON;
 }
 
 function getSubmission(submissionID) {
@@ -160,8 +160,8 @@ function getSubmission(submissionID) {
 		async: false,
 		method: "GET",
 		data: {submissionID: submissionID}
-    });
-    return result.responseJSON;
+	});
+	return result.responseJSON;
 }
 
 function getSchools() {
@@ -174,8 +174,8 @@ function getSchools() {
 			console.log(xhr.responseText);
 			console.log(thrownError);
 		}
-    });
-    return result.responseJSON;
+	});
+	return result.responseJSON;
 }
 
 function getProblemWithIndex(index) {
@@ -184,8 +184,8 @@ function getProblemWithIndex(index) {
 		async: false,
 		method: "GET",
 		data: {index: index}
-    });
-    return result.responseJSON;
+	});
+	return result.responseJSON;
 }
 
 function getProblemsSize() {
@@ -194,8 +194,8 @@ function getProblemsSize() {
 		async: false,
 		method: "GET",
 		data: {size: 1}
-    });
-    return result.responseJSON;
+	});
+	return result.responseJSON;
 }
 
 function getRankOfSubmission(submissionID) {
@@ -204,8 +204,8 @@ function getRankOfSubmission(submissionID) {
 		async: false,
 		method: "GET",
 		data: {submissionID: submissionID}
-    });
-    return result.responseJSON;
+	});
+	return result.responseJSON;
 }
 
 function problemIDToIndex(problemID) {
@@ -214,8 +214,8 @@ function problemIDToIndex(problemID) {
 		async: false,
 		method: "GET",
 		data: {problemID: problemID}
-    });
-    return result.responseJSON;
+	});
+	return result.responseJSON;
 }
 
 // FORM MUST HAVE: userID, outputFile
@@ -238,5 +238,21 @@ function storeSubmissionDatabase(formID) {
 			console.log(thrownError);
 		}
 	})
+	return result.responseJSON;
+}
+
+function verifyEmail(userID, verificationCode) {
+	var result = $.ajax({
+		url: url+"verify", 
+		async: false,
+		method: "POST",
+		data: {userID: userID, code: verificationCode},
+		success: function(result) {},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText);
+			console.log(thrownError);
+		}
+	});
+
 	return result.responseJSON;
 }
