@@ -22,6 +22,7 @@
 <body>
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
+		<div id="archivedTag" class="alert alert-info" role="alert"> <strong>This problem is archived.</strong> You can't submit answers anymore.</div>
 		<div class="pageContent">
 			<?php include 'includes/jumbo.php'; ?>
 			<div class="row">

@@ -35,3 +35,7 @@ body {
 #logoutNav {
 	display:none;
 }
+
+#archivedTag {
+	display:none;
+}
