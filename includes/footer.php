@@ -15,11 +15,11 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">New York Computer Science League</h4>
+				<h4 class="modal-title" id="myModalLabel">About the New York Computer Science League</h4>
 			</div>
 			<div class="modal-body">
-				<p>NYCSL, or the New York Computer Science League, is a programming competition created for New York high schools students to compete against each-other to solve algorithmic computer science problems.</p>
-				<p>Each month at midnight a new challenge is posted.  Each programmer in NYCSL has one month to upload as many solutions as they like; only the top score is counted.  Solutions are instantly graded and put up on both global and school-wide leaderboards.<p>
+				<p>NYCSL, or the New York Computer Science League, is a programming competition created for New York high schools students to compete against each-other while solving algorithmic computer science problems.</p>
+				<p>Each month at midnight a new challenge is posted.  Programmers in NYCSL have one month to upload as many solutions as they like; only the top score is counted.  Solutions are instantly graded and put up on both global and school-wide leaderboards.  Problems are designed such that they are suitable for programmers of all skill levels; beginners are encouraged to participate.<p>
 				<p>Currently the following schools are supported. If you'd like your school to be added, please contact us.
 					<ul>
 						<li>Dalton</li>
@@ -32,7 +32,6 @@
 				
 				</p>
 				<p>NYCSL.io was created by programmers <a href="https://github.com/joshuagruenstein">Josh Gruenstein</a>, <a href="https://github.com/G4cool">Luca Koval</a>, <a href="https://github.com/Sydriax">Ben Spector</a>, and <a href="https://github.com/truell20">Michael Truell</a> during the defhacks("Winter",2015) hackathon at Facebook NY.  The code is available on Github <a href="https://github.com/BackPropagation/NYCSL">here</a>.  You may contact us at <a href="mailto:contact@nycsl.io">contact@nycsl.io</a>.
-</p>.</p>
 			</div>
 		</div>
 	</div>
