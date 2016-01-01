@@ -4,33 +4,53 @@
 #include <fstream>
 #include <time.h>
 
-std::vector<std::string> getProblem(std::string f)
+using namespace std;
+
+// Loads in names of all roommates from the input file into a vector
+vector<string> getProblem(string f)
 {
-	std::fstream in; std::vector<std::string> answer; std::string i;
-	in.open(f, std::ios_base::in);
-	while(std::getline(in, i)) answer.push_back(i);
+	fstream in; vector<string> answer; string i;
+	in.open(f, ios_base::in);
+	while(getline(in, i)) answer.push_back(i);
 	return answer;
 }
 
-void outputSolutionsToFile(const std::string & name, const std::vector< std::vector<std::string> > & s)
+
+/* Outputs your solution to a text file
+ * The solutions should be a two dimensional vector of names
+ * Each vector inside the solution vector represents a room
+*/
+void outputSolutionsToFile(const string & name, const vector< vector<string> > & s)
 {
-	std::ofstream output(name + '-' + std::to_string(time(NULL)) + ".txt");
+	ofstream output(name + '-' + to_string(time(NULL)) + ".txt");
 	if(output.is_open()) for(auto a = s.begin(); a != s.end(); a++)
 	{
 		for(auto b = a->begin(); b != a->end(); b++) output << *b << ' ';
 		output << '\n';
 	}
-	else throw std::runtime_error("Couldn't open file");
+	else throw runtime_error("Couldn't open file");
 }
 
 int main()
 {
-	std::vector<std::string> problem = getProblem("PUT FILENAME HERE");
+	// Get the names of all the roommates and put them in the names vector
+	// Make sure that this code can access the input file 
+	// and that the input file is named input.txt
+	vector<string> names = getProblem("input.txt");
 
-	std::vector< std::vector<std::string> > solution;
-	//Fill in solution with your solution.
+	// Will be a 2-d vector of names. Every vector inside this vector represents a room.
+	vector< vector<string> > solution;
 
+	// EXAMPLE SOLUTION: put people into rooms of two using their order in the names vector
+	for(int a = 0; a < names.size(); a += 2) {
+		vector<string> room;
+		room.push_back(names[a]);
+		room.push_back(names[a+1]);
 
+		solution.push_back(room);
+	}
+
+	outputSolutionsToFile("PUT YOU NAME HERE", solution);
 
 	return EXIT_SUCCESS;
 }
