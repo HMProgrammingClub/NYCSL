@@ -7,6 +7,6 @@
 
 	mail($email, 
 		"NYCSL.io Registration Confirmation", 
-		"Click <a href='nycsl.io/verify.php?code={$verificationCode}&userID={$userID}'>here</a> to confirm registration for $name at NYCSL.io. If you did not register, ignore this message.",
-		"From: noreply@nycsl.io\r\n Reply-To: noreply@nycsl.io\r\nContent-Type: text/html; charset=ISO-8859-1\r\n");
+		"Click <a href='http://nycsl.io/verify.php?code={$verificationCode}&userID={$userID}'>here</a> to confirm registration for $name at NYCSL.io. If you did not register, ignore this message.",
+		"From: www-data@nycsl.io\r\nReply-To: www-data@nycsl.io\r\nX-Mailer: PHP/".phpversion()."\r\nContent-Type: text/html; charset=ISO-8859-1\r\n");
 ?>
