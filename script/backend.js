@@ -232,12 +232,15 @@ function storeSubmissionDatabase(formID) {
 			var myXhr = $.ajaxSettings.xhr();
 			return myXhr;
 		},
-		success: function(result) {},
+		success: function(result) {
+			console.log(result)
+		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			console.log(xhr.responseText);
 			console.log(thrownError);
 		}
 	})
+	console.log(result)
 	return result.responseJSON;
 }
 
