@@ -99,11 +99,13 @@ $(document).ready(function() {
 		var domain = email.slice((ind+1),email.length);
 		
 		var response = "Enter your school email.";
-		if (domain === "horacemann.org") response = "Horace Mann School";
-		else if (domain === "dalton.org") response = "The Dalton School";
-		else if (domain === "stuy.edu") response = "Stuyvesant High School";
-		else if (domain === "ecfs.org") response = "Ethical Culture Fieldston School";
-		else if (domain === "trinityschoolnyc.org") response = "Trinity School";
+		if (domain === "horacemann.org") response = "Horace Mann School"
+		else if (domain === "dalton.org") response = "The Dalton School"
+		else if (domain === "stuy.edu") response = "Stuyvesant High School"
+		else if (domain === "ecfs.org") response = "Ethical Culture Fieldston School"
+		else if (domain === "trinityschoolnyc.org") response = "Trinity School"
+		else if (domain === "bxscience.edu") response = "Bronx Science"
+		else if (domain === "riverdale.edu") response = "Riverdale Country School"
 
 		$("#schoolField").html(response);
 	})
