@@ -22,16 +22,16 @@
 				<p>Each month at midnight a new challenge is posted.  Programmers in NYCSL have one month to upload as many solutions as they like; only the top score is counted.  Solutions are instantly graded and put up on both global and school-wide leaderboards.  Problems are designed such that they are suitable for programmers of all skill levels; beginners are encouraged to participate.<p>
 				<p>Currently the following schools are supported. If you'd like your school to be added, please contact us.
 					<ul>
-						<li>Dalton</li>
-						<li>Horace Mann</li>
-						<li>Stuyvesant</li>
-						<li>Fieldston</li>
-						<li>Trinity</li>
-						<li>Bronx Science</li>						
+						<li>Horace Mann School</li>
+						<li>Riverdale Country School</li>
+						<li>Ethical Culture Fieldston School</li>
+						<li>Trinity School</li>
+						<li>Dalton School</li>
+						<li>Stuyvesant High School</li>
+						<li>Bronx High School of Science</li>						
 					</ul>
-				
 				</p>
-				<p>NYCSL.io was created by programmers <a href="https://github.com/joshuagruenstein">Josh Gruenstein</a>, <a href="https://github.com/G4cool">Luca Koval</a>, <a href="https://github.com/Sydriax">Ben Spector</a>, and <a href="https://github.com/truell20">Michael Truell</a> during the defhacks("Winter",2015) hackathon at Facebook NY.  The code is available on Github <a href="https://github.com/BackPropagation/NYCSL">here</a>.  You may contact us at <a href="mailto:contact@nycsl.io">contact@nycsl.io</a>.
+				<p>NYCSL.io was created by programmers <a href="https://github.com/joshuagruenstein">Josh Gruenstein</a>, <a href="https://github.com/G4cool">Luca Koval</a>, <a href="https://github.com/Sydriax">Ben Spector</a>, and <a href="https://github.com/truell20">Michael Truell</a> from Horace Mann during the defhacks("Winter",2015) hackathon at Facebook NY.  The code is available on Github <a href="https://github.com/BackPropagation/NYCSL">here</a>.  You may contact us at <a href="mailto:contact@nycsl.io">contact@nycsl.io</a>.
 			</div>
 		</div>
 	</div>

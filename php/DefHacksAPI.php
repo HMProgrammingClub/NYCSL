@@ -162,7 +162,7 @@ class DefHacksAPI extends API
 				$domain = array_pop(explode('@', $email));
 				if ($domain == "dalton.org") $schoolName = "Dalton";
 				elseif ($domain == "horacemann.org") $schoolName = "Horace Mann";
-				elseif ($domain == "dalton.org") $schoolName = "Dalton";
+				elseif ($domain == "riverdale.edu") $schoolName = "Riverdale Country";
 				elseif ($domain == "stuy.edu") $schoolName = "Stuyvesant";
 				elseif ($domain == "ecfs.org") $schoolName = "Fieldston";
 				elseif ($domain == "trinityschoolnyc.org") $schoolName = "Trinity";
