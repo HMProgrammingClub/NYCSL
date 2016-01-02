@@ -233,7 +233,6 @@ function storeSubmissionDatabase(formID) {
 
 		}
 	})
-
 	return result.responseJSON;
 }
 
