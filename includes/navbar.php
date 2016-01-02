@@ -22,11 +22,11 @@
 				<ul class="nav navbar-nav">
 					<li class="dropdown">
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Login<strong class="caret"></strong></a>
-						<ul class="dropdown-menu" style="padding: 10px; padding-bottom: -10px;">
-
+						<ul id="loginForm" class="dropdown-menu" style="padding: 10px; padding-bottom: 0px;">
 							<div class="form-group label-floating is-empty">
 								<label for="login_user" class="control-label">Email</label>
 								<input type="email" class="form-control" id="login_user">
+								<input type="submit" style="display: none;">
 							</div>
 
 							<div class="form-group label-floating is-empty">
@@ -34,14 +34,13 @@
 								<input id="login_pass" class="form-control" type="password" size="30" >
 								<span class="material-input"></span>
 							</div>
-
 							<input id="loginButton" class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px; margin-bottom:15px" type="submit" name="commit" value="Login" />
 						</ul>
 					</li>
 
 					<li class="dropdown">
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown">Register<strong class="caret"></strong></a>
-						<ul class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+						<ul id="registerForm" class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 							<div class="form-group label-floating is-empty">
 								<label for="register_first" class="control-label">First Name</label>
 								<input id="register_first" class="form-control" type="text" size="30" >
