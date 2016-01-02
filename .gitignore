@@ -244,3 +244,6 @@ problems/scripts/.idea/modules.xml
 problems/scripts/.idea/scripts.iml
 problems/scripts/.idea/vcs.xml
 problems/scripts/.idea/.name
+
+*.swp
+*.swo
