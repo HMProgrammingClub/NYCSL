@@ -20,7 +20,6 @@ def outputSolutionToFile(name, solution):
 		for name in room:
 			content += name + " "
 		content += '\n'
-	print(content)
 	open(filename, "w").write(content)
 
 # Get the names of all the roommates and put them in the names list
