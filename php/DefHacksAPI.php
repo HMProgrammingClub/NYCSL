@@ -309,7 +309,7 @@ class DefHacksAPI extends API
 			$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
 			if($userArray['userID'] != NULL) {
 				if($userArray['score'] > $score) {
-					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID");
+					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID and problemID = $problemID");
 				}
 			} else {
 				$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");
