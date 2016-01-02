@@ -1,38 +1,37 @@
 function fileChanged() {
 	var score = storeSubmissionDatabase("submitForm", false);
-	console.log(score)
 	if (isNaN(score)) parseError()
-	else congratsError(score)
+		else congratsError(score)
 
-	reloadTables()
-}
-
-function login(user) {
-	$("#loginNav").css("display", "none");
-	$("#logoutNav").css("display", "inline");
-
-	$("#submitForm").append("<input type='hidden' name='userID' value='"+user.userID+"'>");
-}
-
-function logOut() {
-	$("#loginNav").css("display", "inline");
-	$("#logoutNav").css("display", "none");
-
-}
-
-function populateSchools() {
-	$("#schoolsDropdown").empty()
-	var schools = getSchools()
-	for(var a = 0; a < schools.length; a++) {
-		$("#schoolsDropdown").append("<li><a href='school.php?schoolName="+schools[a]+"'>"+schools[a]+"</a></li>");
+			reloadTables()
 	}
-}
 
-$(document).ready(function() {
-	$(".pageContent").css("display", "none");
-	populateSchools();
+	function login(user) {
+		$("#loginNav").css("display", "none");
+		$("#logoutNav").css("display", "inline");
 
-	var user = getSession();
+		$("#submitForm").append("<input type='hidden' name='userID' value='"+user.userID+"'>");
+	}
+
+	function logOut() {
+		$("#loginNav").css("display", "inline");
+		$("#logoutNav").css("display", "none");
+
+	}
+
+	function populateSchools() {
+		$("#schoolsDropdown").empty()
+		var schools = getSchools()
+		for(var a = 0; a < schools.length; a++) {
+			$("#schoolsDropdown").append("<li><a href='school.php?schoolName="+schools[a]+"'>"+schools[a]+"</a></li>");
+		}
+	}
+
+	$(document).ready(function() {
+		$(".pageContent").css("display", "none");
+		populateSchools();
+
+		var user = getSession();
 
 	// not logged in
 	if(user == null) {
@@ -62,16 +61,27 @@ $(document).ready(function() {
 		});
 	});
 
+	$("#loginForm input").keypress(function(event) {
+		if (event.which == 13) {
+			event.preventDefault();
+			$('#loginButton').trigger('click');
+		}
+	});
+
+	$("#registerForm input").keypress(function(event) {
+		if (event.which == 13) {
+			event.preventDefault();
+			$('#registerButton').trigger('click');
+		}
+	});
+
 	$("#loginButton").click(function() {
-		console.log("log in")
 		var email = $("#login_user").val();
 		var password = $("#login_pass").val();
 		
 		if(getUser(null, email, password) == null) {
-			console.log("error")
 			loginError("Email password combination could not be found.")
 		} else {
-			console.log("not error")
 			storeUserSession(null, email, password, false);
 			login(getSession());
 		}
@@ -100,15 +110,15 @@ $(document).ready(function() {
 		
 		var response = "Enter your school email.";
 		if (domain === "horacemann.org") response = "Horace Mann School"
-		else if (domain === "dalton.org") response = "The Dalton School"
-		else if (domain === "stuy.edu") response = "Stuyvesant High School"
-		else if (domain === "ecfs.org") response = "Ethical Culture Fieldston School"
-		else if (domain === "trinityschoolnyc.org") response = "Trinity School"
-		else if (domain === "bxscience.edu") response = "Bronx Science"
-		else if (domain === "riverdale.edu") response = "Riverdale Country School"
+			else if (domain === "dalton.org") response = "The Dalton School"
+				else if (domain === "stuy.edu") response = "Stuyvesant High School"
+					else if (domain === "ecfs.org") response = "Ethical Culture Fieldston School"
+						else if (domain === "trinityschoolnyc.org") response = "Trinity School"
+							else if (domain === "bxscience.edu") response = "Bronx Science"
+								else if (domain === "riverdale.edu") response = "Riverdale Country School"
 
-		$("#schoolField").html(response);
-	})
+									$("#schoolField").html(response);
+							})
 
 	$('#submitButton').click(function() {
 		$('#myFile').click();
@@ -133,14 +143,14 @@ $(window).load(function() {
 	$(".pageContent").fadeIn(300);
 
 	$("a").click(function(event){
-        event.preventDefault();
-        linkLocation = this.href;
-        if (linkLocation.indexOf("#") == -1) $(".pageContent").fadeOut(200, redirectPage);
-    });
+		event.preventDefault();
+		linkLocation = this.href;
+		if (linkLocation.indexOf("#") == -1) $(".pageContent").fadeOut(200, redirectPage);
+	});
 
-    function redirectPage() {
+	function redirectPage() {
 		window.location = linkLocation;
-    }
+	}
 });
 
 function loginError(errorMessage) {
