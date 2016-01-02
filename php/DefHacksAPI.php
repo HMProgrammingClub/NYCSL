@@ -156,7 +156,6 @@ class DefHacksAPI extends API
 			$firstName = $_POST['firstName'];
 			$lastName = $_POST['lastName'];
 			$schoolName = "";
-			exec("php MailOperation.php \"truell20@gmail.com\" 12 12 \"$firstName $lastName\"> /dev/null 2>/dev/null &");
 
 			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				$domain = array_pop(explode('@', $email));
@@ -176,7 +175,7 @@ class DefHacksAPI extends API
 			if (strlen($_POST['password']) < 4) return "Password too short.";
 			if (strlen(preg_replace('/\s+/','',$firstName)) < 2 && strlen(preg_replace('/\s+/','',$lastName)) < 2) return "Must enter a valid name.";
 
-			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName, isVerified) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName', 0)");
+			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName, isVerified) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName', 1)");
 
 			$userIDArray = $this->select("SELECT userID FROM User WHERE email = '$email' LIMIT 1");
 			$userID = $userIDArray['userID'];
@@ -184,7 +183,7 @@ class DefHacksAPI extends API
 			$verificationCode = rand(0, 99999);
 			$this->insert("INSERT INTO Verification (userID, verificationCode) VALUES ($userID, $verificationCode)");
 			
-			exec("php MailOperation.php \"$email\" $userID $verificationCode \"$firstName $lastName\"> /dev/null 2>/dev/null &");
+			//exec("php MailOperation.php \"$email\" $userID $verificationCode \"$firstName $lastName\"> /dev/null 2>/dev/null &");
 		} else {
 			return NULL;
 		}
@@ -307,10 +306,10 @@ class DefHacksAPI extends API
 			$score = intval($pythonOutput[0]);
 
 			
-			$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID");
+			$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
 			if($userArray['userID'] != NULL) {
 				if($userArray['score'] > $score) {
-					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID");
+					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID and problemID = $problemID");
 				}
 			} else {
 				$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");

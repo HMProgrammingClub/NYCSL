@@ -82,7 +82,7 @@ public class RM_Starter {
 		// Get the names of all the roommates and put them in the names vector
 		// Make sure that this code can access the input file 
 		// and that the input file is named input.txt
-		ArrayList<String> names = getProblem("input.txt");
+		ArrayList<String> names = getProblem("rm.txt");
 		
 		// Will be a 2-d vector of names. Every vector inside this vector represents a room.
 		ArrayList<ArrayList<String>> solution = new ArrayList<ArrayList<String>>();
