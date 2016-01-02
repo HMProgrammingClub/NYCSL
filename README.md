@@ -22,10 +22,21 @@ Currently the following schools are supported. If you'd like your school to be a
 - Bronx Science
 
 
+## Technical
+
+The website utilizes a LAMP backend (Linux, Apache, MySQL and PHP) for the majority of tasks.  However, problem grading is done through Python scripts called from PHP.  The backend is organized as a RESTful API.
+
+The front-end is JavaScript + jQuery for scripting and Bootstrap 3 using FezVrasta's wonderful [bootstrap-material-design](https://github.com/FezVrasta/bootstrap-material-design) theme for style.
+
 ##Todo
 
+- Fix email verification bug
 - Only load top ~20 on leaderboard
 	- Button to load 10 more 
+- User overall score
+	- Base score for competition participation + inverse of placing (1st / 30 people) = 30 points
+	- Overall leaderboard
+	- Badges?
 - Remove js redundancy
 - Reduce backend calls
 - Password recovery
