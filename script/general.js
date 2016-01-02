@@ -97,8 +97,7 @@ function fileChanged() {
 			if (resp === "Success") {
 				$("#messageBox").empty()
 				storeUserSession(null, email, password, false);
-				//verifyAccountMessage();i
-				login(getSession());
+				verifyAccountMessage();
 			} else registerError(resp);
 		});
 
@@ -160,8 +159,8 @@ function loginError(errorMessage) {
 }
 
 function verifyAccountMessage() {
-	/*$("#messageBox").empty()
-	$("#messageBox").append($("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Verify Your Account.</strong>&nbsp;&nbsp;Your registration was sucessful. Visit your email to verify your account! You have to do this before you log in.</div>"))*/
+	$("#messageBox").empty()
+	$("#messageBox").append($("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Verify Your Account.</strong>&nbsp;&nbsp;Your registration was sucessful. Visit your email to verify your account! You have to do this before you log in.</div>"))
 }
 
 function registerError(errorMessage) {
