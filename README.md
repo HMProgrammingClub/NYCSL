@@ -30,13 +30,13 @@ The front-end is JavaScript + jQuery for scripting and Bootstrap 3 using FezVras
 
 ##Todo
 
-- Fix email verification bug
 - Only load top ~20 on leaderboard
 	- Button to load 10 more 
 - User overall score
 	- Base score for competition participation + inverse of placing (1st / 30 people) = 30 points
 	- Overall leaderboard
 	- Badges?
+- Show number of submissions on the leaderboard
 - Remove js redundancy
 - Reduce backend calls
 - Password recovery
