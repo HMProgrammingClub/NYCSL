@@ -61,7 +61,6 @@ public class RM_Starter {
 			int index = 0;
 			for (ArrayList<String> p : solution)
 			{
-				System.out.println(index);
 				index++;
 				for(String s : p)
 				{
