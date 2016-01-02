@@ -294,6 +294,7 @@ class DefHacksAPI extends API
 			$problemArray = $problemArrayArray[count($problemArrayArray)-1];
 			$problemID = $problemArray['problemID'];
 			$problemName = $problemArray['problemName'];
+			$isAscending = $problemArray['isAscending'];
 
 			$targetPath = "../problems/outputs/$problemName/";
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
@@ -308,7 +309,7 @@ class DefHacksAPI extends API
 			
 			$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
 			if($userArray['userID'] != NULL) {
-				if($userArray['score'] > $score) {
+				if(($isAscending == true && $userArray['score'] > $score) || ($isAscending == false && $userArray['score'] < $score)) {
 					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID and problemID = $problemID");
 				}
 			} else {
