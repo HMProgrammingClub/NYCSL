@@ -36,7 +36,7 @@ int main()
 	// Get the names of all the roommates and put them in the names vector
 	// Make sure that this code can access the input file 
 	// and that the input file is named input.txt
-	vector<string> names = getProblem("input.txt");
+	vector<string> names = getProblem("rm.txt");
 
 	// Will be a 2-d vector of names. Every vector inside this vector represents a room.
 	vector< vector<string> > solution;
