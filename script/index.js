@@ -88,7 +88,6 @@ $( document ).ready(function() {
 
 	displayProblem(index)
 
-	console.log("ver: "+getGET("didVerify"))
 	if(getGET("didVerify") != null) verifySuccess()
 	if(getGET("didNotVerify") != null) verifyError()
 

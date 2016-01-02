@@ -24,10 +24,10 @@ function getUser(userID, email, password) {
 			method: "GET",
 			data: {userID: userID}
 		});
-		console.log(result.responseJSON);
+
 		return result.responseJSON;
 	} else {
-		console.log("Your arguments are messed up");
+
 	}
 }
 
@@ -38,12 +38,11 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 		method: "POST",
 		data: {email: email, password: password, firstName: firstName, lastName: lastName, async: async},
 		success: function (data) {
-			console.log(data);
+
 			callback(data);            
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
-			console.log(xhr.responseText);
-			console.log(thrownError);
+
 		}
 	});
 }
@@ -64,12 +63,11 @@ function storeUserSession(userID, email, password, async) {
 			data: {email: email, password: password},
 			success: function(result) {},
 			error: function (xhr, ajaxOptions, thrownError) {
-				console.log(xhr.responseText);
-				console.log(thrownError);
+
 			}
 		});
 	} else {
-		console.log("Your arguments are messed up");
+
 	}
 }
 
@@ -108,8 +106,7 @@ function getProblemSubmissions(problemID) {
 			method: "GET",
 			success: function(result) {},
 			error: function (xhr, ajaxOptions, thrownError) {
-				console.log(xhr.responseText);
-				console.log(thrownError);
+
 			}
 		});
 		return result.responseJSON;
@@ -121,8 +118,7 @@ function getProblemSubmissions(problemID) {
 			data: {problemID: problemID},
 			success: function(result) {},
 			error: function (xhr, ajaxOptions, thrownError) {
-				console.log(xhr.responseText);
-				console.log(thrownError);
+
 			}
 		});
 		return result.responseJSON;
@@ -137,8 +133,7 @@ function getProblemSubmissionsWithSchool(problemID, schoolName) {
 		data: {problemID: problemID, schoolName: schoolName},
 		success: function(result) {},
 		error: function (xhr, ajaxOptions, thrownError) {
-			console.log(xhr.responseText);
-			console.log(thrownError);
+
 		}
 	});
 	return result.responseJSON;
@@ -171,8 +166,7 @@ function getSchools() {
 		method: "GET",
 		success: function(result) {},
 		error: function (xhr, ajaxOptions, thrownError) {
-			console.log(xhr.responseText);
-			console.log(thrownError);
+
 		}
 	});
 	return result.responseJSON;
@@ -233,14 +227,13 @@ function storeSubmissionDatabase(formID) {
 			return myXhr;
 		},
 		success: function(result) {
-			console.log(result)
+
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
-			console.log(xhr.responseText);
-			console.log(thrownError);
+
 		}
 	})
-	console.log(result)
+
 	return result.responseJSON;
 }
 
@@ -252,8 +245,7 @@ function verifyEmail(userID, verificationCode) {
 		data: {userID: userID, code: verificationCode},
 		success: function(result) {},
 		error: function (xhr, ajaxOptions, thrownError) {
-			console.log(xhr.responseText);
-			console.log(thrownError);
+
 		}
 	});
 
