@@ -25,7 +25,7 @@ def outputSolutionToFile(name, solution):
 # Get the names of all the roommates and put them in the names list
 # Make sure that this code can access the input file 
 # and that the input file is named input.txt
-names = getProblem("input.txt")
+names = getProblem("rm.txt")
 
 # Will be a 2-d list of names. Every list inside this list represents a room.
 solution = []
