@@ -16,9 +16,9 @@ function populateSchoolTabs(school) {
 	var schools = getSchools()
 	for(var a = 0; a < schools.length; a++) {
 		if (schools[a] === school) {
-			$("#schoolTabs").append("<li role='presentation' class='schoolTab active' schoolName='"+schools[a].replace(/ /g,'')+"'><a href='#' id='tab"+schools[a].replace(/ /g,'')+"' class='tabby'>"+schools[a]+"</a></li>");
+			$("#schoolTabs").append("<li role='presentation' class='schoolTab active' schoolName='"+schools[a]+"'><a href='#' id='tab"+schools[a].replace(/ /g,'')+"' class='tabby'>"+schools[a]+"</a></li>");
 		} else {
-			$("#schoolTabs").append("<li role='presentation' class='schoolTab' schoolName='"+schools[a].replace(/ /g,'')+"'><a href='#' id='tab"+schools[a].replace(/ /g,'')+"' class='tabby'>"+schools[a]+"</a></li>");
+			$("#schoolTabs").append("<li role='presentation' class='schoolTab' schoolName='"+schools[a]+"'><a href='#' id='tab"+schools[a].replace(/ /g,'')+"' class='tabby'>"+schools[a]+"</a></li>");
 		}
 	}
 }
