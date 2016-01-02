@@ -306,7 +306,7 @@ class DefHacksAPI extends API
 			$score = intval($pythonOutput[0]);
 
 			
-			$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID");
+			$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
 			if($userArray['userID'] != NULL) {
 				if($userArray['score'] > $score) {
 					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID");
