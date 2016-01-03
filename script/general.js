@@ -170,7 +170,7 @@ function registerError(errorMessage) {
 
 function parseError(errorMessage) {
 	$("#messageBox").empty()
-	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;Error message: \""+errorMessage+".\" Please check your output file and try again.</div>"))
+	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;Error message: \""+errorMessage+".\" Please check your submission file and try again.</div>"))
 }
 
 function congratsError(score) {
