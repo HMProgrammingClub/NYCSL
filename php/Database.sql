@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 29, 2015 at 03:00 PM
+-- Generation Time: Jan 02, 2016 at 07:23 PM
 -- Server version: 5.5.46-0ubuntu0.14.04.2
 -- PHP Version: 5.5.9-1ubuntu4.14
 
@@ -33,16 +33,15 @@ CREATE TABLE IF NOT EXISTS `Problem` (
   `problemFullName` varchar(256) NOT NULL,
   `problemDescription` text NOT NULL,
   PRIMARY KEY (`problemID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `Problem`
 --
 
 INSERT INTO `Problem` (`problemID`, `problemName`, `isAscending`, `problemFullName`, `problemDescription`) VALUES
-(2, 'RM', 0, 'Roommate Problem', 'Pair similar roommates together in the most optimal way.'),
-(4, 'ST', 1, 'Steiner Tree Problem', 'Connect the dots in the most efficient way possible.'),
-(5, 'TSP', 1, 'Traveling Salesman Problem', 'Find the optimal route through a set of 500 points in 3D space.');
+(1, 'TSP', 1, 'Traveling Salesman Problem', 'Find the optimal route through a set of 500 points in 3D space.'),
+(2, 'RM', 0, 'Roommate Problem', 'Pair similar roommates together in the most optimal way.');
 
 -- --------------------------------------------------------
 
@@ -56,33 +55,20 @@ CREATE TABLE IF NOT EXISTS `Submission` (
   `problemID` mediumint(8) unsigned NOT NULL,
   `score` mediumint(8) unsigned NOT NULL,
   PRIMARY KEY (`submissionID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=63 ;
 
 --
 -- Dumping data for table `Submission`
 --
 
 INSERT INTO `Submission` (`submissionID`, `userID`, `problemID`, `score`) VALUES
-(24, 4, 5, 9989),
-(25, 3, 5, 1946),
-(26, 5, 5, 6754),
-(28, 7, 5, 12444),
-(29, 9, 5, 11043),
-(31, 4, 2, 9989),
-(32, 5, 2, 99954),
-(33, 6, 2, 106543),
-(34, 7, 2, 38352),
-(36, 8, 2, 4244),
-(37, 9, 2, 3246654),
-(38, 8, 5, 13132),
-(39, 11, 5, 1922),
-(40, 11, 2, 103242),
-(41, 12, 5, 8352),
-(42, 12, 2, 7288),
-(43, 3, 4, 10326),
-(44, 4, 4, 9989),
-(45, 9, 4, 22453),
-(52, 11, 4, 1922);
+(56, 71, 2, 12846782),
+(57, 90, 2, 49268),
+(58, 90, 1, 108971),
+(59, 81, 1, 108827),
+(60, 69, 1, 105210),
+(61, 68, 1, 110446),
+(62, 92, 2, 7);
 
 -- --------------------------------------------------------
 
@@ -92,31 +78,68 @@ INSERT INTO `Submission` (`submissionID`, `userID`, `problemID`, `score`) VALUES
 
 CREATE TABLE IF NOT EXISTS `User` (
   `userID` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(32) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL,
   `firstName` varchar(32) NOT NULL,
   `lastName` varchar(32) NOT NULL,
   `schoolName` varchar(64) NOT NULL,
+  `isVerified` tinyint(1) NOT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=94 ;
 
 --
 -- Dumping data for table `User`
 --
 
-INSERT INTO `User` (`userID`, `email`, `password`, `firstName`, `lastName`, `schoolName`) VALUES
-(3, 'lucakoval@me.com', 'fu8/UiE30TaQE', 'Luca', 'Koval', 'Horace Mann'),
-(4, 'michael_truell@horacemann.org', 'fu8/UiE30TaQE', 'Michael', 'Truell', 'Horace Mann'),
-(5, 'joesmith@gmail.com', 'fu8/UiE30TaQE', 'Joe', 'Smith', 'Horace Mann'),
-(6, 'luca_koval@horacemann.org', 'fu8/UiE30TaQE', 'Frederic', 'Koval', 'Horace Mann'),
-(7, 'HerpDerp@gmail.com', 'fu8/UiE30TaQE', 'Herbert', 'Derpert', 'Stuyvesant'),
-(8, 'joshuagruenstein@gmail.com', 'fu8/UiE30TaQE', 'Joshua', 'Gruenstein', 'Horace Mann'),
-(9, 'melissa@stuy.org', 'fu8/UiE30TaQE', 'Melissa', 'Goldsmith', 'Stuyvesant'),
-(11, 'logins@bronx.org', 'fu8/UiE30TaQE', 'Billy', 'Logins', 'Bronx Science'),
-(12, 'paul@bronxscience.org', 'fu8/UiE30TaQE', 'Paul', 'Offerson', 'Bronx Science'),
-(13, 'george@horacemann.org', 'fu8/UiE30TaQE', 'George', 'Free', 'Horace Mann'),
-(38, 'mark_doty@horacemann.org', 'fu8/UiE30TaQE', 'Mark', 'Doty', 'Horace Mann');
+INSERT INTO `User` (`userID`, `email`, `password`, `firstName`, `lastName`, `schoolName`, `isVerified`) VALUES
+(68, 'gruensteinj@horacemann.org', 'fuRsgEtXRQGNA', 'Josh', 'Gruenstein', 'Horace Mann', 1),
+(69, 'benjamin_spector@horacemann.org', 'fu8/UiE30TaQE', 'Ben', 'Spector', 'Horace Mann', 1),
+(71, 'joshua_doolan@horacemann.org', 'fuwJrO9EKjMYE', 'Joshua', 'Doolan', 'Horace Mann', 1),
+(81, 'nicholas_keirstead@horacemann.org', 'fuU4HW3xqxdsA', 'Nick', 'Keirstead', 'Horace Mann', 1),
+(86, 'luca_koval@horacemann.org', 'fu8/UiE30TaQE', 'Luca', 'Koval', 'Horace Mann', 1),
+(90, 'michael_truell@horacemann.org', 'fu8/UiE30TaQE', 'Michael', 'Truell', 'Horace Mann', 1),
+(91, 'truellm@horacemann.org', 'fuTMLub7KuDUE', 'Michael', 'Truell', 'Horace Mann', 1),
+(92, 'henry_wildermuth@horacemann.org', 'fuNA9szthqt2k', 'Henry', 'Wildermuth', 'Horace Mann', 1),
+(93, 'gruenstienj@horacemann.org', 'fuNA9szthqt2k', 'Lol', 'Tehe', 'Horace Mann', 0);
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Verification`
+--
+
+CREATE TABLE IF NOT EXISTS `Verification` (
+  `userID` mediumint(8) unsigned NOT NULL,
+  `verificationCode` mediumint(8) unsigned NOT NULL,
+  UNIQUE KEY `userID` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Verification`
+--
+
+INSERT INTO `Verification` (`userID`, `verificationCode`) VALUES
+(51, 45266),
+(52, 57684),
+(53, 70393),
+(54, 8747),
+(55, 51287),
+(56, 68563),
+(57, 89016),
+(58, 78006),
+(61, 48500),
+(62, 68912),
+(63, 89285),
+(64, 87769),
+(65, 56458),
+(71, 99544),
+(72, 16524),
+(79, 9200),
+(82, 62729),
+(83, 78765),
+(85, 30041),
+(86, 15800),
+(87, 22329),
+(88, 45831),
+(89, 19237),
+(93, 98680);
