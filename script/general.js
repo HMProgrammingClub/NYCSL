@@ -1,37 +1,37 @@
 function fileChanged() {
 	var score = storeSubmissionDatabase("submitForm", false);
-	if (isNaN(score)) parseError()
-		else congratsError(score)
+	if (isNaN(score)) parseError(score)
+	else congratsError(score)
 
-			reloadTables()
+	reloadTables()
+}
+
+function login(user) {
+	$("#loginNav").css("display", "none");
+	$("#logoutNav").css("display", "inline");
+
+	$("#submitForm").append("<input type='hidden' name='userID' value='"+user.userID+"'>");
+}
+
+function logOut() {
+	$("#loginNav").css("display", "inline");
+	$("#logoutNav").css("display", "none");
+
+}
+
+function populateSchools() {
+	$("#schoolsDropdown").empty()
+	var schools = getSchools()
+	for(var a = 0; a < schools.length; a++) {
+		$("#schoolsDropdown").append("<li><a href='school.php?schoolName="+schools[a]+"'>"+schools[a]+"</a></li>");
 	}
+}
 
-	function login(user) {
-		$("#loginNav").css("display", "none");
-		$("#logoutNav").css("display", "inline");
+$(document).ready(function() {
+	$(".pageContent").css("display", "none");
+	populateSchools();
 
-		$("#submitForm").append("<input type='hidden' name='userID' value='"+user.userID+"'>");
-	}
-
-	function logOut() {
-		$("#loginNav").css("display", "inline");
-		$("#logoutNav").css("display", "none");
-
-	}
-
-	function populateSchools() {
-		$("#schoolsDropdown").empty()
-		var schools = getSchools()
-		for(var a = 0; a < schools.length; a++) {
-			$("#schoolsDropdown").append("<li><a href='school.php?schoolName="+schools[a]+"'>"+schools[a]+"</a></li>");
-		}
-	}
-
-	$(document).ready(function() {
-		$(".pageContent").css("display", "none");
-		populateSchools();
-
-		var user = getSession();
+	var user = getSession();
 
 	// not logged in
 	if(user == null) {
@@ -168,9 +168,9 @@ function registerError(errorMessage) {
 	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Registration failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
 }
 
-function parseError() {
+function parseError(errorMessage) {
 	$("#messageBox").empty()
-	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;Please check your output file and try again.</div>"))
+	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;Error message: \""+errorMessage+".\" Please check your output file and try again.</div>"))
 }
 
 function congratsError(score) {

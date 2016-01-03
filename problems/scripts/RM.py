@@ -24,17 +24,17 @@ with open(filename) as fileIn:
 			if w in namesSet: #and not(w in alreadyUsed):
 				for name in alreadyUsed:
 					if name == w:
-						print("Already Used")
+						print("Used a name more than once")
 						sys.exit(-1)
 				listy.append(w)
 				alreadyUsed.append(w)
 			else:
-				print('Not in set')
+				print('Used a name that is not in the input file')
 				sys.exit(-1)
 		finalList.append(listy)
 
 if len(alreadyUsed) != len(namesSet):
-	print("Not equal")
+	print("You did not use all of the names")
 	sys.exit(-1)
 
 finalSum = 0.0
