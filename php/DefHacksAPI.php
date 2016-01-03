@@ -303,7 +303,8 @@ class DefHacksAPI extends API
 
 			// Pass target file to python script
 			exec("python ../problems/scripts/$problemName.py $targetPath", $pythonOutput);
-			if(strcspn($pythonOutput[0], '0123456789') == strlen($pythonOutput[0])) return $pythonOutput[0];
+			//var_dump($pythonOutput);
+			if(strcspn($pythonOutput[0], '0123456789') != 0) return $pythonOutput[0];
 			$score = intval($pythonOutput[0]);
 
 			

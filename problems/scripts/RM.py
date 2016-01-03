@@ -21,7 +21,7 @@ with open(filename) as fileIn:
 		listy = []
 		for w in line.split(' '):
 			w = w.rstrip()
-			if w in namesSet: #and not(w in alreadyUsed):
+			if w in namesSet:
 				for name in alreadyUsed:
 					if name == w:
 						print("Used a name more than once")
@@ -31,6 +31,9 @@ with open(filename) as fileIn:
 			else:
 				print('Used a name that is not in the input file')
 				sys.exit(-1)
+		if len(listy) != 4:
+			print("You have a room with " + str(len(listy)) + " roommates. All rooms must have exactly 4 roommates")
+			sys.exit(-1)
 		finalList.append(listy)
 
 if len(alreadyUsed) != len(namesSet):
@@ -48,6 +51,6 @@ for listy in finalList:
 	summy = 0
 	for a in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
 		summy += letters[a]
-	finalSum += len(listy) * len(listy) * summy
+	finalSum += summy
 
 print(int(finalSum))

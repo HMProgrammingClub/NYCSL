@@ -1,10 +1,9 @@
 <h3>Problem Description</h3>
 
-<p>The objective of this month's competition is to group 5000 people in rooms by the common letters in their names. Each person can only be in one room, no room can contain fewer than two people, and every person must be accounted for.  Your goal is to organize roommates such that the total RoomSum is as large as possible.  The total RoomSum is calculated by:</p>
+<p>The objective of this month's competition is to group 5000 people in rooms by the common letters in their names. Each person can only be in one room, each room must have 4 people, and every person must be accounted for.  Your goal is to organize roommates such that the total RoomSum is as large as possible.  The total RoomSum is calculated by:</p>
 
 <ol>
 	<li>Finding the number of letters which are present in the names of all of the people in the room. Letters are only counted multiple times if they exist that number of times in <span style="text-decoration:underline;">every</span> member of the room.</li>
-	<li>Multiplying the number of letters from above by the number of people present in the room squared to obtain the RoomSum.</li>
 	<li>Summing the RoomSums of all the rooms to obtain the total RoomSum.</li>
 </ol>
 
@@ -23,11 +22,11 @@ name5000
 <p>You will create a list of the roommates that you want to pair. An acceptable file would look like:</p>
 
 <pre>
-roommate1-1 roommate1-2 ... roommate1-n
-roommate2-1 roommate2-2 ... roommate2-n
-roommate3-1 roommate3-2 ... roommate3-n
+roommate1-1 roommate1-2 roommate1-3 roommate1-4
+roommate2-1 roommate2-2 roommate2-3 roommate2-4
+roommate3-1 roommate3-2 roommate3-3 roommate3-4
 ...
-roommateN-n roommateN-2 ... roommateN-n
+roommateN-n roommateN-2 roommateN-3 roommateN-n
 </pre>
 
 <p><b><u>To aid you with the problem, we are providing starter packages which can be found <a href="problems/starterpackages/RM.zip" download>here</a> for Java, C++ and Python.  The input file can be found <a href="problems/input/rm.txt" download>here</a>.</u></b> Good luck!</p>
