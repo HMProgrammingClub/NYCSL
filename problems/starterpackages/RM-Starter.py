@@ -31,8 +31,8 @@ names = getProblem("rm.txt")
 solution = []
 
 # EXAMPLE SOLUTION: put people into rooms of two using their order in the names list
-for index in range(0, len(names), 2):
-	room = [names[index], names[index+1]]
+for index in range(0, len(names), 4):
+	room = [names[index], names[index+1], names[index+2], names[index+3]]
 	solution.append(room)
 
 outputSolutionToFile("PUT YOUR NAME HERE", solution)

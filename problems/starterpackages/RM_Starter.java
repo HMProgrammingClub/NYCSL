@@ -88,10 +88,12 @@ public class RM_Starter {
 		ArrayList<ArrayList<String>> solution = new ArrayList<ArrayList<String>>();
 
 		// EXAMPLE SOLUTION: put people into rooms of two using their order in the names vector
-		for(int a = 0; a < names.size(); a += 2) {
+		for(int a = 0; a < names.size(); a += 4) {
 			ArrayList<String> room = new ArrayList<String>();
 			room.add(names.get(a));
 			room.add(names.get(a+1));
+			room.add(names.get(a+2));
+			room.add(names.get(a+3));
 
 			solution.add(room);
 		}

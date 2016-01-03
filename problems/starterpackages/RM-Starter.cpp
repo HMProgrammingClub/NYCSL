@@ -42,10 +42,12 @@ int main()
 	vector< vector<string> > solution;
 
 	// EXAMPLE SOLUTION: put people into rooms of two using their order in the names vector
-	for(int a = 0; a < names.size(); a += 2) {
+	for(int a = 0; a < names.size(); a += 4) {
 		vector<string> room;
 		room.push_back(names[a]);
 		room.push_back(names[a+1]);
+		room.push_back(names[a+2]);
+		room.push_back(names[a+3]);
 
 		solution.push_back(room);
 	}
