@@ -98,7 +98,7 @@
 						<span class="material-input"></span>
 					</div>
 					<div style="text-align:center;width:100%">
-						<button id="recover" type="submit" class="btn btn-primary">Recover</button>
+						<button id="recoverButton" type="submit" class="btn btn-primary">Recover</button>
 					</div>
 			</div>
 		</div>
