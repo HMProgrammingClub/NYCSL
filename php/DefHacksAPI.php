@@ -66,6 +66,34 @@ class DefHacksAPI extends API
 		mysqli_query($this->mysqli, $sql);
 	}
 
+	private function postToSlack($inString) {
+		$url = 'https://hooks.slack.com/services/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';
+		$fields = array(
+			'channel' => urlencode('#programming_electronics'),
+			'username' => urlencode('NYCSL'),
+			'text' => urlencode($inString),
+			'icon_emoji' => urlencode(':lion:')
+		);
+
+		//url-ify the data for the POST
+		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+		rtrim($fields_string, '&');
+
+		//open connection
+		$ch = curl_init();
+
+		//set the url, number of POST vars, POST data
+		curl_setopt($ch,CURLOPT_URL, $url);
+		curl_setopt($ch,CURLOPT_POST, count($fields));
+		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+		//execute post
+		$result = curl_exec($ch);
+
+		//close connection
+		curl_close($ch);
+	}
+
 	// API ENDPOINTS
 	protected function schools() {
 		if($this->method == 'GET') {
@@ -312,6 +340,7 @@ class DefHacksAPI extends API
 			if($userArray['userID'] != NULL) {
 				if(($isAscending == true && $userArray['score'] > $score) || ($isAscending == false && $userArray['score'] < $score)) {
 					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID and problemID = $problemID");
+					postToSlack("New Score!");
 				}
 			} else {
 				$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");
