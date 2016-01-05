@@ -17,6 +17,7 @@ $(document).ready(function() {
 		window.location.href = "index.php";
 	}
 	var user = getUser(userID, null, null)
+	document.title = user.firstName + " " + user.lastName + ": NYCSL";
 
 	$("#jHeader").html(user.firstName + " " + user.lastName)
 	$("#jParagraph").html("<a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a>")
