@@ -50,8 +50,8 @@ public class RM_Starter {
 	}
 
 	/* Outputs your solution to a text file
-	 * The solutions should be a two dimensional vector of names
-	 * Each vector inside the solution vector represents a room
+	 * The solutions should be a two dimensional ArrayList of names
+	 * Each ArrayList inside the solution ArrayList represents a room
 	*/
 	public static void output(String name, ArrayList<ArrayList<String>> solution) {
 		PrintWriter writer;
@@ -79,15 +79,15 @@ public class RM_Starter {
 	}
 	
 	public static void main(String[] args) {
-		// Get the names of all the roommates and put them in the names vector
+		// Get the names of all the roommates and put them in the names ArrayList
 		// Make sure that this code can access the input file 
 		// and that the input file is named input.txt
 		ArrayList<String> names = getProblem("rm.txt");
 		
-		// Will be a 2-d vector of names. Every vector inside this vector represents a room.
+		// Will be a 2-d ArrayList of names. Every ArrayList inside this ArrayList represents a room.
 		ArrayList<ArrayList<String>> solution = new ArrayList<ArrayList<String>>();
 
-		// EXAMPLE SOLUTION: put people into rooms of two using their order in the names vector
+		// EXAMPLE SOLUTION: put people into rooms of two using their order in the names ArrayList
 		for(int a = 0; a < names.size(); a += 4) {
 			ArrayList<String> room = new ArrayList<String>();
 			room.add(names.get(a));
