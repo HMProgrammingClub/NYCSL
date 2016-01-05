@@ -102,6 +102,7 @@ $(document).ready(function() {
 		});
 		setSelected($(this).children('a')[0],true)
 		schoolName = $(this).attr("schoolName")
+		document.title = schoolName + ": NYCSL";
 		populateLeaderboard(getProblemWithIndex(index).problemID, schoolName, index)
 	}); 
 
