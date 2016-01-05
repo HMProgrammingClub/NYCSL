@@ -79,12 +79,12 @@ class DefHacksAPI extends API
 		    'http' => array(
 		        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
 		        'method'  => 'POST',
-		        'content' => http_build_query($fields),
+		        'content' => http_build_query($fields)
 		    ),
 		);
 
 		$context  = stream_context_create($options);
-		echo file_get_contents($url, false, $context);
+		$result = file_get_contents($url, false, $context);
 	}
 
 	// API ENDPOINTS
