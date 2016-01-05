@@ -34,7 +34,8 @@
 								<input id="login_pass" class="form-control" type="password" size="30" >
 								<span class="material-input"></span>
 							</div>
-							<input id="loginButton" class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px; margin-bottom:15px" type="submit" name="commit" value="Login" />
+							<input id="loginButton" class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px; margin-bottom:0px" type="submit" name="commit" value="Login" />
+							<button class="btn btn-secondary" data-toggle="modal" data-target="#forgotModal" style="clear: left; width: 100%; height: 32px; font-size: 13px; margin-bottom:15px">Forgot</button>
 						</ul>
 					</li>
 
@@ -76,3 +77,30 @@
 		</div>
 	</div>
 </nav><div id="messageBox"></div>
+
+<div class="modal fade" id="forgotModal" tabindex="-1" role="dialog" aria-labelledby="forgotModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h3 class="modal-title" id="myModalLabel">Password Recovery</h3>
+			</div>
+			<div class="modal-body" >
+					<div class="alert alert-danger" role="alert" id="noEmailRecoveryAlert" style="display:none">
+						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						<span class="sr-only">Error:</span>
+						Email could not be found in our database.
+					</div>
+					<p>Please enter your school email below and we will send you a recovery link.</p>
+					<div class="form-group label-floating is-empty" style="text-align:left">
+						<label for="forgotMail" class="control-label">Email</label>
+						<input id="forgotMail" class="form-control" type="email" size="30" >
+						<span class="material-input"></span>
+					</div>
+					<div style="text-align:center;width:100%">
+						<button id="recover" type="submit" class="btn btn-primary">Recover</button>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
