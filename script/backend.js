@@ -17,7 +17,7 @@ function getUser(userID, email, password) {
 			data: {email: email, password: password}
 		});
 		return result.responseJSON;
-	}else if(userID != null) {
+	} else if(userID != null) {
 		var result = $.ajax({
 			url: url+"user", 
 			async: false,
@@ -26,8 +26,13 @@ function getUser(userID, email, password) {
 		});
 
 		return result.responseJSON;
-	} else {
-
+	} else if (email != null) {
+		var result = $.ajax({
+			url: url+"user", 
+			async: false,
+			method: "GET",
+			data: {email: email}
+		});
 	}
 }
 
@@ -94,6 +99,16 @@ function getProblem(problemID) {
 		async: false,
 		method: "GET",
 		data: {problemID: problemID}
+	});
+	return result.responseJSON;
+}
+
+function recoverEmail(email) {
+	var result = $.ajax({
+		url: url+"recover", 
+		async: false,
+		method: "GET",
+		data: {email: email}
 	});
 	return result.responseJSON;
 }

@@ -86,6 +86,17 @@ $(document).ready(function() {
 			login(getSession());
 		}
 	})
+
+	$("#recoverButton").click(function() {
+		var email = $("#forgotMail").val();
+		if(getUser(null, email, null) == null) {
+			$("#noEmailRecoveryAlert").css("display", "block");
+		} else {
+			$("#noEmailRecoveryAlert").css("display", "none");
+			$('#forgotModal').modal('hide');
+			recoverEmail(email);
+		}
+	});
 	
 	$("#registerButton").click(function() {
 		var email = $("#register_email").val();
