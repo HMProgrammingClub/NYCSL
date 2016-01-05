@@ -93,6 +93,15 @@ class DefHacksAPI extends API
 		}
 	}
 
+	protected function recover() {
+		if (isset($_GET['email'])) {
+			$email = $_GET['email'];
+			if (count($this->select("SELECT * FROM User WHERE email = '$email' AND isVerified = 1")) > 0) {
+				// SEND RECOVERY EMAIL THING
+			}
+		}
+	}
+
 	protected function session() {
 		session_start();
 		if($this->method == 'GET') {
@@ -190,6 +199,9 @@ class DefHacksAPI extends API
 			$this->insert("INSERT INTO Verification (userID, verificationCode) VALUES ($userID, $verificationCode)");
 			
 			exec("php MailOperation.php \"$email\" $userID $verificationCode \"$firstName $lastName\"> /dev/null 2>/dev/null &");
+		} elseif(isset($_GET['email'])) {
+			$email = $_GET['email'];
+			return $this->select("SELECT userID FROM User WHERE email = '$email' and isVerified = 1");
 		} else {
 			return NULL;
 		}

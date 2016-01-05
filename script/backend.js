@@ -33,6 +33,7 @@ function getUser(userID, email, password) {
 			method: "GET",
 			data: {email: email}
 		});
+		return result.responseJSON;
 	}
 }
 
