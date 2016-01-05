@@ -75,23 +75,16 @@ class DefHacksAPI extends API
 			'icon_emoji' => urlencode(':lion:')
 		);
 
-		//url-ify the data for the POST
-		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-		rtrim($fields_string, '&');
+		$options = array(
+		    'http' => array(
+		        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+		        'method'  => 'POST',
+		        'content' => http_build_query($fields),
+		    ),
+		);
 
-		//open connection
-		$ch = curl_init();
-
-		//set the url, number of POST vars, POST data
-		curl_setopt($ch,CURLOPT_URL, $url);
-		curl_setopt($ch,CURLOPT_POST, count($fields));
-		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-
-		//execute post
-		$result = curl_exec($ch);
-
-		//close connection
-		curl_close($ch);
+		$context  = stream_context_create($options);
+		echo file_get_contents($url, false, $context);
 	}
 
 	// API ENDPOINTS
