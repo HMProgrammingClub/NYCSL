@@ -107,16 +107,6 @@ function getProblem(problemID) {
 	return result.responseJSON;
 }
 
-function recoverEmail(email) {
-	var result = $.ajax({
-		url: url+"recover", 
-		async: false,
-		method: "GET",
-		data: {email: email}
-	});
-	return result.responseJSON;
-}
-
 function getProblemSubmissions(problemID) {
 	if(problemID == null) {
 		var result = $.ajax({
