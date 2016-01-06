@@ -241,7 +241,7 @@ function sendRecoveryEmail(email) {
 		method: "POST",
 		data: {email: email}
 	});
-
+	console.log(result)
 	return result.responseJSON;
 }
 
