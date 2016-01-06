@@ -94,7 +94,7 @@ $(document).ready(function() {
 		} else {
 			$("#noEmailRecoveryAlert").css("display", "none");
 			$('#forgotModal').modal('hide');
-			recoverEmail(email);
+			sendRecoveryEmail(email);
 		}
 	});
 	
