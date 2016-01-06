@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 	$("#recoButton").click(function() {
 		var pass = ("#passField").val();
-		var result = sendRecoveryEmail(userID, recoveryCode, pass)
+		var result = recoverEmail(userID, recoveryCode, pass)
 		if(result == null) window.location.href = "index.php?didNotRecover=1"
 		else window.location.href = "index.php?didRecover=1"
 	})
