@@ -1,8 +1,9 @@
 var url = "php/"
 
 function getUser(userID, email, password) {
+	var result = null;
 	if(userID != null && password != null) {
-		var result = $.ajax({
+		result = $.ajax({
 			url: url+"user", 
 			async: false,
 			method: "GET",
@@ -10,7 +11,7 @@ function getUser(userID, email, password) {
 		});
 		return result.responseJSON;
 	} else if(email != null && password != null) {
-		var result = $.ajax({
+		result = $.ajax({
 			url: url+"user", 
 			async: false,
 			method: "GET",
@@ -18,7 +19,7 @@ function getUser(userID, email, password) {
 		});
 		return result.responseJSON;
 	} else if(userID != null) {
-		var result = $.ajax({
+		result = $.ajax({
 			url: url+"user", 
 			async: false,
 			method: "GET",
@@ -27,14 +28,20 @@ function getUser(userID, email, password) {
 
 		return result.responseJSON;
 	} else if (email != null) {
-		var result = $.ajax({
+		result = $.ajax({
 			url: url+"user", 
 			async: false,
 			method: "GET",
-			data: {email: email}
+			data: {email: email},
+			success: function(result) {
+				console.log(result)
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				console.log(xhr.responseText)
+			}
 		});
-		return result.responseJSON;
 	}
+	return result.responseJSON;
 }
 
 function storeUserBackend(email, password, firstName, lastName, async, callback) {
@@ -66,11 +73,7 @@ function storeUserSession(userID, email, password, async) {
 			url: url+"session", 
 			async: async,
 			method: "POST",
-			data: {email: email, password: password},
-			success: function(result) {},
-			error: function (xhr, ajaxOptions, thrownError) {
-
-			}
+			data: {email: email, password: password}
 		});
 	} else {
 
@@ -104,26 +107,12 @@ function getProblem(problemID) {
 	return result.responseJSON;
 }
 
-function recoverEmail(email) {
-	var result = $.ajax({
-		url: url+"recover", 
-		async: false,
-		method: "GET",
-		data: {email: email}
-	});
-	return result.responseJSON;
-}
-
 function getProblemSubmissions(problemID) {
 	if(problemID == null) {
 		var result = $.ajax({
 			url: url+"submission", 
 			async: false,
-			method: "GET",
-			success: function(result) {},
-			error: function (xhr, ajaxOptions, thrownError) {
-
-			}
+			method: "GET"
 		});
 		return result.responseJSON;
 	} else {
@@ -131,11 +120,7 @@ function getProblemSubmissions(problemID) {
 			url: url+"submission", 
 			async: false,
 			method: "GET",
-			data: {problemID: problemID},
-			success: function(result) {},
-			error: function (xhr, ajaxOptions, thrownError) {
-
-			}
+			data: {problemID: problemID}
 		});
 		return result.responseJSON;
 	}
@@ -146,11 +131,7 @@ function getProblemSubmissionsWithSchool(problemID, schoolName) {
 		url: url+"submission", 
 		async: false,
 		method: "GET",
-		data: {problemID: problemID, schoolName: schoolName},
-		success: function(result) {},
-		error: function (xhr, ajaxOptions, thrownError) {
-
-		}
+		data: {problemID: problemID, schoolName: schoolName}
 	});
 	return result.responseJSON;
 }
@@ -179,11 +160,7 @@ function getSchools() {
 	var result = $.ajax({
 		url: url+"schools", 
 		async: false,
-		method: "GET",
-		success: function(result) {},
-		error: function (xhr, ajaxOptions, thrownError) {
-
-		}
+		method: "GET"
 	});
 	return result.responseJSON;
 }
@@ -241,12 +218,6 @@ function storeSubmissionDatabase(formID) {
 		xhr: function() {
 			var myXhr = $.ajaxSettings.xhr();
 			return myXhr;
-		},
-		success: function(result) {
-
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-
 		}
 	})
 	return result.responseJSON;
@@ -257,11 +228,29 @@ function verifyEmail(userID, verificationCode) {
 		url: url+"verify", 
 		async: false,
 		method: "POST",
-		data: {userID: userID, code: verificationCode},
-		success: function(result) {},
-		error: function (xhr, ajaxOptions, thrownError) {
+		data: {userID: userID, code: verificationCode}
+	});
 
-		}
+	return result.responseJSON;
+}
+
+function sendRecoveryEmail(email) {
+	var result = $.ajax({
+		url: url+"recover", 
+		async: false,
+		method: "POST",
+		data: {email: email}
+	});
+	console.log(result)
+	return result.responseJSON;
+}
+
+function recoverEmail(userID, recoveryCode, password) {
+	var result = $.ajax({
+		url: url+"recover", 
+		async: false,
+		method: "POST",
+		data: {userID: userID, code: recoveryCode, password: password}
 	});
 
 	return result.responseJSON;

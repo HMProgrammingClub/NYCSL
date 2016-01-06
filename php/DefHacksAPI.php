@@ -94,11 +94,42 @@ class DefHacksAPI extends API
 	}
 
 	protected function recover() {
-		if (isset($_GET['email'])) {
-			$email = $_GET['email'];
-			if (count($this->select("SELECT * FROM User WHERE email = '$email' AND isVerified = 1")) > 0) {
-				// SEND RECOVERY EMAIL THING
+		if (isset($_POST['email'])) {
+			$email = $_POST['email'];
+			$userIDArray = $this->select("SELECT userID, firstName, lastName FROM User WHERE email = '$email' AND isVerified = 1");
+			if (count($userIDArray) > 0) {
+				$userID = $userIDArray['userID'];
+				$firstName = $userIDArray['firstName'];
+				$lastName = $userIDArray['lastName'];
+
+				$recoveryCode = rand(0, 99999);
+				$this->insert("INSERT INTO Recovery (userID, recoveryCode) VALUES ($userID, $recoveryCode)");
+
+				exec("php MailOperation.php \"$email\" $userID \"$firstName $lastName\" \"Click <a href='http://nycsl.io/recover.php?code={$recoveryCode}&userID={$userID}'>here</a> to change the password for $firstName $lastName at NYCSL.io. If you did not try to reset your password, ignore this message.\"> /dev/null 2>/dev/null &");
+				return "Success";
+			} else {
+				echo "Not in database";
+				return NULL;
 			}
+		} else if(isset($_POST["userID"]) && isset($_POST["code"]) && isset($_POST["password"])) {
+			// To stop the brute forcing of the recovery codes, sleep 1 second
+			sleep(1);
+
+			$userID = $_POST['userID'];
+			$recoveryCode = $_POST['code'];
+			$password = $this->encryptPassword($_POST['password']);
+
+			$returnArray = $this->select("SELECT userID FROM Recovery WHERE userID = $userID and recoveryCode = $recoveryCode");
+			if(count($returnArray) < 1) {
+				return NULL;
+			} else {
+				$this->insert("DELETE FROM Recovery WHERE userID = $userID and recoveryCode = $recoveryCode");
+				$this->insert("UPDATE User SET password = '$password' WHERE userID = $userID");
+				return "Success";
+			}
+		} else {
+			echo "No endpoint";
+			return NULL;
 		}
 	}
 
@@ -198,7 +229,7 @@ class DefHacksAPI extends API
 			$verificationCode = rand(0, 99999);
 			$this->insert("INSERT INTO Verification (userID, verificationCode) VALUES ($userID, $verificationCode)");
 			
-			exec("php MailOperation.php \"$email\" $userID $verificationCode \"$firstName $lastName\"> /dev/null 2>/dev/null &");
+			exec("php MailOperation.php \"$email\" $userID \"$firstName $lastName\" \"Click <a href='http://nycsl.io/verify.php?code={$verificationCode}&userID={$userID}'>here</a> to confirm registration for $firstName $lastName at NYCSL.io. If you did not register, ignore this message.\"> /dev/null 2>/dev/null &");
 		} elseif(isset($_GET['email'])) {
 			$email = $_GET['email'];
 			return $this->select("SELECT userID FROM User WHERE email = '$email' and isVerified = 1");
