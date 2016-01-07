@@ -6,9 +6,9 @@ A monthly programming competition for high-school students in the NY area.
 
 NYCSL, or the New York Computer Science League, is a programming competition created for New York high schools students to compete against each-other while solving algorithmic computer science problems.
 
-Each month at midnight a new challenge is posted. Programmers in NYCSL have one month to upload as many solutions as they like; only the top score is counted. Solutions are instantly graded and put up on both global and school-wide leaderboards. Problems are designed such that they are suitable for programmers of all skill levels; beginners are encouraged to participate.
+Each month at midnight a new challenge is posted. Programmers in NYCSL have one month to upload as many solutions as they like; only the top score is shown. Solutions are instantly graded and put up on both global and school-wide leaderboards. Problems are designed such that they are suitable for programmers of all skill levels; beginners are encouraged to participate.
 
-NYCSL.io was created by programmers [Josh Gruenstein](https://github.com/joshuagruenstein), [Luca Koval](https://github.com/G4Cool), [Ben Spector](https://github.com/Sydriax), and [Michael Truell](https://github.com/truell20). The project began during the defhacks("Winter",2015) hackathon by CSTUY at Facebook NY. 
+NYCSL.io was created by programmers [Josh Gruenstein](https://github.com/joshuagruenstein), [Luca Koval](https://github.com/G4Cool), [Ben Spector](https://github.com/Sydriax), and [Michael Truell](https://github.com/truell20). The project began at the defhacks("Winter",2015) hackathon by CSTUY at Facebook NY. 
 
 You may contact us at [contact@nycsl.io](mailto:contact@nycsl.io). 
 
@@ -22,7 +22,6 @@ Currently the following schools are supported. If you'd like your school to be a
 - Fieldston
 - Trinity
 - Bronx Science
-
 
 ## Technical
 
@@ -39,10 +38,9 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 ### Release 1.0
 - Only load top ~20 on leaderboard
 	- Button to load 10 more 
-- Show number of submissions on the leaderboard
 - Remove js redundancy
 - Reduce backend calls
-- Password recovery
+- Security
 
 ### Release 2.0
 - User overall score
@@ -50,4 +48,5 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 	- Overall leaderboard
 	- Badges?
 - Basic chatroom for participants to discuss and collaborate in 
+- Show number of submissions on the leaderboard?
 - Full user settings pages
