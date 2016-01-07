@@ -21,10 +21,10 @@ class DefHacksAPI extends API
 
 	private function sanitizeHTTPParameters() {
 		foreach ($_GET as $key => $value) {
-			$_GET[$key] = $this->mysqli->real_escape_string($value);
+			$_GET[$key] = escapeshellcmd($this->mysqli->real_escape_string($value));
 		}
 		foreach ($_POST as $key => $value) {
-			$_POST[$key] = $this->mysqli->real_escape_string($value);
+			$_POST[$key] = escapeshellcmd($this->mysqli->real_escape_string($value));
 		}
 	}
 
