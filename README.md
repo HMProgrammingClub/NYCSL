@@ -38,9 +38,11 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 ### Release 1.0
 - Only load top ~20 on leaderboard
 	- Button to load 10 more 
+- Add Memchached
 - Remove js redundancy
 - Reduce backend calls
-- Security
+- Test for Security Vunerabilities
+- On the user page show the number of people who participated in the competition with the person's rank in the competition
 
 ### Release 2.0
 - User overall score
