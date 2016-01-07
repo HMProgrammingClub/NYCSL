@@ -4,13 +4,11 @@
 #include <fstream>
 #include <time.h>
 
-using namespace std;
-
 // Loads in names of all roommates from the input file into a string vector
 vector<string> getProblem(const string f) {
 	ifstream input(f);
 	vector<string> answer;
-	for( std::string line; getline( input, line ); ) {
+	for(string line; getline(input, line);) {
 		answer.push_back(line);
 	} return answer;
 }

@@ -1,52 +1,30 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class RM_Starter {
 	// Loads in names of all roommates from the input file into an ArrayList
-	public static ArrayList<String> getProblem(String filename)
-	{
-		String line = null;
-		
+	public static ArrayList<String> getProblem(String filename) {
+		String line;
+
 		try {
             // FileReader reads text files in the default encoding.
-            FileReader fileReader = 
-                new FileReader(filename);
+			FileReader fileReader = new FileReader(filename);
 
             // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader = 
-                new BufferedReader(fileReader);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            ArrayList<String> names = new ArrayList<String>(0);
-           
-            while((line = bufferedReader.readLine()) != null) {
-            	names.add(line.trim());
-            }
-            
-            bufferedReader.close();   
-            
-            return names;
-        }
-        catch(FileNotFoundException ex) {
-            System.out.println(
-                "Unable to open file '" + 
-                filename + "'");                
-        }
-        catch(IOException ex) {
-            System.out.println(
-                "Error reading file '" 
-                + filename + "'");                  
-            // Or we could just do this: 
-            // ex.printStackTrace();
-        }
-		return null;
+			ArrayList<String> names = new ArrayList<String>(0);
+			while((line = bufferedReader.readLine()) != null) {
+				names.add(line.trim());
+			} 
+
+			bufferedReader.close();   
+			return names;
+		} catch(FileNotFoundException ex) {
+			System.out.println("Unable to open file '"+filename+"'");                
+		} catch(IOException ex) {
+			System.out.println("Error reading file '"+filename+"'");                  
+		} return null;
 	}
 
 	/* Outputs your solution to a text file
@@ -58,17 +36,10 @@ public class RM_Starter {
 		String filename = name + System.currentTimeMillis() + ".txt";
 		try {
 			writer = new PrintWriter(filename, "UTF-8");
-			int index = 0;
-			for (ArrayList<String> p : solution)
-			{
-				index++;
-				for(String s : p)
-				{
-					writer.print(s + " ");
-				}
+			for (ArrayList<String> p : solution) {
+				for(String s : p) writer.print(s + " ");
 				writer.println();
-			}
-			writer.flush();
+			} writer.flush();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
@@ -81,7 +52,7 @@ public class RM_Starter {
 	public static void main(String[] args) {
 		// Get the names of all the roommates and put them in the names ArrayList
 		// Make sure that this code can access the input file 
-		// and that the input file is named input.txt
+		// and that the input file is named rm.txt
 		ArrayList<String> names = getProblem("rm.txt");
 		
 		// Will be a 2-d ArrayList of names. Every ArrayList inside this ArrayList represents a room.
@@ -97,9 +68,7 @@ public class RM_Starter {
 
 			solution.add(room);
 		}
-		System.out.println(solution.size());
-
+		
 		output("PUT NAME HERE", solution);
 	}
-
 }
