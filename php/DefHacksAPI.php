@@ -38,7 +38,7 @@ class DefHacksAPI extends API
 			$this->config['username'], 
 			$this->config['password'], 
 			$this->config['databaseName']);
-		
+
 		if (mysqli_connect_errno()) { 
 			echo "<br><br>There seems to be a problem with our database. Reload the page or try again later.";
 			exit(); 
@@ -100,6 +100,9 @@ class DefHacksAPI extends API
 				$this->insert("INSERT INTO Recovery (userID, recoveryCode) VALUES ($userID, $recoveryCode)");
 
 				exec("php MailOperation.php \"$email\" $userID \"$firstName $lastName\" \"Click <a href='http://nycsl.io/recover.php?code={$recoveryCode}&userID={$userID}'>here</a> to change the password for $firstName $lastName at NYCSL.io. If you did not try to reset your password, ignore this message.\"> /dev/null 2>/dev/null &");
+				
+				// To stop email spam, sleep 1 second
+				sleep(1);
 				return "Success";
 			} else {
 				echo "Not in database";
