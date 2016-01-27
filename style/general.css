@@ -39,3 +39,7 @@ body {
 #archivedTag {
 	display:none;
 }
+
+.gameRow {
+	display:none;
+}

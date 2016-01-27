@@ -6,7 +6,10 @@ function populateLeaderboard(problemID) {
 	for(var a = 0; a < entries.length; a++) {
 		var entry = entries[a]
 		var user = getUser(entry.userID);
-		$("#leaderboard").append($("<tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td></a><td>"+entry.score+"</td></tr>"))
+		var domAddition = "<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' href='#'>"+entry.score+"</a></td></tr>"
+		domAddition += "<tr class='gameRow'><td></td><td>vs <a href='student.php?userID=69'>Ben Spector</a></td><td><a href='school.php?schoolName=Horace%20Mann'>Horace Mann</a></td><td><a href='#'>Win</a></td></tr>"
+		domAddition += "</tbody>"
+		$("#leaderboard").before(domAddition);
 	}
 }
 
@@ -64,7 +67,8 @@ $( document ).ready(function() {
 		}
 
 		displayProblem(index)
-	})
+	});
+
 	$("#nextButton").click(function() {
 		index--;
 		if(index == 0) {
@@ -76,7 +80,13 @@ $( document ).ready(function() {
 		}
 
 		displayProblem(index)
-	})
+	});
+
+	$(document).on("click",".matchDrop",function(e) {
+		var display = $(this).parent().parent().parent().find(".gameRow").css("display");
+		if (display === "none") $(this).parent().parent().parent().find(".gameRow").css("display","table-row")
+		else $(this).parent().parent().parent().find(".gameRow").css("display","none")
+	});
 
 	if(index == 0) {
 		$("#nextButton").css("visibility", "hidden");
