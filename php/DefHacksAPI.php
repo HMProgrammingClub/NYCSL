@@ -332,7 +332,8 @@ class DefHacksAPI extends API
 			$problemName = $problemArray['problemName'];
 			$isAscending = $problemArray['isAscending'];
 
-			$targetPath = "../problems/outputs/$problemName/";
+			$targetPath = "../problems/outputs/$problemName/$userID";
+			if (!file_exists($targetPath)) mkdir($targetPath, 0777, true);
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
 			$targetPath = $targetPath . md5(uniqid()) . "." . $ext[count($ext)-1];
 			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
