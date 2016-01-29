@@ -1,12 +1,10 @@
 var index;
 
-function populateLeaderboard(problemID) {
+function populateLeaderboard(problem) {
 	$("#leaderboard").empty()
-	var entries = getProblemSubmissions(problemID);
-	for(var a = 0; a < entries.length; a++) {
-		var entry = entries[a]
-		var user = getUser(entry.userID);
-		var domAddition = "<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' href='#'>"+entry.score+"</a></td></tr>"
+	for(var a = 0; a < problem.submissions.length; a++) {
+		var user = problem.submissions[a].user
+		var domAddition = "<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' href='#'>"+problem.submissions[a].score+"</a></td></tr>"
 		domAddition += "<tr class='gameRow'><td></td><td>vs <a href='student.php?userID=69'>Ben Spector</a></td><td><a href='school.php?schoolName=Horace%20Mann'>Horace Mann</a></td><td><a href='#'>Win</a></td></tr>"
 		domAddition += "</tbody>"
 		$("#leaderboard").before(domAddition);
@@ -15,7 +13,7 @@ function populateLeaderboard(problemID) {
 
 function displayProblem(index) {
 	var problem = getProblemWithIndex(index)
-	populateLeaderboard(problem.problemID)
+	populateLeaderboard(problem)
 
     $("#jHeader").empty()
 	$("#jHeader").append(problem.problemFullName);

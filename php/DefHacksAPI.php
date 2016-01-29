@@ -66,6 +66,22 @@ class DefHacksAPI extends API
 		mysqli_query($this->mysqli, $sql);
 	}
 
+	private function getSubmission($submissionID) {
+		$submissionArray = $this->select("SELECT * FROM Submission WHERE submissionID = $submissionID");
+		$submissionArray['user'] = $this->select("SELECT * FROM User WHERE userID = {$submissionArray['userID']}");
+		unset($submissionArray['userID']);
+	}
+
+	private function getProblem($problemID) {
+		$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = {$problemID}");
+			$problemArray['submissions'] = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = {$problemArray['problemID']}");
+			foreach($problemArray['submissions'] as &$submission) {
+				$submission['user'] = $this->select("SELECT * FROM User WHERE userID = {$submission['userID']}");
+				unset($submission['userID']);
+			}
+		return $problemArray;
+	}
+
 	// API ENDPOINTS
 	protected function schools() {
 		if($this->method == 'GET') {
@@ -237,14 +253,13 @@ class DefHacksAPI extends API
 	}
 
 	protected function problem() {
-		if(isset($_GET['problemID'])) {
-			$problemID = $_GET['problemID'];
-			return $this->select("SELECT * FROM Problem WHERE problemID = $problemID");
+		if(isset($_GET['problemID'])) {	
+			return $this->getProblem($_GET['problemID']);
 		}
 		if(isset($_GET['index'])) {
 			$index = $_GET['index'];
-			$problems = $this->selectMultiple("SELECT * FROM Problem");
-			return $problems[count($problems) - (1+$index)];
+			$problems = $this->select("SELECT * FROM Problem ORDER BY problemID DESC LIMIT 1 OFFSET $index");
+			return $this->getProblem($problems['problemID']);
 		}
 		if(isset($_GET['size'])) {
 			$problems = $this->selectMultiple("SELECT problemID FROM Problem");
