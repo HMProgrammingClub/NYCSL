@@ -29,6 +29,7 @@ positions[1] = Point(width/2, height-1)
 gameMap[positions[0].y][positions[0].x] = PLAYER_1
 gameMap[positions[1].y][positions[1].x] = PLAYER_1
 
+# Game loop
 isDone = False
 winner = -1
 while isDone == False:
@@ -50,5 +51,7 @@ while isDone == False:
 		except:
 			isDone = True
 			break
+
+# Cleanup
 print("Player " + winner + " won!")
 networker.killAll()
