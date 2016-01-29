@@ -107,25 +107,6 @@ function getProblem(problemID) {
 	return result.responseJSON;
 }
 
-function getProblemSubmissions(problemID) {
-	if(problemID == null) {
-		var result = $.ajax({
-			url: url+"submission", 
-			async: false,
-			method: "GET"
-		});
-		return result.responseJSON;
-	} else {
-		var result = $.ajax({
-			url: url+"submission", 
-			async: false,
-			method: "GET",
-			data: {problemID: problemID}
-		});
-		return result.responseJSON;
-	}
-}
-
 function getProblemSubmissionsWithSchool(problemID, schoolName) {
 	var result = $.ajax({
 		url: url+"submission", 
