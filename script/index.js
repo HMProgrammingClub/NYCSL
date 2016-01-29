@@ -1,6 +1,7 @@
 var index;
 
 function populateLeaderboard(problem) {
+	problem.submissions.sort(function(a, b) { return parseInt(b.score)-parseInt(a.score) })
 	$("#leaderboard").empty()
 	for(var a = 0; a < problem.submissions.length; a++) {
 		var user = problem.submissions[a].user
