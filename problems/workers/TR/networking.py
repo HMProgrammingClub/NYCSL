@@ -3,7 +3,11 @@ from threading import Thread
 
 def monitorFile(connection, queue):
 	while True:
-		line = connection.readline()
+		try:
+			line = connection.readline()
+		except:
+			break
+
 		if not line:
 			queue.put(None)
 			break
@@ -44,3 +48,7 @@ class Networker:
 
 		# Return move
 		return int(self.stdoutQueues[isSecond].pop())
+
+	def killAll(self):
+		for a in range(len(self.processes)):
+			self.processes[a].kill()

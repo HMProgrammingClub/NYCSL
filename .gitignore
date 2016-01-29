@@ -248,3 +248,5 @@ problems/scripts/.idea/.name
 *.swp
 *.swo
 .htaccess
+
+*.pyc
