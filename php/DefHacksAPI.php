@@ -66,12 +66,6 @@ class DefHacksAPI extends API
 		mysqli_query($this->mysqli, $sql);
 	}
 
-	private function getSubmission($submissionID) {
-		$submissionArray = $this->select("SELECT * FROM Submission WHERE submissionID = $submissionID");
-		$submissionArray['user'] = $this->select("SELECT * FROM User WHERE userID = {$submissionArray['userID']}");
-		unset($submissionArray['userID']);
-	}
-
 	private function getProblem($problemID) {
 		$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = {$problemID}");
 			$problemArray['submissions'] = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = {$problemArray['problemID']}");
