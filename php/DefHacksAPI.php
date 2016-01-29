@@ -101,8 +101,8 @@ class DefHacksAPI extends API
 
 				exec("php MailOperation.php \"$email\" $userID \"$firstName $lastName\" \"Click <a href='http://nycsl.io/recover.php?code={$recoveryCode}&userID={$userID}'>here</a> to change the password for $firstName $lastName at NYCSL.io. If you did not try to reset your password, ignore this message.\"> /dev/null 2>/dev/null &");
 				
-				// To stop email spam, sleep 1 second
-				sleep(1);
+				// To stop email spam, sleep 10 seconds
+				sleep(10);
 				return "Success";
 			} else {
 				echo "Not in database";
