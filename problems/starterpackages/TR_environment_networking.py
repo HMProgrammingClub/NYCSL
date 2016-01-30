@@ -53,4 +53,6 @@ class Networker:
 
 	def killAll(self):
 		for a in range(len(self.processes)):
+			self.processes[a].stdin.write("KILL\n")
+			self.processes[a].stdin.flush()
 			self.processes[a].kill()

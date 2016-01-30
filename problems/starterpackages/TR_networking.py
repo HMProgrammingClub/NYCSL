@@ -20,11 +20,10 @@ class Networker:
 		return [tiles[a*16 : (a+1)*16] for a in range(16)]
 
 	def getMap(self):
-		return self.deserializeMap(sys.stdin.readline().rstrip("\n"))
+		message = sys.stdin.readline().rstrip("\n")
+		if message == "KILL": sys.exit()
+		return self.deserializeMap(message)
 
 	def sendMove(self, move):
-		try:
-			sys.stdout.write(str(move) + "\n")
-			sys.stdout.flush()
-		except:
-			pass
+		sys.stdout.write(str(move) + "\n")
+		sys.stdout.flush()
