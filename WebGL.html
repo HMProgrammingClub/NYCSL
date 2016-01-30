@@ -63,10 +63,10 @@ DOCTYPE HTML>
 			})();
  
 			var canvas, 
-			    gl, width, height, numFrames
+			    gl, width, height, numFrames,
 			    vertex_buffer, color_buffer,
 				blankColor, player1Color, player2Color, dimFactor,
-				vertex_locations, player1Color, player2Color;
+				vertex_locations, player1Color, player2Color,
 			    vertex_shader, fragment_shader, 
 			    currentProgram,
 			    vertex_position, color_position,
@@ -215,7 +215,7 @@ DOCTYPE HTML>
 				//Fill this in with all of the rows concatenated.
 				
 				var colors = []
-				for(var a = 0; a < map.prototype.length; a++) {
+				for(var a = 0; a < map.length; a++) {
 					for(var b = 0; b < 6; b++) { //Fill in for each vertex:
 						if(map[a] == 1) {
 							colors.push(player1Color[0]);
