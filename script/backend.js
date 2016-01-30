@@ -1,46 +1,24 @@
 var url = "php/"
 
 function getUser(userID, email, password) {
-	var result = null;
-	if(userID != null && password != null) {
-		result = $.ajax({
-			url: url+"user", 
-			async: false,
-			method: "GET",
-			data: {userID: userID, password: password}
-		});
-		return result.responseJSON;
-	} else if(email != null && password != null) {
-		result = $.ajax({
-			url: url+"user", 
-			async: false,
-			method: "GET",
-			data: {email: email, password: password}
-		});
-		return result.responseJSON;
-	} else if(userID != null) {
-		result = $.ajax({
-			url: url+"user", 
-			async: false,
-			method: "GET",
-			data: {userID: userID}
-		});
+	var params = {}
+	if(userID != null) params.userID = userID;
+	if(email != null) params.email = email;
+	if(password != null) params.password = password;
 
-		return result.responseJSON;
-	} else if (email != null) {
-		result = $.ajax({
-			url: url+"user", 
-			async: false,
-			method: "GET",
-			data: {email: email},
-			success: function(result) {
-				console.log(result)
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				console.log(xhr.responseText)
-			}
-		});
-	}
+	var result = $.ajax({
+		url: url+"user", 
+		async: false,
+		method: "GET",
+		data: params,
+		success: function(result) {
+			console.log(result)
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText)
+		}
+	});
+
 	return result.responseJSON;
 }
 
@@ -53,9 +31,6 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 		success: function (data) {
 
 			callback(data);            
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-
 		}
 	});
 }
@@ -212,6 +187,9 @@ function storeSubmissionDatabase(formID) {
 		xhr: function() {
 			var myXhr = $.ajaxSettings.xhr();
 			return myXhr;
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText)
 		}
 	})
 	return result.responseJSON;
