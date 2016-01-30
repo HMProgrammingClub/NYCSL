@@ -1,3 +1,4 @@
+import sys
 import zipfile
 from compiler import *
 
@@ -39,7 +40,7 @@ def zipFolder(folderPath, destinationFilePath):
 
 	os.chdir(originalDir)
 
-def compile(userID):
+def compile(zipFilename):
 	# Setup working path
 	workingPath = "workingPath"
 	if os.path.exists(workingPath):
@@ -47,12 +48,14 @@ def compile(userID):
 	os.makedirs(workingPath)
 	os.chmod(workingPath, 0o777)
 
-	unpack(os.path.join("../outputs", str(userID)+".zip"), workingPath)
+	unpack(os.path.join("../outputs", zipFilename), workingPath)
 
 	language, errors = compile_anything(workingPath)
 	didCompile = True if errors == None else False
 
 	if didCompile:
-		zipFolder(workingPath, os.path.join("../outputs", str(userID)+".zip"))
+		zipFolder(workingPath, os.path.join("../outputs", zipFilename))
 		
 	shutil.rmtree(workingPath)
+
+compile(sys.argv[-1])
