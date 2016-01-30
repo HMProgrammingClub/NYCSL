@@ -1,6 +1,7 @@
 from TR_environment_networking import Networker
 from enum import Enum
 import time
+import copy
 
 class Direction(Enum):
 	north = 0
@@ -43,7 +44,7 @@ frames = []
 isDone = False
 winner = -1
 while isDone == False:
-	frames.append(gameMap)
+	frames.append(copy.deepcopy(gameMap))
 	for a in range(2):
 		try:
 			gameMap[positions[a].y][positions[a].x] = Tile.takenByPlayer1.value if a == 0 else Tile.takenByPlayer2.value
@@ -59,6 +60,8 @@ while isDone == False:
 				winner = 1 + (0 if a == 1 else 1)
 				isDone = True
 				break
+
+			gameMap[positions[a].y][positions[a].x] = Tile.player1.value if a == 0 else Tile.player2.value
 		except Exception as e:
 			print("There was an error while running the game!")
 			print(str(e))
