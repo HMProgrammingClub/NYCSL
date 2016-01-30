@@ -1,42 +1,3 @@
-#!/usr/bin/python
-# compiler.py
-# Author: Jeff Cameron (jeff@jpcameron.com)
-#
-# Auto-detects the language of the entry based on the extension,
-# attempts to compile it, returning the stdout and stderr.
-# The auto-detection works by looking for the "main" code file of
-# the available languages. If the number of matching languages is 0 or
-# more than 1, it is an error, and an appropriate error message is returned.
-#
-# To add a new language you must add an entry to the "languages" list.
-#
-# For example the entry for Python is as follows:
-#    Language("Python", BOT +".py", "MyBot.py",
-#        "python MyBot.py",
-#        ["*.pyc"],
-#        [(["*.py"], ChmodCompiler("Python"))]
-#    ),
-# This defines the output file as MyBot.py, removes all .pyc files, and runs
-# all the found .py files through the ChmodCompiler, which is a pseudo-compiler
-# class which only chmods the found files.
-#
-# If you want to run a real compiler then you need to define a set of flags to
-# send it. In this case you would either use TargetCompiler or ExternalCompiler.
-# The difference between the two is the TargetCompiler iterates over the found
-# files and creates object files from them, whereas the External doesn't.
-# If in doubt just stick to the ExternalCompiler.
-#
-# An example is from the C# Entry:
-#     "C#" : (".exe", ["*.exe"],
-#                     [(["*.cs"], ExternalCompiler(comp_args["C#"][0]))])
-#
-# To make the dictionary more readable the flags have been split into a
-# separate "comp_args" dictionary. C#'s entry looks like so:
-#     "C#" : [["gmcs", "-warn:0", "-out:%s.exe" % BOT]]
-# At runtime this all boils down to:
-#     gmcs -warn:0 -out:MyBot.exe *.cs
-# (though the *.cs is actually replaced with the list of files found)
-
 import collections
 import errno
 import fnmatch
@@ -58,7 +19,7 @@ try:
 except ImportError:
 	MEMORY_LIMIT = 1500
 
-BOT = "MyBot"
+BOT = "TronBot"
 SAFEPATH = re.compile('[a-zA-Z0-9_.$-]+$')
 
 class CD(object):
@@ -359,33 +320,33 @@ languages = (
 	# The compilers are run in the order given.
 	# If a source glob is "" it means the source is part of the compiler
 	#   arguments.
-	Language("Ada", BOT, "mybot.adb",
-		"./MyBot",
+	Language("Ada", BOT, "TronBot.adb",
+		"./TronBot",
 		["*.ali"],
 		[(["*.adb"], ExternalCompiler(comp_args["Ada"][0])),
-			(["mybot.ali"], ExternalCompiler(comp_args["Ada"][1])),
-			(["mybot.ali"], ExternalCompiler(comp_args["Ada"][2]))]
+			(["TronBot.ali"], ExternalCompiler(comp_args["Ada"][1])),
+			(["TronBot.ali"], ExternalCompiler(comp_args["Ada"][2]))]
 	),
-	Language("C", BOT, "MyBot.c",
-		"./MyBot",
+	Language("C", BOT, "TronBot.c",
+		"./TronBot",
 		["*.o", BOT],
 		[(["*.c"], TargetCompiler(comp_args["C"][0], targets["C"])),
 			(["*.o"], ExternalCompiler(comp_args["C"][1]))]
 	),
-	Language("C#", BOT +".exe", "MyBot.cs",
-		"mono MyBot.exe",
+	Language("C#", BOT +".exe", "TronBot.cs",
+		"mono TronBot.exe",
 		[BOT + ".exe"],
 		[(["*.cs"], ExternalCompiler(comp_args["C#"][0]))]
 	),
-	Language("VB", BOT +".exe", "MyBot.vb",
-		"mono MyBot.exe",
+	Language("VB", BOT +".exe", "TronBot.vb",
+		"mono TronBot.exe",
 		[BOT + ".exe"],
 		[(["*.vb"],
-			ExternalCompiler(comp_args["VB"][0], out_files=['MyBot.exe']))]
+			ExternalCompiler(comp_args["VB"][0], out_files=['TronBot.exe']))]
 	),
 	# These two C++ variants should be combined after the ants contest
-	Language("C++", BOT, "MyBot.cc",
-		"./MyBot",
+	Language("C++", BOT, "TronBot.cc",
+		"./TronBot",
 		["*.o", BOT],
 		[
 			(["*.c", "*.cpp", "*.cc"],
@@ -393,8 +354,8 @@ languages = (
 			(["*.o"], ExternalCompiler(comp_args["C++"][1]))
 		]
 	),
-	Language("C++11", BOT, "MyBot.cpp",
-		"./MyBot",
+	Language("C++11", BOT, "TronBot.cpp",
+		"./TronBot",
 		["*.o", BOT],
 		[
 			(["*.c", "*.cpp", "*.cc"],
@@ -402,23 +363,23 @@ languages = (
 			(["*.o"], ExternalCompiler(comp_args["C++11"][1]))
 		]
 	),
-	Language("Clojure", BOT +".clj", "MyBot.clj",
-		"java -Xmx%sm -cp /usr/share/java/clojure.jar:. clojure.main MyBot.clj" % (MEMORY_LIMIT,),
+	Language("Clojure", BOT +".clj", "TronBot.clj",
+		"java -Xmx%sm -cp /usr/share/java/clojure.jar:. clojure.main TronBot.clj" % (MEMORY_LIMIT,),
 		[],
 		[(["*.clj"], ChmodCompiler("Clojure"))]
 	),
-	Language("CoffeeScript", BOT +".coffee", "MyBot.coffee",
-		"coffee MyBot.coffee",
+	Language("CoffeeScript", BOT +".coffee", "TronBot.coffee",
+		"coffee TronBot.coffee",
 		[],
 		[(["*.coffee"], ChmodCompiler("CoffeeScript"))]
 	),
-	Language("D", BOT, "MyBot.d",
-		"./MyBot",
+	Language("D", BOT, "TronBot.d",
+		"./TronBot",
 		["*.o", BOT],
 		[(["*.d"], ExternalCompiler(comp_args["D"][0]))]
 	),
-	Language("Dart", BOT +".dart", "MyBot.dart",
-		"frogsh MyBot.dart",
+	Language("Dart", BOT +".dart", "TronBot.dart",
+		"frogsh TronBot.dart",
 		[],
 		[(["*.dart"], ChmodCompiler("Dart"))]
 	),
@@ -427,51 +388,51 @@ languages = (
 		["*.beam"],
 		[(["*.erl"], ExternalCompiler(["erlc"], out_ext=".beam"))]
 	),
-	Language("Go", BOT, "MyBot.go",
-		"./MyBot",
+	Language("Go", BOT, "TronBot.go",
+		"./TronBot",
 		["*.8", "*.6", BOT],
 		[(["*.go"], ExternalCompiler(comp_args["Go"][0], out_files=['_go_.6'])),
 			([""], ExternalCompiler(comp_args["Go"][1], out_files=['_go_.6']))]
 	),
-	Language("Groovy", BOT +".jar", "MyBot.groovy",
-		"java -Xmx" + str(MEMORY_LIMIT) + "m -cp MyBot.jar:/usr/share/groovy/embeddable/groovy-all-1.7.5.jar MyBot",
+	Language("Groovy", BOT +".jar", "TronBot.groovy",
+		"java -Xmx" + str(MEMORY_LIMIT) + "m -cp TronBot.jar:/usr/share/groovy/embeddable/groovy-all-1.7.5.jar TronBot",
 		["*.class, *.jar"],
 		[(["*.groovy"], ExternalCompiler(comp_args["Groovy"][0])),
 		(["*.class"], ExternalCompiler(comp_args["Groovy"][1]))]
 	),
-	Language("Haskell", BOT, "MyBot.hs",
-		"./MyBot +RTS -M" + str(MEMORY_LIMIT) + "m",
+	Language("Haskell", BOT, "TronBot.hs",
+		"./TronBot +RTS -M" + str(MEMORY_LIMIT) + "m",
 		[BOT],
 		[([""], ExternalCompiler(comp_args["Haskell"][0]))]
 	),
-	Language("Java", BOT +".jar", "MyBot.java",
-		"java -Xmx" + str(MEMORY_LIMIT) + "m -jar MyBot.jar",
+	Language("Java", BOT +".jar", "TronBot.java",
+		"java -Xmx" + str(MEMORY_LIMIT) + "m -jar TronBot.jar",
 		["*.class", "*.jar"],
 		[(["*.java"], ExternalCompiler(comp_args["Java"][0])),
 			(["*.class"], ExternalCompiler(comp_args["Java"][1]))]
 	),
-	Language("Javascript", BOT +".js", "MyBot.js",
-		"node MyBot.js",
+	Language("Javascript", BOT +".js", "TronBot.js",
+		"node TronBot.js",
 		[],
 		[(["*.js"], ChmodCompiler("Javascript"))]
 	),
-	Language("Lisp", BOT, "MyBot.lisp",
-		"./MyBot --dynamic-space-size " + str(MEMORY_LIMIT),
+	Language("Lisp", BOT, "TronBot.lisp",
+		"./TronBot --dynamic-space-size " + str(MEMORY_LIMIT),
 		[BOT],
 		[([""], ExternalCompiler(comp_args["Lisp"][0]))]
 	),
-	Language("Lua", BOT +".lua", "MyBot.lua",
-		"luajit-2.0.0-beta5 MyBot.lua",
+	Language("Lua", BOT +".lua", "TronBot.lua",
+		"luajit-2.0.0-beta5 TronBot.lua",
 		[],
 		[(["*.lua"], ChmodCompiler("Lua"))]
 	),
-	Language("OCaml", BOT +".native", "MyBot.ml",
-		"./MyBot.native",
+	Language("OCaml", BOT +".native", "TronBot.ml",
+		"./TronBot.native",
 		[BOT + ".native"],
 		[([""], ExternalCompiler(comp_args["OCaml"][0]))]
 	),
-	Language("Octave", BOT + ".m", "MyBot.m", 
-		"octave -qf MyBot.m",
+	Language("Octave", BOT + ".m", "TronBot.m", 
+		"octave -qf TronBot.m",
 		[],
 		[(["*.m"], ChmodCompiler("Octave"))]
 	),
@@ -482,55 +443,55 @@ languages = (
 		   stdout_is_error=True, skip_stdout=2,
 		   filter_stderr='^/usr/bin/ld: warning: link.res contains output sections; did you forget -T\?$'))]
 	),
-	Language("Perl", BOT +".pl", "MyBot.pl",
-		"perl MyBot.pl",
+	Language("Perl", BOT +".pl", "TronBot.pl",
+		"perl TronBot.pl",
 		[],
 		[(["*.pl"], ChmodCompiler("Perl"))]
 	),
-	Language("PHP", BOT +".php", "MyBot.php",
-		"php MyBot.php",
+	Language("PHP", BOT +".php", "TronBot.php",
+		"php TronBot.php",
 		[],
 		[(["*.php"], ChmodCompiler("PHP"))]
 	),
-	Language("Python", BOT +".py", "MyBot.py",
-		"python3 MyBot.py",
+	Language("Python", BOT +".py", "TronBot.py",
+		"python3 TronBot.py",
 		["*.pyc"],
 		[(["*.py"], ChmodCompiler("Python")),
 		(["setup_exts"], ErrorFilterCompiler(comp_args["Python"][0], separate=True, filter_stderr='-Wstrict-prototypes'))]
 	),
-	Language("Python3", BOT +".py3", "MyBot.py3",
-		"python3 MyBot.py3",
+	Language("Python3", BOT +".py3", "TronBot.py3",
+		"python3 TronBot.py3",
 		["*.pyc"],
 		[(["*.py3"], ChmodCompiler("Python3")),
 		(["setup_exts"], ErrorFilterCompiler(comp_args["Python3"][0], separate=True, filter_stderr='-Wstrict-prototypes'))]
 	),
-	Language("PyPy", BOT +".pypy", "MyBot.pypy",
-		"pypy MyBot.pypy",
+	Language("PyPy", BOT +".pypy", "TronBot.pypy",
+		"pypy TronBot.pypy",
 		["*.pyc"],
 		[(["*.py"], ChmodCompiler("Python"))]
 	),
-	Language("Racket", BOT +".rkt", "MyBot.rkt",
-		"racket MyBot.rkt",
+	Language("Racket", BOT +".rkt", "TronBot.rkt",
+		"racket TronBot.rkt",
 		[],
 		[(["*.rkt"], ChmodCompiler("Racket"))]
 	),
-	Language("Ruby", BOT +".rb", "MyBot.rb",
-		"ruby MyBot.rb",
+	Language("Ruby", BOT +".rb", "TronBot.rb",
+		"ruby TronBot.rb",
 		[],
 		[(["*.rb"], ChmodCompiler("Ruby"))]
 	),
-	Language("Scala", BOT +".scala", "MyBot.scala",
-		'scala -J-Xmx'+ str(MEMORY_LIMIT) +'m -howtorun:object MyBot',
+	Language("Scala", BOT +".scala", "TronBot.scala",
+		'scala -J-Xmx'+ str(MEMORY_LIMIT) +'m -howtorun:object TronBot',
 		["*.scala, *.jar"],
 		[(["*.scala"], ExternalCompiler(comp_args["Scala"][0]))]
 	),
-	Language("Scheme", BOT +".ss", "MyBot.ss",
-		"./MyBot",
+	Language("Scheme", BOT +".ss", "TronBot.ss",
+		"./TronBot",
 		[],
 		[(["*.ss"], ChmodCompiler("Scheme"))]
 	),
-	Language("Tcl", BOT +".tcl", "MyBot.tcl",
-		"tclsh8.5 MyBot.tcl",
+	Language("Tcl", BOT +".tcl", "TronBot.tcl",
+		"tclsh8.5 TronBot.tcl",
 		[],
 		[(["*.tcl"], ChmodCompiler("Tcl"))]
 	),
@@ -561,7 +522,7 @@ def compile_function(language, bot_dir, timelimit):
 	print("joined")
 	return check_path(compiled_bot_file, errors), errors
 
-_LANG_NOT_FOUND = """Did not find a recognized MyBot.* file.
+_LANG_NOT_FOUND = """Did not find a recognized TronBot.* file.
 Please add one of the following filenames to your zip file:
 %s"""
 
@@ -575,7 +536,7 @@ def detect_language(bot_dir):
 
 		# If no language was detected
 		if len(detected_langs) > 1:
-			return None, ['Found multiple MyBot.* files: \n'+
+			return None, ['Found multiple TronBot.* files: \n'+
 						  '\n'.join([l.main_code_file for l in detected_langs])]
 		elif len(detected_langs) == 0:
 			return None, [_LANG_NOT_FOUND % (
