@@ -63,7 +63,7 @@ DOCTYPE HTML>
 			})();
  
 			var canvas, 
-			    gl, width = 16, height = 16,
+			    gl, width, height, numFrames
 			    vertex_buffer, color_buffer,
 				blankColor, player1Color, player2Color, dimFactor,
 				vertex_locations, player1Color, player2Color;
@@ -84,6 +84,12 @@ DOCTYPE HTML>
 				fragment_shader = document.getElementById('fs').textContent;
  
 				canvas = document.querySelector('canvas');
+				
+				//Get width, height, and number of frames from file:
+				
+				//Get 1D Int8 array from file:
+				
+				//Parse 1D array:
  
 				//Initialise WebGL
 				try {
