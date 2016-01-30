@@ -27,11 +27,11 @@ public class Tron {
 	}
 
 	public int[][] getMap() {
-		return deserializeMap(key.nextLine().trim());
+		String rawMap = key.nextLine();
+		return deserializeMap(rawMap.trim());
 	}
 
 	public void sendMove(Direction move) {
 		System.out.print(move.ordinal()+"\n");
-		System.out.flush();
 	}
 }
