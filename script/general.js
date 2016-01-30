@@ -1,7 +1,7 @@
 function fileChanged() {
-	var score = storeSubmissionDatabase("submitForm", false);
-	if (isNaN(score)) parseError(score)
-	else congratsError(score)
+	var response = storeSubmissionDatabase("submitForm");
+	if (response.isError) parseError(response.message)
+	else congratsError(response.message)
 
 	reloadTables()
 }
@@ -181,12 +181,12 @@ function registerError(errorMessage) {
 
 function parseError(errorMessage) {
 	$("#messageBox").empty()
-	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;Error message: \""+errorMessage+".\" Please check your submission file and try again.</div>"))
+	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Grading failed.</strong>&nbsp;&nbsp;"+errorMessage+"</div>"))
 }
 
-function congratsError(score) {
+function congratsError(message) {
 	$("#messageBox").empty()
-	$("#messageBox").append($("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Congratulations!</strong>&nbsp;&nbsp;You got a score of <strong>"+score+"</strong>.</div>"))
+	$("#messageBox").append($("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Congratulations!</strong>&nbsp;&nbsp;"+message+"</div>"))
 }
 
 function getGET(name) {
