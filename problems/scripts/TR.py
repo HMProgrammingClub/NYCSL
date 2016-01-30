@@ -49,13 +49,13 @@ def compile(zipFilename):
 	os.makedirs(workingPath)
 	os.chmod(workingPath, 0o777)
 
-	unpack(os.path.join("../outputs", zipFilename), workingPath)
+	unpack(zipFilename, workingPath)
 
 	language, errors = compile_anything(workingPath)
 	didCompile = True if errors == None else False
 
 	if didCompile:
-		zipFolder(workingPath, os.path.join("../outputs", zipFilename))
+		zipFolder(workingPath, zipFilename)
 		
 	shutil.rmtree(workingPath)
 
