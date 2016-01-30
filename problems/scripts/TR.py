@@ -1,6 +1,7 @@
 import sys
 import zipfile
 from compiler import *
+import platform
 
 def unpack(filePath, destinationFilePath):
 	folderPath = os.path.dirname(filePath)
