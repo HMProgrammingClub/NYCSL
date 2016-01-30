@@ -22,7 +22,7 @@ class Networker:
 		self.stderrQueues = []
 
 	def startPlayer(self, command):
-		self.processes.append(subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True))
+		self.processes.append(subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True, shell=True))
 
 		self.stdoutQueues.append([])
 		self.stderrQueues.append([])
