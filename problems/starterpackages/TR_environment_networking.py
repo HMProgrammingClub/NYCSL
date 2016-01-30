@@ -37,7 +37,7 @@ class Networker:
 		
 	def serializeMap(self, map):
 		returnString = ""
-		for row in returnString:
+		for row in map:
 			for tile in row:
 				returnString += str(int(tile)) + " "
 		return returnString
