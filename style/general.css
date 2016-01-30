@@ -43,3 +43,8 @@ body {
 .gameRow {
 	display:none;
 }
+
+#leaderTable {
+	padding-bottom:0px;
+	margin-bottom:0px;
+}
