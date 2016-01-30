@@ -23,5 +23,8 @@ class Networker:
 		return self.deserializeMap(sys.stdin.readline().rstrip("\n"))
 
 	def sendMove(self, move):
-		sys.stdout.write(str(move) + "\n")
-		sys.stdout.flush()
+		try:
+			sys.stdout.write(str(move) + "\n")
+			sys.stdout.flush()
+		except:
+			pass
