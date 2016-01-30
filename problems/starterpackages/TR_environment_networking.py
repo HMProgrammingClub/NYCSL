@@ -10,7 +10,7 @@ def monitorFile(connection, queue):
 			break
 
 		if not line:
-			queue.put(None)
+			queue.append(None)
 			break
 		line = line.rstrip("\n")
 		queue.append(line)
@@ -48,7 +48,7 @@ class Networker:
 
 		# Return move
 		while len(self.stdoutQueues[isSecond]) == 0:
-			sleep(5)
+			sleep(0.01)
 		return int(self.stdoutQueues[isSecond].pop())
 
 	def killAll(self):
