@@ -250,3 +250,4 @@ problems/scripts/.idea/.name
 .htaccess
 
 *.pyc
+*.class
