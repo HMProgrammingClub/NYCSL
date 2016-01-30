@@ -3,4 +3,4 @@ from TR_networking import *
 networker = Networker()
 while True:
 	gameMap = networker.getMap()
-	networker.sendMove(Direction.north.value)
+	networker.sendMove(Direction.west.value)
