@@ -332,27 +332,33 @@ class DefHacksAPI extends API
 			$problemName = $problemArray['problemName'];
 			$isAscending = $problemArray['isAscending'];
 
-			$targetPath = "../problems/outputs/$problemName/$userID";
+			$targetPath = "../problems/outputs/{$problemName}/";
+			if(!file_exists($targetPath)) mkdir($targetPath);
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
-			$targetPath = $targetPath . "." . $ext[count($ext)-1];
+			$targetPath = $targetPath . $userID . "." . $ext[count($ext)-1];
 			if(file_exists($targetPath)) unlink($targetPath);
 			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
 
 			// Pass target file to python script
-			exec("python ../problems/scripts/$problemName.py $targetPath", $pythonOutput);
-			if(strcspn($pythonOutput[0], '0123456789') != 0 || strlen($pythonOutput[0]) == 0) return $pythonOutput[0];
-			$score = intval($pythonOutput[0]);
+			exec("python ../problems/scripts/$problemName.py $targetPath", $rawOutput);
+
+			if(!isset($rawOutput[0])) return array("isError" => true, "message" => "There was a problem with your submission file.");
+			$programOutput = json_decode($rawOutput[0]);
 			
-			$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
-			if($userArray['userID'] != NULL) {
-				if(($isAscending == true && $userArray['score'] > $score) || ($isAscending == false && $userArray['score'] < $score)) {		
-					$this->insert("UPDATE Submission SET score = $score WHERE userID = $userID and problemID = $problemID");	
+			// Some problems dont return score from their submission scripts
+			// For example, if it were an ai game competition, where bots play against one another
+			if(isset($programOutput->score)) {
+				$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
+				if($userArray['userID'] != NULL) {
+					if(($isAscending == true && $userArray['score'] > $programOutput->score) || ($isAscending == false && $userArray['score'] < $programOutput->score)) {		
+						$this->insert("UPDATE Submission SET score = {$programOutput->score} WHERE userID = $userID and problemID = $problemID");	
+					}
+				} else {
+					$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, {$programOutput->score})");
 				}
-			} else {
-				$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, $score)");
 			}
 
-			return $score."";
+			return $programOutput;
 		} else {
 			return "Didn't reach endpoint";
 		}
