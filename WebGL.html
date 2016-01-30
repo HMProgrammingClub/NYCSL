@@ -63,7 +63,8 @@ DOCTYPE HTML>
 			})();
  
 			var canvas, 
-			    gl, width, height, numFrames,
+			    gl,
+				width, height, numFrames, full_game,
 			    vertex_buffer, color_buffer,
 				blankColor, player1Color, player2Color, dimFactor,
 				vertex_locations, player1Color, player2Color,
@@ -85,11 +86,26 @@ DOCTYPE HTML>
  
 				canvas = document.querySelector('canvas');
 				
-				//Get width, height, and number of frames from file:
+				//Get width, height, and number of frames from file. Note that those are already declared as global variables.
+				width = ???
+				height = ???
+				numFrames = ???
 				
 				//Get 1D Int8 array from file:
+				var file_contents = new Int8Array();
 				
 				//Parse 1D array:
+				var loc = 0;
+				for(var a = 0; a < numFrames; a++) {
+					var frame = [];
+					for(var b = 0; b < height; b++) {
+						var row = [];
+						for(var c = 0; c < width; c++) {
+							file_contents[a]
+							loc++;
+						}
+					}
+				}
  
 				//Initialise WebGL
 				try {
@@ -211,8 +227,6 @@ DOCTYPE HTML>
 			
 			function nextFrame() {
 				var map = new Int8Array();
-				
-				//Fill this in with all of the rows concatenated.
 				
 				var colors = []
 				for(var a = 0; a < map.length; a++) {
