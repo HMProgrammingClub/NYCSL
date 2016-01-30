@@ -42,7 +42,7 @@
 							<h3 class="panel-title">Leaderboard</h3>
 						</div>
 
-						<table class="table well well-sm">
+						<table class="table well well-sm" id="leaderTable">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -54,6 +54,7 @@
 							<tbody id="leaderboard">
 							</tbody>
 						</table>
+						<button type="button" id="loadBtn" class="btn btn-secondary btn-block">Load More</button>
 					</div>
 				</div>
 			</div>
