@@ -1,15 +1,18 @@
 from TR_environment_networking import Networker
+from enum import Enum
 
-EMPTY = 0
-PLAYER_1 = 1
-PLAYER_2 = 2
-TAKEN_BY_PLAYER_1 = 3
-TAKEN_BY_PLAYER_2 = 4
+class Direction(Enum):
+	north = 0
+	east = 1
+	south = 2
+	west = 3
 
-NORTH = 0
-EAST = 1
-SOUTH = 2
-WEST = 3
+class Tile(Enum):
+	empty = 0
+	player1 = 1
+	player2 = 2
+	takenByPlayer1 = 3
+	takenByPlayer2 = 4
 
 # Network initialization
 networker = Networker()
@@ -26,8 +29,8 @@ positions = []
 positions[0] = Point(width/2, 0)
 positions[1] = Point(width/2, height-1)
 
-gameMap[positions[0].y][positions[0].x] = PLAYER_1
-gameMap[positions[1].y][positions[1].x] = PLAYER_1
+gameMap[positions[0].y][positions[0].x] = Tile.player1
+gameMap[positions[1].y][positions[1].x] = Tile.player2
 
 # Game loop
 isDone = False
@@ -35,15 +38,15 @@ winner = -1
 while isDone == False:
 	for a in range(2):
 		try:
-			gameMap[positions[a].y][positions[a].x] = TAKEN_BY_PLAYER_1 if a == 0 else TAKEN_BY_PLAYER_2
+			gameMap[positions[a].y][positions[a].x] = Tile.takenByPlayer1 if a == 0 else Tile.takenByPlayer2
 			move = networker.frameNetworking(gameMap, a)
-			if move == NORTH: positions[a] += 1
-			elif move == SOUTH: positions[a] -= 1
-			elif move == EAST: positions[a] += 1
-			elif move == WEST: positions[a] -= 1
+			if move == Direction.north: positions[a] += 1
+			elif move == Direction.south: positions[a] -= 1
+			elif move == Direction.east: positions[a] += 1
+			elif move == Direction.west: positions[a] -= 1
 
 			# check if legitimate move
-			if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0 or gameMap[positions[a].y][positions[a].x] == TAKEN_BY_PLAYER_1 or gameMap[positions[a].y][positions[a].x] == TAKEN_BY_PLAYER_2:
+			if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0 or gameMap[positions[a].y][positions[a].x] == Tile.takenByPlayer1 or gameMap[positions[a].y][positions[a].x] == Tile.takenByPlayer2:
 				print("Player " + str(a) + " moved off of the map!")
 				winner = 1 if winner == 2 else 2
 				isDone = False
