@@ -27,11 +27,6 @@ function populateSchools() {
 	}
 }
 
-function getScores(gameID, callback) {
-	
-	callback(width,height,numFrames,array)
-}
-
 $(document).ready(function() {
 	$(".pageContent").css("display", "none");
 	populateSchools();
