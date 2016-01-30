@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class Tron {
-	Scanner key;
 
 	public static enum Direction {
 		NORTH, EAST, SOUTH, WEST
@@ -12,12 +11,8 @@ public class Tron {
 		TAKEN_BY_PLAYER1, TAKEN_BY_PLAYER2
 	}
 
-	public Tron() {
-		key = new Scanner(System.in);
-	}
-
-	private int[][] deserializeMap(String mapString) {
-		String[] tiles = mapString.split("\\s+");
+	private static int[][] deserializeMap(String mapString) {
+		String[] tiles = mapString.split(" ");
 		int[] tileVals = new int[tiles.length];
 		for (int i=0; i<tiles.length; i++) tileVals[i] = Integer.parseInt(tiles[i].trim());
 
@@ -26,7 +21,7 @@ public class Tron {
 		return map;
 	}
 
-	private String getString() {
+	private static String getString() {
 		try {
 			StringBuilder builder = new StringBuilder();
 			int buffer;
@@ -44,11 +39,11 @@ public class Tron {
 		}
     }
 
-	public int[][] getMap() {
+	public static int[][] getMap() {
 		return deserializeMap(getString());
 	}
 
-	public void sendMove(Direction move) {
+	public static void sendMove(Direction move) {
 		System.out.print(move.ordinal()+"\n");
 		System.out.flush();
 	}
