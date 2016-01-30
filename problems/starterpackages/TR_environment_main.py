@@ -1,4 +1,4 @@
-from TR_networking import Networker
+from TR_environment_networking import Networker
 
 EMPTY = 0
 PLAYER_1 = 1
