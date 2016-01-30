@@ -1,5 +1,6 @@
 import subprocess
 from threading import Thread
+from time import sleep
 
 def monitorFile(connection, queue):
 	while True:
@@ -9,11 +10,10 @@ def monitorFile(connection, queue):
 			break
 
 		if not line:
-			queue.put(None)
+			queue.append(None)
 			break
-		line = unicode(line, errors="replace")
 		line = line.rstrip("\n")
-		queue.put(line)
+		queue.append(line)
 
 class Networker:
 	def __init__(self):
@@ -47,6 +47,8 @@ class Networker:
 		self.processes[isSecond].stdin.flush()
 
 		# Return move
+		while len(self.stdoutQueues[isSecond]) == 0:
+			sleep(0.01)
 		return int(self.stdoutQueues[isSecond].pop())
 
 	def killAll(self):
