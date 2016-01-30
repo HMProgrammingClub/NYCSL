@@ -72,5 +72,5 @@ networker.killAll()
 
 contents = "%d %d %d\n" % (width, height, len(frames))
 for frame in frames: contents += " ".join(str(tile) for row in frame for tile in row) + "\n"
-filename = str(time.time()) + ".txt"
+filename = str(time.time()) + ".trn"
 open(filename, "w").write(contents)
