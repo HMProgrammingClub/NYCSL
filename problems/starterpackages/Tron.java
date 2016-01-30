@@ -13,7 +13,7 @@ public class Tron {
 	}
 
 	public Tron() {
-		Scanner key = new Scanner(System.in);
+		key = new Scanner(System.in);
 	}
 
 	private int[][] deserializeMap(String mapString) {
