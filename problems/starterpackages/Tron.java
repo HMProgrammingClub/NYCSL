@@ -17,7 +17,7 @@ public class Tron {
 	}
 
 	private int[][] deserializeMap(String mapString) {
-		String[] tiles = mapString.split(" ");
+		String[] tiles = mapString.split("\\s+");
 		int[] tileVals = new int[tiles.length];
 		for (int i=0; i<tiles.length; i++) tileVals[i] = Integer.parseInt(tiles[i].trim());
 
@@ -26,12 +26,30 @@ public class Tron {
 		return map;
 	}
 
+	private String getString() {
+		try {
+			StringBuilder builder = new StringBuilder();
+			int buffer;
+			while ((buffer = System.in.read()) >= 0) {
+				if (buffer == '\n') {
+					break;
+				} else {
+					builder = builder.append((char)buffer);
+				}
+			}
+			return builder.toString();
+		} catch(Exception e) {
+			System.exit(1);
+			return null;
+		}
+    }
+
 	public int[][] getMap() {
-		String rawMap = key.nextLine();
-		return deserializeMap(rawMap.trim());
+		return deserializeMap(getString());
 	}
 
 	public void sendMove(Direction move) {
 		System.out.print(move.ordinal()+"\n");
+		System.out.flush();
 	}
 }
