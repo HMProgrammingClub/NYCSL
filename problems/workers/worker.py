@@ -3,7 +3,13 @@ import os.path
 import stat
 import platform
 import trueskill
+import pymysql.cursors
+import random
 
+TRON_PROBLEM_ID = 3
+
+cnx = pymysql.connect(host="104.131.81.214", user="superuser", database="DefHacks", password="fustercluck", charset="utf8mb4", cursorclass=pymysql.cursors.DictCursor)
+cursor = cnx.cursor()
 
 def unpack(filePath, destinationFilePath):
 	folderPath = os.path.dirname(filePath)
@@ -28,10 +34,7 @@ def unpack(filePath, destinationFilePath):
 	shutil.rmtree(tempPath)
 	os.remove(filePath)
 
-def selectMatch():
-	pass
-
-def runGame(width, height, userIDs, muValues, sigmaValues, backend):
+def runGame(userIDs, muValues, sigmaValues):
 	# Setup working path
 	workingPath = "workingPath"
 	if os.path.exists(workingPath):
@@ -46,7 +49,7 @@ def runGame(width, height, userIDs, muValues, sigmaValues, backend):
 	for bothPath in botPaths: os.chmod(os.path.join(botPath, "run.sh"), os.stat(os.path.join(botPath, "run.sh")).st_mode | stat.S_IEXEC)
 	
 	# Build the shell command that will run the game. Executable called environment houses the game environment
-	runGameShellCommand = "./environment "+str(width)+" "+str(height)+" "
+	runGameShellCommand = "./environment "
 	for bothPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(bothPath)+"; "+os.path.join(os.path.abspath(bothPath), "run.sh")+"\" "
 	print(runGameShellCommand)
 
@@ -68,8 +71,25 @@ def runGame(width, height, userIDs, muValues, sigmaValues, backend):
 	teams.append([trueskill.Rating(mu=float(muValues[loserID]), sigma=float(sigmaValues[loserID]))])
 	newRatings = [ratingTuple[0] for ratingTuple in trueskill.rate(teams)]
 
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f WHERE userID = %d and problemID = %d" % (newRatings[0].mu, newRatings[0].sigma, winnerID, TRON_PROBLEM_ID))
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f WHERE userID = %d and problemID = %d" % (newRatings[1].mu, newRatings[1].sigma, loserID, TRON_PROBLEM_ID))
+
 	# Get replay file by parsing shellOutput
 	replayFilename = lines[-1][len("Output file is stored at ") : len(lines[-1])]
 	
 	# Delete working path
 	shutil.rmtree(workingPath)
+
+while True:
+	cursor.execute("SELECT * FROM Submission WHERE problemID = " + str(TRON_PROBLEM_ID))
+	submissions = cursor.fetchall()
+	submissions.sort(key=lambda x: int(x['score']))
+	for submission in submissions:
+		allowedDifferenceInScore = 5 / (0.65*random.random())
+		allowedOpponents = []
+		for possibleOpponent in submissions:
+			if submission['userID'] != possibleOpponent['userID'] and abs(submission['score'] - possibleOpponent['score']) < allowedDifferenceInScore:
+				allowedOpponents.append(possibleOpponent)
+		opponent = random.randrange(0, len(allowedOpponents))
+
+		runGame([submission['userID'], opponent['userIDs']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['mu']])
