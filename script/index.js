@@ -1,5 +1,11 @@
 var index;
 
+function modalLinkClicked(gameFile) {
+	console.log(gameFile)
+	$('#gameModal').modal('show');
+	begin(gameFile)
+}
+
 function populateLeaderboard(problem) {
 	problem.submissions.sort(function(a, b) { return parseInt(b.score)-parseInt(a.score) })
 	console.log(problem)
@@ -90,7 +96,7 @@ $( document ).ready(function() {
 			var opponent = getUser(latestGames[a].users[opponentIndex].userID)
 			console.log(latestGames[a].users[opponentIndex].rank)
 			var gameResult = latestGames[a].users[opponentIndex].rank === "0" ? "Lost" : "Won"
-			$("#user"+userID).append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td><a href='#gameID="+latestGames[a].gameID+"' data-toggle='modal' data-target='#gameModal'>"+gameResult+"</a></td></tr>")
+			$("#user"+userID).append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td><a href='#gameID="+latestGames[a].gameID+"' onclick='modalLinkClicked(\""+latestGames[a].replayFilename+"\")'>"+gameResult+"</a></td></tr>")
 		}
 		var display = $(this).parent().parent().parent().find(".gameRow").css("display");
 		if (display === "none") $(this).parent().parent().parent().find(".gameRow").css("display","table-row")
