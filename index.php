@@ -135,6 +135,10 @@
 		function begin(data) {
 			var meta = data.split("\n")[0].split(" ")
 			var restOfFile = data.substring(data.indexOf("\n") + 1).replace(/[^0-9]/g, "");
+			var w = meta[0]
+			var h = meta[1]
+			var nf = meta[2]
+			var fc = restOfFile
 			console.log(restOfFile.length);
 			console.log(restOfFile);
 			console.log(w + " " + h + " " + nf + " " + fc.length);
