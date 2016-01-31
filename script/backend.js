@@ -40,7 +40,7 @@ function getGameFile(gameID,callback) {
 		url: "http://localhost/NYCSL-private/problems/storage/"+gameID+".trn",
 		async: false,
 		success: function(data) {
-			var meta = data.split('\n')[0].split(' ').map(parseFloat)
+			var meta = data.split("\n")[0].split(" ").map(parseInt, 3)
 			var restOfFile = data.substring(data.indexOf("\n") + 1)
 			callback(meta[0],meta[1],meta[2],restOfFile)
 		}
