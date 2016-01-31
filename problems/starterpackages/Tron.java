@@ -40,7 +40,9 @@ public class Tron {
     }
 
 	public static int[][] getMap() {
-		return deserializeMap(getString());
+		String message = getString();
+		if(message.equals("KILL")) System.exit(0);
+		return deserializeMap(message);
 	}
 
 	public static void sendMove(Direction move) {

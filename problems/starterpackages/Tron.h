@@ -35,7 +35,9 @@ static std::string getString()  {
 }
 
 static std::vector< std::vector<int> > getMap() {
-	return deserializeMap(getString());
+	std::string message = getString();
+	if(message.compare("KILL") == 0) exit(0);
+	return deserializeMap(message);
 }
 
 static void sendMove(int move) {
