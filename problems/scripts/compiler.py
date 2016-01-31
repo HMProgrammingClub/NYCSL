@@ -62,6 +62,7 @@ def nukeglob(pattern):
 def _run_cmd(sandbox, cmd, timelimit):
 	out = []
 	errors = []
+	print(cmd)
 	sandbox.start(cmd)
 	# flush stdout to keep stuff moving
 	try:

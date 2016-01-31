@@ -50,6 +50,17 @@ def _guard_monitor(jail):
 			jail.stderr_queue.put((time, data))
 		elif msg == "SIGNALED":
 			jail.resp_queue.put((time, data))
+def _monitor_file(fd, q):
+	print("Start monitor")
+	while True:
+		line = fd.readline()
+		print(line)
+		if not line:
+			q.put(None)
+			break
+		line = unicode(line, errors="replace")
+		line = line.rstrip('\r\n')
+		q.put(line)
 
 class Sandbox:
 
@@ -78,12 +89,13 @@ class Sandbox:
 
 	def start(self, shell_command):
 		"""Start a command running in the sandbox"""
-		shell_command = "docker run virtual_machine " + shell_command
+		shell_command = "docker run -v /var/www/nycsl/:/var/www/nycsl/ --privileged=true virtual_machine " + shell_command
 		if self.is_alive:
 			raise SandboxError("Tried to run command with one in progress.")
 		working_directory = self.working_directory
 		self.child_queue = Queue()
 		shell_command = shlex.split(shell_command.replace('\\','/'))
+		print(shell_command)
 		try:
 			self.command_process = subprocess.Popen(shell_command,
 													stdin=subprocess.PIPE,
@@ -103,7 +115,7 @@ class Sandbox:
 		stderr_monitor.daemon = True
 		stderr_monitor.start()
 		Thread(target=self._child_writer).start()
-
+		print("started")
 	def kill(self):
 		"""Stops the sandbox.
 
@@ -133,8 +145,8 @@ class Sandbox:
 		Must be called exactly once after Sandbox.kill has been called.
 
 		"""
-		if self.is_alive:
-			raise SandboxError("Sandbox released while still alive")
+		#if self.is_alive:
+		#	raise SandboxError("Sandbox released while still alive")
 		pass
 
 	def pause(self):
