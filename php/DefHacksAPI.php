@@ -331,7 +331,11 @@ class DefHacksAPI extends API
 			$problemID = $problemArray['problemID'];
 			$problemName = $problemArray['problemName'];
 			$isAscending = $problemArray['isAscending'];
-
+			// Mark submission not ready
+			$submissionArray = $this->select("SELECT isReady, submissionID FROM Submission WHERE problemID = $problemID and userID = $userID");
+			if(count($submissionArray) > 0) {
+				$this->insert("UPDATE Submission SET isReady = 0 WHERE submissionID = {$submissionArray['submissionID']}");
+			}
 			$targetPath = "../problems/outputs/{$problemName}/";
 			if(!file_exists($targetPath)) mkdir($targetPath);
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
@@ -351,10 +355,16 @@ class DefHacksAPI extends API
 				$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
 				if($userArray['userID'] != NULL) {
 					if(($isAscending == true && $userArray['score'] > $programOutput->score) || ($isAscending == false && $userArray['score'] < $programOutput->score)) {		
-						$this->insert("UPDATE Submission SET score = {$programOutput->score} WHERE userID = $userID and problemID = $problemID");	
+						$this->insert("UPDATE Submission SET score = {$programOutput->score}, isReady = 1 WHERE userID = $userID and problemID = $problemID");	
 					}
 				} else {
-					$this->insert("INSERT INTO Submission (problemID, userID, score) VALUES ($problemID, $userID, {$programOutput->score})");
+					$this->insert("INSERT INTO Submission (problemID, userID, score, isReady) VALUES ($problemID, $userID, {$programOutput->score}, 1)");
+				}
+			} else if(isset($programOutput->isError) && $programOutput->isError == false) {
+				if(count($submissionArray) > 0) {
+					$this->insert("UPDATE Submission SET mu = 25.0, sigma = 8.33 WHERE $submissionID = {$submissionArray['submissionID']}");
+				} else {
+					$this->insert("INSERT INTO Submission (problemID, userID, score, isReady) VALUES ($problemID, $userID, 0, 1)");
 				}
 			}
 
