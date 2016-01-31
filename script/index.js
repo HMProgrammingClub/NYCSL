@@ -3,7 +3,10 @@ var index;
 function modalLinkClicked(gameFile) {
 	console.log(gameFile)
 	$('#gameModal').modal('show');
-	begin(gameFile)
+	getGameFile(gameFile, function(data) {
+		console.log(data)
+		begin(data)
+	})
 }
 
 function populateLeaderboard(problem) {
@@ -94,7 +97,7 @@ $( document ).ready(function() {
 			var opponentIndex = null
 			for(var b = 0; b < latestGames[a].users.length; b++) if(latestGames[a].users[b].userID != userID) opponentIndex = b
 			var opponent = getUser(latestGames[a].users[opponentIndex].userID)
-			console.log(latestGames[a].users[opponentIndex].rank)
+			console.log(latestGames[a])
 			var gameResult = latestGames[a].users[opponentIndex].rank === "0" ? "Lost" : "Won"
 			$("#user"+userID).append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td><a href='#gameID="+latestGames[a].gameID+"' onclick='modalLinkClicked(\""+latestGames[a].replayFilename+"\")'>"+gameResult+"</a></td></tr>")
 		}

@@ -109,116 +109,117 @@
 		function()
 		{
 			return  window.webkitRequestAnimationFrame ||
-			        window.mozRequestAnimationFrame ||
-			        window.oRequestAnimationFrame ||
-			        window.msRequestAnimationFrame ||
-			        function( callback, element) {
-				        window.setTimeout(callback, 1000 / 60);
-			        };
+					window.mozRequestAnimationFrame ||
+					window.oRequestAnimationFrame ||
+					window.msRequestAnimationFrame ||
+					function( callback, element) {
+						window.setTimeout(callback, 1000 / 60);
+					};
 		})();
 
 		var canvas, 
-			    gl,
+				gl,
 				width, height, numFrames, full_game,
 				turn_number, counter,
-			    vertex_buffer, color_buffer,
+				vertex_buffer, color_buffer,
 				blankColor, player1Color, player2Color, dimFactor,
 				vertex_locations, player1Color, player2Color,
-			    vertex_shader, fragment_shader, 
-			    currentProgram,
-			    vertex_position, color_position,
-			    parameters = {  start_time  : new Date().getTime(), 
-			                    time        : 0, 
-			                    screenWidth : 0, 
-			                    screenHeight: 0 };
+				vertex_shader, fragment_shader, 
+				currentProgram,
+				vertex_position, color_position,
+				parameters = {  start_time  : new Date().getTime(), 
+								time        : 0, 
+								screenWidth : 0, 
+								screenHeight: 0 };
 
-		function begin(gameFile) {
+		function begin(data) {
+			var meta = data.split("\n")[0].split(" ")
+			var restOfFile = data.substring(data.indexOf("\n") + 1).replace(/[^0-9]/g, "");
+			console.log(restOfFile.length);
+			console.log(restOfFile);
+			callback(parseInt(meta[0]),parseInt(meta[1]),parseInt(meta[2]),restOfFile)
+			console.log(w + " " + h + " " + nf + " " + fc.length);
 			
+			vertex_shader = document.getElementById('vs').textContent;
+			fragment_shader = document.getElementById('fs').textContent;
 
-			getGameFile(gameFile, function(w, h, nf, fc) {
-				console.log(w + " " + h + " " + nf + " " + fc.length);
+			canvas = document.querySelector('canvas');
 			
-				vertex_shader = document.getElementById('vs').textContent;
-				fragment_shader = document.getElementById('fs').textContent;
-
-				canvas = document.querySelector('canvas');
-				
-				//Get width, height, and number of frames from file. Note that those are already declared as global variables.
-				width = w;
-				height = h;
-				numFrames = nf;
-				console.log(fc);
-				
-				//Parse 1D array:
-				full_game = [];
-				var loc = 0;
-				for(var a = 0; a < numFrames; a++) {
-					var frame = [];
-					for(var b = 0; b < height * width; b++) {
-						frame.push(fc[loc]);
-						loc++;
-					}
-					full_game.push(frame);
+			//Get width, height, and number of frames from file. Note that those are already declared as global variables.
+			width = w;
+			height = h;
+			numFrames = nf;
+			console.log(fc);
+			
+			//Parse 1D array:
+			full_game = [];
+			var loc = 0;
+			for(var a = 0; a < numFrames; a++) {
+				var frame = [];
+				for(var b = 0; b < height * width; b++) {
+					frame.push(fc[loc]);
+					loc++;
 				}
-				
-				//Set turn number to be 0;
-				turn_number = 0;
-				counter = 0;
+				full_game.push(frame);
+			}
+			
+			//Set turn number to be 0;
+			turn_number = 0;
+			counter = 0;
 
-				//Initialise WebGL
-				try {
-					gl = canvas.getContext('experimental-webgl');
-				} catch(error) { }
+			//Initialise WebGL
+			try {
+				gl = canvas.getContext('experimental-webgl');
+			} catch(error) { }
 
-				if (!gl) {
-					throw "cannot create webgl context";
+			if (!gl) {
+				throw "cannot create webgl context";
+			}
+			
+			vl = [];
+			var dx = 2.0 / width, dy = 2.0 / height, xSize = 0.4 * dx, ySize = 0.4 * dy;
+			for(var yPos = -1 + (dy / 2); yPos < 1; yPos += dy) {
+				for(var xPos = -1 + (dx / 2); xPos < 1; xPos += dx) {
+					vl.push(xPos - xSize);
+					vl.push(yPos - ySize);
+					vl.push(xPos + xSize);
+					vl.push(yPos + ySize);
+					vl.push(xPos + xSize);
+					vl.push(yPos - ySize);
+					vl.push(xPos - xSize);
+					vl.push(yPos - ySize);
+					vl.push(xPos + xSize);
+					vl.push(yPos + ySize);
+					vl.push(xPos - xSize);
+					vl.push(yPos + ySize);
 				}
-				
-				vl = [];
-				var dx = 2.0 / width, dy = 2.0 / height, xSize = 0.4 * dx, ySize = 0.4 * dy;
-				for(var yPos = -1 + (dy / 2); yPos < 1; yPos += dy) {
-					for(var xPos = -1 + (dx / 2); xPos < 1; xPos += dx) {
-						vl.push(xPos - xSize);
-						vl.push(yPos - ySize);
-						vl.push(xPos + xSize);
-						vl.push(yPos + ySize);
-						vl.push(xPos + xSize);
-						vl.push(yPos - ySize);
-						vl.push(xPos - xSize);
-						vl.push(yPos - ySize);
-						vl.push(xPos + xSize);
-						vl.push(yPos + ySize);
-						vl.push(xPos - xSize);
-						vl.push(yPos + ySize);
-					}
-				}
-				var vertex_locations = new Float32Array(vl);
-				
-				//Get player colors from file.
-				player1Color = new Float32Array([ 1.0, 0.0, 0.0 ]);
-				player2Color = new Float32Array([ 0.0, 0.0, 1.0 ]);
-				blankColor = new Float32Array([ 0.5, 0.5, 0.5 ]);
-				dimFactor = 0.3;
+			}
+			var vertex_locations = new Float32Array(vl);
+			
+			//Get player colors from file.
+			player1Color = new Float32Array([ 1.0, 0.0, 0.0 ]);
+			player2Color = new Float32Array([ 0.0, 0.0, 1.0 ]);
+			blankColor = new Float32Array([ 0.5, 0.5, 0.5 ]);
+			dimFactor = 0.3;
 
-				//Create Vertex buffer
-				vertex_buffer = gl.createBuffer();
-				gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
-				gl.bufferData(gl.ARRAY_BUFFER, vertex_locations, gl.STATIC_DRAW);
-				//Create Color buffer
-				color_buffer = gl.createBuffer();
+			//Create Vertex buffer
+			vertex_buffer = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+			gl.bufferData(gl.ARRAY_BUFFER, vertex_locations, gl.STATIC_DRAW);
+			//Create Color buffer
+			color_buffer = gl.createBuffer();
 
-				//Create Program
-				currentProgram = createProgram(vertex_shader, fragment_shader);
-				
-				//Find vertex and color positions.
-				vertex_position = gl.getAttribLocation(currentProgram, "position");
-				color_position = gl.getAttribLocation(currentProgram, "vcolor");
+			//Create Program
+			currentProgram = createProgram(vertex_shader, fragment_shader);
+			
+			//Find vertex and color positions.
+			vertex_position = gl.getAttribLocation(currentProgram, "position");
+			color_position = gl.getAttribLocation(currentProgram, "vcolor");
 
-				onWindowResize();
-				window.addEventListener('resize', onWindowResize, false);
-				
-				animate();
-			});
+			onWindowResize();
+			window.addEventListener('resize', onWindowResize, false);
+			
+			animate();
 		}
 
 		function createProgram(vertex, fragment) {
