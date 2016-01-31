@@ -80,6 +80,7 @@ class Sandbox:
 	def is_alive(self):
 		"""Indicates whether a command is currently running in the sandbox"""
 		if self._is_alive:
+			print(self.command_process.poll())
 			sub_result = self.command_process.poll()
 			if sub_result is None:
 				return True
@@ -89,7 +90,7 @@ class Sandbox:
 
 	def start(self, shell_command):
 		"""Start a command running in the sandbox"""
-		shell_command = "docker run -v /var/www/nycsl/:/var/www/nycsl/ --privileged=true virtual_machine sh -c \"cd /var/www/nycsl/php/workingPath && " + shell_command + "\""
+		shell_command = shell_command
 		if self.is_alive:
 			raise SandboxError("Tried to run command with one in progress.")
 		working_directory = self.working_directory
@@ -211,6 +212,10 @@ class Sandbox:
 		at least once after each command that is run in the sandbox.
 
 		"""
+		time.sleep(0.3)
+		print("Reading")
+		print(self.is_alive)
+		print("Done reading")
 		if not self.is_alive:
 			timeout=0
 		try:
