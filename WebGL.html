@@ -81,6 +81,8 @@ DOCTYPE HTML>
 			                    screenHeight: 0 };
  
 			getGameFile("1454192586", function(w, h, nf, fc) {
+				console.log(w + " " + h + " " + nf);
+			
 				vertex_shader = document.getElementById('vs').textContent;
 				fragment_shader = document.getElementById('fs').textContent;
  
@@ -93,8 +95,6 @@ DOCTYPE HTML>
 				
 				//Get 1D Int8 array from file:
 				var file_contents = fc;
-				
-				console.log(w + " " + h + " " + nf);
 				
 				//Parse 1D array:
 				full_game = [];
