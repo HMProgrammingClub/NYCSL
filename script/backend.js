@@ -81,7 +81,9 @@ function getSession() {
 	var result = $.ajax({
 		url: url+"session", 
 		async: false,
-		method: "GET"
+		method: "GET",
+		contentType: "application/json; charset=utf-8",
+		data: {}
 	});
 	return result.responseJSON;
 }
