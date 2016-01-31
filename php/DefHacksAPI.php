@@ -332,6 +332,8 @@ class DefHacksAPI extends API
 			isset($_POST['userID']) &&
 			isset($_FILES['outputFile']['name'])) {
 
+
+			/*
 			// Parameters
 			$userID = $_POST['userID'];
 			
@@ -363,6 +365,8 @@ class DefHacksAPI extends API
 			}
 
 			return $score."";
+
+			*/ return "Nuh uh. Sneaky sneaky.";
 		} else {
 			return "Didn't reach endpoint";
 		}
