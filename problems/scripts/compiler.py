@@ -321,14 +321,14 @@ languages = (
 	# If a source glob is "" it means the source is part of the compiler
 	#   arguments.
 	Language("Ada", BOT, "TronBot.adb",
-		"./TronBot",
+		"/var/www/nycsl/php/workingPath/TronBot",
 		["*.ali"],
 		[(["*.adb"], ExternalCompiler(comp_args["Ada"][0])),
 			(["TronBot.ali"], ExternalCompiler(comp_args["Ada"][1])),
 			(["TronBot.ali"], ExternalCompiler(comp_args["Ada"][2]))]
 	),
 	Language("C", BOT, "TronBot.c",
-		"./TronBot",
+		"/var/www/nycsl/php/workingPath/TronBot",
 		["*.o", BOT],
 		[(["*.c"], TargetCompiler(comp_args["C"][0], targets["C"])),
 			(["*.o"], ExternalCompiler(comp_args["C"][1]))]
@@ -346,7 +346,7 @@ languages = (
 	),
 	# These two C++ variants should be combined after the ants contest
 	Language("C++", BOT, "TronBot.cc",
-		"./TronBot",
+		"/var/www/nycsl/php/workingPath/TronBot",
 		["*.o", BOT],
 		[
 			(["*.c", "*.cpp", "*.cc"],
@@ -355,7 +355,7 @@ languages = (
 		]
 	),
 	Language("C++11", BOT, "TronBot.cpp",
-		"./TronBot",
+		"/var/www/nycsl/php/workingPath/TronBot",
 		["*.o", BOT],
 		[
 			(["*.c", "*.cpp", "*.cc"],
@@ -374,7 +374,7 @@ languages = (
 		[(["*.coffee"], ChmodCompiler("CoffeeScript"))]
 	),
 	Language("D", BOT, "TronBot.d",
-		"./TronBot",
+		"/var/www/nycsl/php/workingPath/TronBot",
 		["*.o", BOT],
 		[(["*.d"], ExternalCompiler(comp_args["D"][0]))]
 	),
@@ -389,7 +389,7 @@ languages = (
 		[(["*.erl"], ExternalCompiler(["erlc"], out_ext=".beam"))]
 	),
 	Language("Go", BOT, "TronBot.go",
-		"./TronBot",
+		"/var/www/nycsl/php/workingPath/TronBot",
 		["*.8", "*.6", BOT],
 		[(["*.go"], ExternalCompiler(comp_args["Go"][0], out_files=['_go_.6'])),
 			([""], ExternalCompiler(comp_args["Go"][1], out_files=['_go_.6']))]
@@ -401,7 +401,7 @@ languages = (
 		(["*.class"], ExternalCompiler(comp_args["Groovy"][1]))]
 	),
 	Language("Haskell", BOT, "TronBot.hs",
-		"./TronBot +RTS -M" + str(MEMORY_LIMIT) + "m",
+		"/var/www/nycsl/php/workingPath/TronBot +RTS -M" + str(MEMORY_LIMIT) + "m",
 		[BOT],
 		[([""], ExternalCompiler(comp_args["Haskell"][0]))]
 	),
@@ -417,7 +417,7 @@ languages = (
 		[(["*.js"], ChmodCompiler("Javascript"))]
 	),
 	Language("Lisp", BOT, "TronBot.lisp",
-		"./TronBot --dynamic-space-size " + str(MEMORY_LIMIT),
+		"/var/www/nycsl/php/workingPath/TronBot --dynamic-space-size " + str(MEMORY_LIMIT),
 		[BOT],
 		[([""], ExternalCompiler(comp_args["Lisp"][0]))]
 	),
@@ -427,7 +427,7 @@ languages = (
 		[(["*.lua"], ChmodCompiler("Lua"))]
 	),
 	Language("OCaml", BOT +".native", "TronBot.ml",
-		"./TronBot.native",
+		"/var/www/nycsl/php/workingPath/TronBot.native",
 		[BOT + ".native"],
 		[([""], ExternalCompiler(comp_args["OCaml"][0]))]
 	),
@@ -480,7 +480,7 @@ languages = (
 		[(["*.scala"], ExternalCompiler(comp_args["Scala"][0]))]
 	),
 	Language("Scheme", BOT +".ss", "TronBot.ss",
-		"./TronBot",
+		"/var/www/nycsl/php/workingPath/TronBot",
 		[],
 		[(["*.ss"], ChmodCompiler("Scheme"))]
 	),
