@@ -5,6 +5,7 @@ import platform
 import trueskill
 import pymysql.cursors
 import random
+import shutil
 
 TRON_PROBLEM_ID = 3
 
@@ -31,7 +32,7 @@ def unpack(filePath, destinationFilePath):
 		shutil.move(os.path.join(tempPath, filename), os.path.join(destinationFilePath, filename))
 	
 	shutil.rmtree(tempPath)
-	os.remove(filePath)
+	#os.remove(filePath)
 
 def runGame(userIDs, muValues, sigmaValues):
 	# Setup working path
@@ -44,12 +45,15 @@ def runGame(userIDs, muValues, sigmaValues):
 	# Unpack and setup bot files
 	botPaths = [os.path.join(workingPath, str(userID)) for userID in userIDs]
 	for botPath in botPaths: os.mkdir(botPath)
-	for a in range(len(userIDs)): unpack("../outputs/"+ str(userID) + ".zip", botPaths[a])
-	for bothPath in botPaths: os.chmod(os.path.join(botPath, "run.sh"), os.stat(os.path.join(botPath, "run.sh")).st_mode | stat.S_IEXEC)
+	for a in range(len(userIDs)): unpack("../outputs/TR/"+ str(userIDs[a]) + ".zip", botPaths[a])
+	for botPath in botPaths:
+		print(botPath)
+		os.chmod(botPath, 0o777)
+		os.chmod(os.path.join(botPath, "run.sh"), 0o777)
 	
 	# Build the shell command that will run the game. Executable called environment houses the game environment
 	runGameShellCommand = "python3 TR_environment_main.py "
-	for bothPath in botPaths: runGameShellCommand += "\""+os.path.join(os.path.abspath(bothPath), "run.sh")+"\" "
+	for botPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(botPath)+"; "+os.path.join(os.path.abspath(botPath), "run.sh")+"\" "
 	print(runGameShellCommand)
 
 	# Run game
@@ -60,33 +64,35 @@ def runGame(userIDs, muValues, sigmaValues):
 	lines.remove("")
 	
 	# Get player ranks and scores by parsing shellOutput
-	winnerNumber = lines[-2][len("Player ") : -len("won!")]
-	winnerID = userIDs[winnerNumber-1]
-	loserID = 1 if winnerID == 0 else 0
+	winnerNumber = int(lines[-2][len("Player ") : -len("won!")])
+	winnerIndex = winnerNumber - 1
+	winnerID = userIDs[winnerIndex]
+	loserIndex = (1 if winnerNumber == 2 else 2)-1
+	loserID = userIDs[loserIndex]
 
 	# Update trueskill mu and sigma values
 	teams = []
-	teams.append([trueskill.Rating(mu=float(muValues[winnerID]), sigma=float(sigmaValues[winnerID]))])
-	teams.append([trueskill.Rating(mu=float(muValues[loserID]), sigma=float(sigmaValues[loserID]))])
+	teams.append([trueskill.Rating(mu=float(muValues[winnerIndex]), sigma=float(sigmaValues[winnerIndex]))])
+	teams.append([trueskill.Rating(mu=float(muValues[loserIndex]), sigma=float(sigmaValues[loserIndex]))])
 	newRatings = [ratingTuple[0] for ratingTuple in trueskill.rate(teams)]
 
 	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f WHERE userID = %d and problemID = %d" % (newRatings[0].mu, newRatings[0].sigma, winnerID, TRON_PROBLEM_ID))
 	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f WHERE userID = %d and problemID = %d" % (newRatings[1].mu, newRatings[1].sigma, loserID, TRON_PROBLEM_ID))
-	cursor.commit()
+	cnx.commit()
 
 	# Get replay file by parsing shellOutput
 	replayFilename = lines[-1][len("Output file is stored at ") : len(lines[-1])]
 
 	# Store results of game
 	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+replayFilename+"\')")
-	cursor.commit()
+	cnx.commit()
 
 	cursor.execute("SELECT gameID FROM Game WHERE replayFilename = \'"+replayFilename+"\'")
 	gameID = cursor.fetchone()['gameID']
 	
 	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank) VALUES (%d, %d, %d)" % (gameID, winnerID, 0))
 	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank) VALUES (%d, %d, %d)" % (gameID, loserID, 1))
-	cursor.commit()
+	cnx.commit()
 
 	# Delete working path
 	shutil.rmtree(workingPath)
@@ -101,6 +107,6 @@ while True:
 		for possibleOpponent in submissions:
 			if submission['userID'] != possibleOpponent['userID'] and abs(submission['score'] - possibleOpponent['score']) < allowedDifferenceInScore:
 				allowedOpponents.append(possibleOpponent)
-		opponent = random.randrange(0, len(allowedOpponents))
+		opponent = allowedOpponents[random.randrange(0, len(allowedOpponents))]
 
-		runGame([submission['userID'], opponent['userIDs']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['mu']])
+		runGame([submission['userID'], opponent['userID']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['mu']])
