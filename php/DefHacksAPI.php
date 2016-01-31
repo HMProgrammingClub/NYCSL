@@ -374,6 +374,23 @@ class DefHacksAPI extends API
 		}
 		return "Success";
 	}
+
+	protected function game() {
+		if(isset($_GET['userID'])) {
+			$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
+			$userID = $_GET['userID'];
+			$gameIDArrays = $this->selectMultiple("SELECT * FROM GameToUser WHERE userID = $userID LIMIT $limit");
+			$gameArrays = array();
+			foreach ($gameIDArrays as $gameIDArray) {
+				$gameID = $gameIDArray['gameID'];
+				$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
+				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank FROM GameToUser WHERE gameID = $gameID");
+				array_push($gameArrays, $gameArray);
+			}
+			return $gameArrays;
+		}
+		return NULL;
+	}
  }
 
  ?>
