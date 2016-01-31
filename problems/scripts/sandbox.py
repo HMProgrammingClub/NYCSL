@@ -124,7 +124,7 @@ class Sandbox:
 		suddenly terminated.
 
 		"""
-		if self.is_alive():
+		if self.is_alive:
 			try:
 				self.command_process.kill()
 			except OSError:
@@ -134,7 +134,7 @@ class Sandbox:
 
 	def retrieve(self):
 		"""Copy the working directory back out of the sandbox."""
-		if self.is_alive():
+		if self.is_alive:
 			raise SandboxError("Tried to retrieve sandbox while still alive")
 		pass
 
@@ -145,7 +145,7 @@ class Sandbox:
 		Must be called exactly once after Sandbox.kill has been called.
 
 		"""
-		#if self.is_alive():
+		#if self.is_alive:
 		#	raise SandboxError("Sandbox released while still alive")
 		pass
 
@@ -189,7 +189,7 @@ class Sandbox:
 
 	def write(self, str):
 		"""Write str to stdin of the process being run"""
-		if not self.is_alive():
+		if not self.is_alive:
 			return False
 		self.child_queue.put(str)
 
@@ -199,7 +199,7 @@ class Sandbox:
 		A newline is appended to line and written to stdin of the child process
 
 		"""
-		if not self.is_alive():
+		if not self.is_alive:
 			return False
 		self.child_queue.put(line + "\n")
 
@@ -211,7 +211,7 @@ class Sandbox:
 		at least once after each command that is run in the sandbox.
 
 		"""
-		if not self.is_alive():
+		if not self.is_alive:
 			timeout=0
 		try:
 			return self.stdout_queue.get(block=True, timeout=timeout)
@@ -226,7 +226,7 @@ class Sandbox:
 		at least once after each command that is run in the sandbox.
 
 		"""
-		if not self.is_alive():
+		if not self.is_alive:
 			timeout=0
 		try:
 			return self.stderr_queue.get(block=True, timeout=timeout)
