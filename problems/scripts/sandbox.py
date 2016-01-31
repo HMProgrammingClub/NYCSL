@@ -89,8 +89,8 @@ class Sandbox:
 
 	def start(self, shell_command):
 		"""Start a command running in the sandbox"""
-		shell_command = "docker run -v /var/www/nycsl/:/var/www/nycsl/ --privileged=true virtual_machine " + shell_command
-		if self.is_alive():
+		shell_command = "docker run -v /var/www/nycsl/:/var/www/nycsl/ --privileged=true virtual_machine sh -c \"cd /var/www/nycsl/php/workingPath && " + shell_command + "\""
+		if self.is_alive:
 			raise SandboxError("Tried to run command with one in progress.")
 		working_directory = self.working_directory
 		self.child_queue = Queue()
