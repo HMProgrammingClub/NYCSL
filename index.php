@@ -61,7 +61,10 @@
 		</div>
 	</div>
 
-	<?php include 'includes/footer.php'; ?>
+	<?php 
+		include 'includes/game.php'; 
+		include 'includes/footer.php'
+	?>
 
 	<script src="lib/jquery.min.js"></script>
 	<script src="lib/bootstrap.min.js"></script>

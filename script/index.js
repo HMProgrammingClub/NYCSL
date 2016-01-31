@@ -7,7 +7,7 @@ function populateLeaderboard(problem) {
 	for(var a = 0; a < problem.submissions.length; a++) {
 		var user = problem.submissions[a].user
 		var domAddition = "<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' href='#'>"+problem.submissions[a].score+"</a></td></tr>"
-		domAddition += "<tr class='gameRow'><td></td><td>vs <a href='student.php?userID=69'>Ben Spector</a></td><td><a href='school.php?schoolName=Horace%20Mann'>Horace Mann</a></td><td><a href='#'>Win</a></td></tr>"
+		domAddition += "<tr class='gameRow'><td></td><td>vs <a href='student.php?userID=69'>Ben Spector</a></td><td><a href='school.php?schoolName=Horace%20Mann'>Horace Mann</a></td><td><a href='#gameID=3328' data-toggle='modal' data-target='#gameModal'>Win</a></td></tr>"
 		domAddition += "</tbody>"
 		$("#leaderTable").append(domAddition);
 	}
