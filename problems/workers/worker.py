@@ -42,7 +42,10 @@ def runGame(userIDs, muValues, sigmaValues):
 		shutil.rmtree(workingPath)	
 	os.makedirs(workingPath)
 	os.chmod(workingPath, 0o777)
-
+	
+	shutil.copyfile("TR_environment_main.py", os.path.join(workingPath, "TR_environment_main.py"))
+	shutil.copyfile("TR_environment_networking.py", os.path.join(workingPath, "TR_environment_networking.py"))
+	
 	sandbox = Sandbox(workingPath)
 
 	# Unpack and setup bot files
@@ -55,7 +58,7 @@ def runGame(userIDs, muValues, sigmaValues):
 		os.chmod(os.path.join(botPath, "run.sh"), 0o777)
 	
 	# Build the shell command that will run the game. Executable called environment houses the game environment
-	runGameShellCommand = "python3 /var/www/nycsl/problems/workers/TR_environment_main.py "
+	runGameShellCommand = "python3 /var/www/nycsl/problems/workers/"+workingPath+"/TR_environment_main.py "
 	for botPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(botPath)+"; "+os.path.join(os.path.abspath(botPath), "run.sh")+"\" "
 	print(runGameShellCommand)
 
@@ -89,7 +92,7 @@ def runGame(userIDs, muValues, sigmaValues):
 
 	# Get replay file by parsing shellOutput
 	replayFilename = lines[-1][len("Output file is stored at ") : len(lines[-1])]
-	shutil.move(replayFilename, "../storage")
+	shutil.move(os.path.join(workingPath, replayFilename), "../storage")
 	
 	# Store results of game
 	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+replayFilename+"\')")
