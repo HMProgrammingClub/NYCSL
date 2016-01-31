@@ -51,6 +51,18 @@ def _guard_monitor(jail):
 		elif msg == "SIGNALED":
 			jail.resp_queue.put((time, data))
 
+def _monitor_file(fd, q):
+	print("Start monitor")
+	while True:
+		line = fd.readline()
+		print(line)
+		if not line:
+			q.put(None)
+			break
+		line = unicode(line, errors="replace")
+		line = line.rstrip('\r\n')
+		q.put(line)
+
 class Sandbox:
 
 	def __init__(self, working_directory):
