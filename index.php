@@ -137,7 +137,6 @@
 			var restOfFile = data.substring(data.indexOf("\n") + 1).replace(/[^0-9]/g, "");
 			console.log(restOfFile.length);
 			console.log(restOfFile);
-			callback(parseInt(meta[0]),parseInt(meta[1]),parseInt(meta[2]),restOfFile)
 			console.log(w + " " + h + " " + nf + " " + fc.length);
 			
 			vertex_shader = document.getElementById('vs').textContent;
