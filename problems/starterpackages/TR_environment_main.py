@@ -2,6 +2,7 @@ from TR_environment_networking import Networker
 from enum import Enum
 import time
 import copy
+import sys
 
 class Direction(Enum):
 	north = 0
@@ -21,10 +22,15 @@ class Point:
 		self.x = x
 		self.y = y
 
-# Network initialization
 networker = Networker()
-for a in range(2):
-	networker.startPlayer(input("Enter the start command for the player " + str(a) + ":"))
+if len(sys.argv) >= 2:
+	for a in range(-2, 0):
+		print(sys.argv[a])
+		networker.startPlayer(sys.argv[a])
+else:
+	# Network initialization
+	for a in range(2):
+		networker.startPlayer(input("Enter the start command for the player " + str(a) + ":"))
 
 # Map setup
 width = 16
