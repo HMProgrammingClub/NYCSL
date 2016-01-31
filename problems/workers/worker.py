@@ -12,7 +12,6 @@ cnx = pymysql.connect(host="104.131.81.214", user="superuser", database="DefHack
 cursor = cnx.cursor()
 
 def unpack(filePath, destinationFilePath):
-	folderPath = os.path.dirname(filePath)
 	tempPath = os.path.join(destinationFilePath, "bot")
 	os.mkdir(tempPath)
 	
@@ -27,9 +26,9 @@ def unpack(filePath, destinationFilePath):
 	if os.path.exists(macFolderPath) and os.path.isdir(macFolderPath):
 		shutil.rmtree(macFolderPath)
 
-	# Copy contents of bot folder to folderPath remove bot folder
+	# Copy contents of bot folder to destinationFilePath remove bot folder
 	for filename in os.listdir(tempPath):
-		shutil.move(os.path.join(tempPath, filename), os.path.join(folderPath, filename))
+		shutil.move(os.path.join(tempPath, filename), os.path.join(destinationFilePath, filename))
 	
 	shutil.rmtree(tempPath)
 	os.remove(filePath)
@@ -50,7 +49,7 @@ def runGame(userIDs, muValues, sigmaValues):
 	
 	# Build the shell command that will run the game. Executable called environment houses the game environment
 	runGameShellCommand = "./environment "
-	for bothPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(bothPath)+"; "+os.path.join(os.path.abspath(bothPath), "run.sh")+"\" "
+	for bothPath in botPaths: runGameShellCommand += "\""+os.path.join(os.path.abspath(bothPath), "run.sh")+"\" "
 	print(runGameShellCommand)
 
 	# Run game
@@ -73,10 +72,22 @@ def runGame(userIDs, muValues, sigmaValues):
 
 	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f WHERE userID = %d and problemID = %d" % (newRatings[0].mu, newRatings[0].sigma, winnerID, TRON_PROBLEM_ID))
 	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f WHERE userID = %d and problemID = %d" % (newRatings[1].mu, newRatings[1].sigma, loserID, TRON_PROBLEM_ID))
+	cursor.commit()
 
 	# Get replay file by parsing shellOutput
 	replayFilename = lines[-1][len("Output file is stored at ") : len(lines[-1])]
+
+	# Store results of game
+	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+replayFilename+"\')")
+	cursor.commit()
+
+	cursor.execute("SELECT gameID FROM Game WHERE replayFilename = \'"+replayFilename+"\'")
+	gameID = cursor.fetchone()['gameID']
 	
+	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank) VALUES (%d, %d, %d)" % (gameID, winnerID, 0))
+	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank) VALUES (%d, %d, %d)" % (gameID, loserID, 1))
+	cursor.commit()
+
 	# Delete working path
 	shutil.rmtree(workingPath)
 

@@ -5,7 +5,6 @@ import platform
 import json
 
 def unpack(filePath, destinationFilePath):
-	#folderPath = os.path.dirname(destinationFilePath)
 	tempPath = os.path.join(destinationFilePath, "bot")
 	os.mkdir(tempPath)
 	
@@ -21,7 +20,7 @@ def unpack(filePath, destinationFilePath):
 	if os.path.exists(macFolderPath) and os.path.isdir(macFolderPath):
 		shutil.rmtree(macFolderPath)
 
-	# Copy contents of bot folder to folderPath remove bot folder
+	# Copy contents of bot folder to destinationFilePath remove bot folder
 	for filename in os.listdir(tempPath):
 		shutil.move(os.path.join(tempPath, filename), os.path.join(destinationFilePath, filename))
 	
