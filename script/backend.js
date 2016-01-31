@@ -49,7 +49,7 @@ function getGameFile(gameID,callback) {
 
 function getLatestGamesForUser(userID) {
 	var result = $.ajax({
-		url: url+"/game",
+		url: url+"game",
 		async: false,
 		method: "GET",
 		data: {userID: userID, limit: 5}
