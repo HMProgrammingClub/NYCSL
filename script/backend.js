@@ -37,7 +37,7 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 
 function getGameFile(gameID,callback) {
 	var result = $.ajax({
-		url: "/problems/storage/"+gameID+".tr",
+		url: "http://localhost/NYCSL-private/problems/storage/"+gameID+".trn",
 		async: false,
 		success: function(data) {
 			meta = data.split('\n')[0].split(' ').map(parseFloat)

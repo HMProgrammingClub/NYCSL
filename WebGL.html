@@ -94,17 +94,20 @@ DOCTYPE HTML>
 				//Get 1D Int8 array from file:
 				var file_contents = fc;
 				
+				console.log(w + " " + h + " " + nf);
+				
 				//Parse 1D array:
+				full_game = [];
 				var loc = 0;
 				for(var a = 0; a < numFrames; a++) {
 					var frame = [];
 					for(var b = 0; b < height; b++) {
-						var row = [];
 						for(var c = 0; c < width; c++) {
-							file_contents[a]
+							frame.push(file_contents[a]);
 							loc++;
 						}
 					}
+					full_game.push(frame);
 				}
 				
 				//Set turn number to be 0;
@@ -119,24 +122,25 @@ DOCTYPE HTML>
 					throw "cannot create webgl context";
 				}
 				
-				var vertex_locations = new Float32Array();
+				vl = [];
 				var dx = 2.0 / (width + 1), dy = 2.0 / (height + 1), xSize = 0.4 * dx, ySize = 0.4 * dy;
 				for(var yPos = -1 + (dy / 2); yPos < 1; yPos += dy) {
 					for(var xPos = -1 + (dx / 2); xPos < 1; xPos += dx) {
-						vertex_locations.push(xPos - xSize);
-						vertex_locations.push(yPos - ySize);
-						vertex_locations.push(xPos + xSize);
-						vertex_locations.push(yPos + ySize);
-						vertex_locations.push(xPos + xSize);
-						vertex_locations.push(yPos - ySize);
-						vertex_locations.push(xPos - xSize);
-						vertex_locations.push(yPos - ySize);
-						vertex_locations.push(xPos + xSize);
-						vertex_locations.push(yPos + ySize);
-						vertex_locations.push(xPos - xSize);
-						vertex_locations.push(yPos + ySize);
+						vl.push(xPos - xSize);
+						vl.push(yPos - ySize);
+						vl.push(xPos + xSize);
+						vl.push(yPos + ySize);
+						vl.push(xPos + xSize);
+						vl.push(yPos - ySize);
+						vl.push(xPos - xSize);
+						vl.push(yPos - ySize);
+						vl.push(xPos + xSize);
+						vl.push(yPos + ySize);
+						vl.push(xPos - xSize);
+						vl.push(yPos + ySize);
 					}
 				}
+				var vertex_locations = new Float32Array(vl);
 				
 				//Get player colors from file.
 				blankColor = new Float32Array([ 0.5, 0.5, 0.5 ]);
@@ -231,10 +235,11 @@ DOCTYPE HTML>
 			}
 			
 			function nextFrame() {
+			console.log("Length: " + full_game.length);
 				var map = full_game[turn_number];
-				
+				console.log("Type: " + typeof(map));
 				var colors = []
-				for(var a = 0; a < map.length; a++) {
+				for(var a = 0; a < map.prototype.length; a++) {
 					for(var b = 0; b < 6; b++) { //Fill in for each vertex:
 						if(map[a] == 1) {
 							colors.push(player1Color[0]);
