@@ -43,6 +43,9 @@ DOCTYPE HTML>
 			}
  
 		</script> 
+		
+		<script src="lib/jquery.min.js"></script>
+		<script src="script/backend.js"></script>
  
 		<script> 
  
@@ -65,6 +68,7 @@ DOCTYPE HTML>
 			var canvas, 
 			    gl,
 				width, height, numFrames, full_game,
+				turn_number,
 			    vertex_buffer, color_buffer,
 				blankColor, player1Color, player2Color, dimFactor,
 				vertex_locations, player1Color, player2Color,
@@ -76,23 +80,19 @@ DOCTYPE HTML>
 			                    screenWidth : 0, 
 			                    screenHeight: 0 };
  
-			init();
-			animate();
- 
-			function init() {
- 
+			getGameFile("1454192586", function(w, h, nf, fc) {
 				vertex_shader = document.getElementById('vs').textContent;
 				fragment_shader = document.getElementById('fs').textContent;
  
 				canvas = document.querySelector('canvas');
 				
 				//Get width, height, and number of frames from file. Note that those are already declared as global variables.
-				width = ???
-				height = ???
-				numFrames = ???
+				width = w;
+				height = h;
+				numFrames = nf;
 				
 				//Get 1D Int8 array from file:
-				var file_contents = new Int8Array();
+				var file_contents = fc;
 				
 				//Parse 1D array:
 				var loc = 0;
@@ -106,6 +106,9 @@ DOCTYPE HTML>
 						}
 					}
 				}
+				
+				//Set turn number to be 0;
+				turn_number = 0;
  
 				//Initialise WebGL
 				try {
@@ -155,8 +158,9 @@ DOCTYPE HTML>
  
 				onWindowResize();
 				window.addEventListener('resize', onWindowResize, false);
- 
-			}
+				
+				animate();
+			});
  
 			function createProgram(vertex, fragment) {
  
@@ -222,11 +226,12 @@ DOCTYPE HTML>
 			function animate() {
 				requestAnimationFrame(animate);
 				nextFrame();
+				turn_number++;
 				render();
 			}
 			
 			function nextFrame() {
-				var map = new Int8Array();
+				var map = full_game[turn_number];
 				
 				var colors = []
 				for(var a = 0; a < map.length; a++) {
