@@ -61,16 +61,14 @@ def runGame(userIDs, muValues, sigmaValues):
 
 	# Run game
 	sandbox.start(runGameShellCommand)
-	shellOutput = []
+	lines = []
 	while True:
 		line = sandbox.read_line(200)
 		print(line)
 		if line == None:
 			break
-		shellOutput.append(line)
+		lines.append(line)
 	
-	lines = shellOutput.split("\n")
-	lines.remove("")
 	
 	# Get player ranks and scores by parsing shellOutput
 	winnerNumber = int(lines[-2][len("Player ") : -len("won!")])
@@ -107,7 +105,7 @@ def runGame(userIDs, muValues, sigmaValues):
 	shutil.rmtree(workingPath)
 
 while True:
-	cursor.execute("SELECT * FROM Submission WHERE problemID = " + str(TRON_PROBLEM_ID))
+	cursor.execute("SELECT * FROM Submission WHERE isReady = 1 and problemID = " + str(TRON_PROBLEM_ID))
 	submissions = cursor.fetchall()
 	submissions.sort(key=lambda x: int(x['score']))
 	for submission in submissions:
