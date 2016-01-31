@@ -453,16 +453,10 @@ languages = (
 		[],
 		[(["*.php"], ChmodCompiler("PHP"))]
 	),
-	Language("Python", BOT +".py", "TronBot.py",
+	Language("Python3", BOT +".py", "TronBot.py",
 		"python3 TronBot.py",
 		["*.pyc"],
-		[(["*.py"], ChmodCompiler("Python")),
-		(["setup_exts"], ErrorFilterCompiler(comp_args["Python"][0], separate=True, filter_stderr='-Wstrict-prototypes'))]
-	),
-	Language("Python3", BOT +".py3", "TronBot.py3",
-		"python3 TronBot.py3",
-		["*.pyc"],
-		[(["*.py3"], ChmodCompiler("Python3")),
+		[(["*.py"], ChmodCompiler("Python3")),
 		(["setup_exts"], ErrorFilterCompiler(comp_args["Python3"][0], separate=True, filter_stderr='-Wstrict-prototypes'))]
 	),
 	Language("PyPy", BOT +".pypy", "TronBot.pypy",
