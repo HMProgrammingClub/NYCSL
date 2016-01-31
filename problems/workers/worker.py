@@ -95,7 +95,7 @@ def runGame(userIDs, muValues, sigmaValues):
 	shutil.move(os.path.join(workingPath, replayFilename), "../storage")
 	
 	# Store results of game
-	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+replayFilename+"\')")
+	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+os.basename(replayFilename)+"\')")
 	cnx.commit()
 
 	cursor.execute("SELECT gameID FROM Game WHERE replayFilename = \'"+replayFilename+"\'")
