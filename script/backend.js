@@ -36,7 +36,7 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 }
 
 function getGameFile(gameID,callback) {
-	var result = $.ajax({
+	$.ajax({
 		url: "http://localhost/NYCSL-private/problems/storage/"+gameID+".trn",
 		async: false,
 		success: function(data) {
@@ -47,6 +47,15 @@ function getGameFile(gameID,callback) {
 	});
 }
 
+function getLatestGamesForUser(userID) {
+	var result = $.ajax({
+		url: url+"/game",
+		async: false,
+		method: "GET",
+		data: {userID: userID, limit: 5}
+	});
+	return result.responseJSON;
+}
 
 function storeUserSession(userID, email, password, async) {
 	if(userID != null && password != null) {

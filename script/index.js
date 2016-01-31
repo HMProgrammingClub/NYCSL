@@ -6,9 +6,7 @@ function populateLeaderboard(problem) {
 	$("#leaderTable").empty()
 	for(var a = 0; a < problem.submissions.length; a++) {
 		var user = problem.submissions[a].user
-		var domAddition = "<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' href='#'>"+problem.submissions[a].score+"</a></td></tr>"
-		domAddition += "<tr class='gameRow'><td></td><td>vs <a href='student.php?userID=69'>Ben Spector</a></td><td><a href='school.php?schoolName=Horace%20Mann'>Horace Mann</a></td><td><a href='#gameID=3328' data-toggle='modal' data-target='#gameModal'>Win</a></td></tr>"
-		domAddition += "</tbody>"
+		var domAddition = "<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' userID= '"+user.userID+"' href='#'>"+problem.submissions[a].score+"</a></td></tr></tbody>"
 		$("#leaderTable").append(domAddition);
 	}
 }
@@ -83,6 +81,17 @@ $( document ).ready(function() {
 	});
 
 	$(document).on("click",".matchDrop",function(e) {
+		var userID = $(this).attr("userID")
+		var latestGames = getLatestGamesForUser(userID)
+		console.log(latestGames)
+		for(var a = 0; a < latestGames.length; a++) {
+			var opponentIndex = null
+			for(var b = 0; b < latestGames[a].users.length; b++) if(latestGames[a].users[b].userID != userID) opponentIndex = b
+			var opponent = getUser(latestGames[a].users[opponentIndex].userID)
+			console.log(latestGames[a].users[opponentIndex].rank)
+			var gameResult = latestGames[a].users[opponentIndex].rank === "0" ? "Lost" : "Won"
+			$("#user"+userID).append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td><a href='#gameID="+latestGames[a].gameID+"' data-toggle='modal' data-target='#gameModal'>"+gameResult+"</a></td></tr>")
+		}
 		var display = $(this).parent().parent().parent().find(".gameRow").css("display");
 		if (display === "none") $(this).parent().parent().parent().find(".gameRow").css("display","table-row")
 		else $(this).parent().parent().parent().find(".gameRow").css("display","none")
