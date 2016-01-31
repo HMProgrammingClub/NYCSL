@@ -48,7 +48,7 @@ def runGame(userIDs, muValues, sigmaValues):
 	for bothPath in botPaths: os.chmod(os.path.join(botPath, "run.sh"), os.stat(os.path.join(botPath, "run.sh")).st_mode | stat.S_IEXEC)
 	
 	# Build the shell command that will run the game. Executable called environment houses the game environment
-	runGameShellCommand = "./environment "
+	runGameShellCommand = "python3 TR_environment_main.py "
 	for bothPath in botPaths: runGameShellCommand += "\""+os.path.join(os.path.abspath(bothPath), "run.sh")+"\" "
 	print(runGameShellCommand)
 
