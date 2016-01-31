@@ -6,6 +6,7 @@ import trueskill
 import pymysql.cursors
 import random
 import shutil
+from sandbox import *
 
 TRON_PROBLEM_ID = 3
 
@@ -42,6 +43,8 @@ def runGame(userIDs, muValues, sigmaValues):
 	os.makedirs(workingPath)
 	os.chmod(workingPath, 0o777)
 
+	sandbox = Sandbox(workingPath)
+
 	# Unpack and setup bot files
 	botPaths = [os.path.join(workingPath, str(userID)) for userID in userIDs]
 	for botPath in botPaths: os.mkdir(botPath)
@@ -52,13 +55,19 @@ def runGame(userIDs, muValues, sigmaValues):
 		os.chmod(os.path.join(botPath, "run.sh"), 0o777)
 	
 	# Build the shell command that will run the game. Executable called environment houses the game environment
-	runGameShellCommand = "python3 TR_environment_main.py "
+	runGameShellCommand = "python3 /var/www/nycsl/problems/workers/TR_environment_main.py "
 	for botPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(botPath)+"; "+os.path.join(os.path.abspath(botPath), "run.sh")+"\" "
 	print(runGameShellCommand)
 
 	# Run game
-	shellOutput = os.popen(runGameShellCommand).read()
-	print(shellOutput)
+	sandbox.start(runGameShellCommand)
+	shellOutput = []
+	while True:
+		line = sandbox.read_line(200)
+		print(line)
+		if line == None:
+			break
+		shellOutput.append(line)
 	
 	lines = shellOutput.split("\n")
 	lines.remove("")
