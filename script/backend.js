@@ -37,12 +37,12 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 
 function getGameFile(gameID,callback) {
 	var result = $.ajax({
-		url: "http://localhost/NYCSL-private/problems/storage/"+gameID+".trn",
+		url: "problems/storage/"+gameID+".trn",
 		async: false,
 		success: function(data) {
-			var meta = data.split('\n')[0].split(' ').map(parseFloat)
+			var meta = data.split('\n')[0].split(' ')
 			var restOfFile = data.substring(data.indexOf("\n") + 1)
-			callback(meta[0],meta[1],meta[2],restOfFile)
+			callback(parseInt(meta[0]),parseInt(meta[1]),parseInt(meta[2]),restOfFile)
 		}
 	});
 }
