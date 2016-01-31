@@ -25,7 +25,7 @@ def unpack(filePath, destinationFilePath):
 		shutil.move(os.path.join(tempPath, filename), os.path.join(destinationFilePath, filename))
 	
 	shutil.rmtree(tempPath)
-	#os.remove(filePath)
+	os.remove(filePath)
 
 def zipFolder(folderPath, destinationFilePath):
 	zipFile = zipfile.ZipFile(destinationFilePath, "w", zipfile.ZIP_DEFLATED)
