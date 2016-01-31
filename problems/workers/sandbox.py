@@ -78,7 +78,7 @@ class Sandbox:
 
 	def start(self, shell_command):
 		"""Start a command running in the sandbox"""
-		shell_command = "docker run virtual_machine " + shell_command
+		shell_command = "docker run -v /var/www/nycsl/:/var/www/ncysl/ --privileged=true virtual_machine " + shell_command
 		if self.is_alive:
 			raise SandboxError("Tried to run command with one in progress.")
 		working_directory = self.working_directory
@@ -199,6 +199,7 @@ class Sandbox:
 		at least once after each command that is run in the sandbox.
 
 		"""
+		sleep(0.2)
 		if not self.is_alive:
 			timeout=0
 		try:
