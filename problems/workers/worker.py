@@ -81,15 +81,16 @@ def runGame(userIDs, muValues, sigmaValues):
 	teams = []
 	teams.append([trueskill.Rating(mu=float(muValues[winnerIndex]), sigma=float(sigmaValues[winnerIndex]))])
 	teams.append([trueskill.Rating(mu=float(muValues[loserIndex]), sigma=float(sigmaValues[loserIndex]))])
-	newRatings = [ratingTuple[0] for ratingTuple in trueskill.rate(teams)]
+	newRatings = [ratingTuple[0] for ratingTuple in trueskill.rate(teams)] 
 
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f WHERE userID = %d and problemID = %d" % (newRatings[0].mu, newRatings[0].sigma, winnerID, TRON_PROBLEM_ID))
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f WHERE userID = %d and problemID = %d" % (newRatings[1].mu, newRatings[1].sigma, loserID, TRON_PROBLEM_ID))
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (newRatings[0].mu, newRatings[0].sigma, newRatings[0].mu - (3*newRatings[1].sigma), winnerID, TRON_PROBLEM_ID))
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (newRatings[1].mu, newRatings[1].sigma,newRatings[1].mu - (3*newRatings[1].sigma), loserID, TRON_PROBLEM_ID))
 	cnx.commit()
 
 	# Get replay file by parsing shellOutput
 	replayFilename = lines[-1][len("Output file is stored at ") : len(lines[-1])]
-
+	shutil.move(replayFilename, "../storage")
+	
 	# Store results of game
 	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+replayFilename+"\')")
 	cnx.commit()
@@ -109,11 +110,13 @@ while True:
 	submissions = cursor.fetchall()
 	submissions.sort(key=lambda x: int(x['score']))
 	for submission in submissions:
-		allowedDifferenceInScore = 5 / (0.65*random.random())
 		allowedOpponents = []
-		for possibleOpponent in submissions:
-			if submission['userID'] != possibleOpponent['userID'] and abs(submission['score'] - possibleOpponent['score']) < allowedDifferenceInScore:
-				allowedOpponents.append(possibleOpponent)
+		while len(allowedOpponents) == 0:
+			allowedOpponents = []
+			allowedDifferenceInScore = 5 / (0.65*random.random())
+			for possibleOpponent in submissions:
+				if submission['userID'] != possibleOpponent['userID'] and abs(submission['score'] - possibleOpponent['score']) < allowedDifferenceInScore:
+					allowedOpponents.append(possibleOpponent)
 		opponent = allowedOpponents[random.randrange(0, len(allowedOpponents))]
 
 		runGame([submission['userID'], opponent['userID']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['mu']])
