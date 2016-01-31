@@ -40,8 +40,10 @@ function getGameFile(gameID,callback) {
 		url: "problems/storage/"+gameID+".trn",
 		async: false,
 		success: function(data) {
-			var meta = data.split('\n')[0].split(' ')
-			var restOfFile = data.substring(data.indexOf("\n") + 1)
+			var meta = data.split("\n")[0].split(" ")
+			var restOfFile = data.substring(data.indexOf("\n") + 1).replace(/[^0-9]/g, "");
+			console.log(restOfFile.length);
+			console.log(restOfFile);
 			callback(parseInt(meta[0]),parseInt(meta[1]),parseInt(meta[2]),restOfFile)
 		}
 	});
