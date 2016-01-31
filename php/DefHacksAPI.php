@@ -331,6 +331,7 @@ class DefHacksAPI extends API
 			$problemID = $problemArray['problemID'];
 			$problemName = $problemArray['problemName'];
 			$isAscending = $problemArray['isAscending'];
+
 			// Mark submission not ready
 			$submissionArray = $this->select("SELECT isReady, submissionID FROM Submission WHERE problemID = $problemID and userID = $userID");
 			if(count($submissionArray) > 0) {
@@ -341,13 +342,14 @@ class DefHacksAPI extends API
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
 			$targetPath = $targetPath . $userID . "." . $ext[count($ext)-1];
 			if(file_exists($targetPath)) unlink($targetPath);
+			clearstatcache();
 			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
 
 			// Pass target file to python script
 			exec("python ../problems/scripts/$problemName.py $targetPath", $rawOutput);
 
 			if(!isset($rawOutput[0])) return array("isError" => true, "message" => "There was a problem with your submission file.");
-			$programOutput = json_decode($rawOutput[0]);
+			$programOutput = json_decode($rawOutput[count($rawOutput)-1]);
 			
 			// Some problems dont return score from their submission scripts
 			// For example, if it were an ai game competition, where bots play against one another
@@ -362,7 +364,7 @@ class DefHacksAPI extends API
 				}
 			} else if(isset($programOutput->isError) && $programOutput->isError == false) {
 				if(count($submissionArray) > 0) {
-					$this->insert("UPDATE Submission SET mu = 25.0, sigma = 8.33 WHERE $submissionID = {$submissionArray['submissionID']}");
+					$this->insert("UPDATE Submission SET mu = 25.0, sigma = 8.33 WHERE submissionID = {$submissionArray['submissionID']}");
 				} else {
 					$this->insert("INSERT INTO Submission (problemID, userID, score, isReady) VALUES ($problemID, $userID, 0, 1)");
 				}
