@@ -1,6 +1,7 @@
 DOCTYPE HTML> 
 <html> 
-	<head> 
+	<head>
+		
 		<meta charset="utf-8"> 
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>WebGL</title> 
@@ -68,7 +69,7 @@ DOCTYPE HTML>
 			var canvas, 
 			    gl,
 				width, height, numFrames, full_game,
-				turn_number,
+				turn_number, counter,
 			    vertex_buffer, color_buffer,
 				blankColor, player1Color, player2Color, dimFactor,
 				vertex_locations, player1Color, player2Color,
@@ -81,7 +82,7 @@ DOCTYPE HTML>
 			                    screenHeight: 0 };
  
 			getGameFile("1454192586", function(w, h, nf, fc) {
-				console.log(w + " " + h + " " + nf);
+				console.log(w + " " + h + " " + nf + " " + fc.length);
 			
 				vertex_shader = document.getElementById('vs').textContent;
 				fragment_shader = document.getElementById('fs').textContent;
@@ -92,26 +93,23 @@ DOCTYPE HTML>
 				width = w;
 				height = h;
 				numFrames = nf;
-				
-				//Get 1D Int8 array from file:
-				var file_contents = fc;
+				console.log(fc);
 				
 				//Parse 1D array:
 				full_game = [];
 				var loc = 0;
 				for(var a = 0; a < numFrames; a++) {
 					var frame = [];
-					for(var b = 0; b < height; b++) {
-						for(var c = 0; c < width; c++) {
-							frame.push(file_contents[a]);
-							loc++;
-						}
+					for(var b = 0; b < height * width; b++) {
+						frame.push(fc[loc]);
+						loc++;
 					}
 					full_game.push(frame);
 				}
 				
 				//Set turn number to be 0;
 				turn_number = 0;
+				counter = 0;
  
 				//Initialise WebGL
 				try {
@@ -123,7 +121,7 @@ DOCTYPE HTML>
 				}
 				
 				vl = [];
-				var dx = 2.0 / (width + 1), dy = 2.0 / (height + 1), xSize = 0.4 * dx, ySize = 0.4 * dy;
+				var dx = 2.0 / width, dy = 2.0 / height, xSize = 0.4 * dx, ySize = 0.4 * dy;
 				for(var yPos = -1 + (dy / 2); yPos < 1; yPos += dy) {
 					for(var xPos = -1 + (dx / 2); xPos < 1; xPos += dx) {
 						vl.push(xPos - xSize);
@@ -143,6 +141,8 @@ DOCTYPE HTML>
 				var vertex_locations = new Float32Array(vl);
 				
 				//Get player colors from file.
+				player1Color = new Float32Array([ 1.0, 0.0, 0.0 ]);
+				player2Color = new Float32Array([ 0.0, 0.0, 1.0 ]);
 				blankColor = new Float32Array([ 0.5, 0.5, 0.5 ]);
 				dimFactor = 0.3;
  
@@ -214,7 +214,6 @@ DOCTYPE HTML>
 				}
  
 				return shader;
- 
 			}
  
 			function onWindowResize(event) {
@@ -229,29 +228,32 @@ DOCTYPE HTML>
  
 			function animate() {
 				requestAnimationFrame(animate);
+				counter++;
+				if(turn_number < numFrames - 1 && counter % 10 == 0) turn_number++;
 				nextFrame();
-				turn_number++;
 				render();
 			}
 			
 			function nextFrame() {
-			console.log("Length: " + full_game.length);
+				console.log(turn_number);
 				var map = full_game[turn_number];
-				console.log("Type: " + typeof(map));
-				var colors = []
-				for(var a = 0; a < map.prototype.length; a++) {
+				
+				//console.log(map);
+				
+				var colors = [];
+				for(var a = 0; a < map.length; a++) {
 					for(var b = 0; b < 6; b++) { //Fill in for each vertex:
 						if(map[a] == 1) {
 							colors.push(player1Color[0]);
 							colors.push(player1Color[1]);
 							colors.push(player1Color[2]);
 						}
-						else if(map[a] == 2) {
+						else if(map[a] == 3) {
 							colors.push(player1Color[0] * dimFactor);
 							colors.push(player1Color[1] * dimFactor);
 							colors.push(player1Color[2] * dimFactor);
 						}
-						else if(map[a] == 3) {
+						else if(map[a] == 2) {
 							colors.push(player2Color[0]);
 							colors.push(player2Color[1]);
 							colors.push(player2Color[2]);
@@ -270,7 +272,7 @@ DOCTYPE HTML>
 				}
 				
 				gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-				gl.bufferData(gl.ARRAY_BUFFER, new Int8Array(colors), gl.DYNAMIC_DRAW);
+				gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.DYNAMIC_DRAW);
 			}
  
 			function render() {
@@ -297,7 +299,6 @@ DOCTYPE HTML>
 				gl.drawArrays(gl.TRIANGLES, 0, 1536); //256 * 6
 				gl.disableVertexAttribArray(vertex_position);
 				gl.disableVertexAttribArray(color_position);
- 
 			}
  
 		</script> 
