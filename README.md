@@ -45,6 +45,9 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 - Compile submitted C++ as C++ 11
 - Email heads of CS departements at Stuy, Bx, 
 - Getting started video (showing how to run c++, java, python bots from environment, put trn file in visualizer, etc.)
+- Give prizes to January winners
+- Decide on prizes and put them in the problem description
+- Migrate new MySQL database structure to the production server
 
 ### March Release
 - User overall score
