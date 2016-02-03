@@ -36,13 +36,13 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 ##Todo
 
 ### Release 1.0
-- Only load top ~20 on leaderboard
-	- Button to load 10 more 
-- Add Memchached
-- Remove js redundancy
-- Reduce backend calls
-- Test for Security Vunerabilities
-- On the user page show the number of people who participated in the competition with the person's rank in the competition
+- Fix visulizer crash on chrome reload
+- Show the player names and the winner on the game modal
+- Allow the playing of local game files on the website
+- Test the starter packages locally
+- Submit bots and make sure everything is running correctly
+- Write logging functions
+- Compile submitted C++ as C++ 11
 
 ### Release 2.0
 - User overall score
