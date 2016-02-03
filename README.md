@@ -43,7 +43,8 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 - Submit bots and make sure everything is running correctly
 - Write logging functions
 - Compile submitted C++ as C++ 11
-- Email heads of CS departements at Stuy, Bx, 
+- Email heads of CS departements at Stuy, Bx, Dalton, Trinity
+- Send out email to HM Programming Club
 - Getting started video (showing how to run c++, java, python bots from environment, put trn file in visualizer, etc.)
 - Give prizes to January winners
 - Decide on prizes and put them in the problem description
