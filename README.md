@@ -35,7 +35,7 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 
 ##Todo
 
-### Release 1.0
+### February Release
 - Fix visulizer crash on chrome reload
 - Show the player names and the winner on the game modal
 - Allow the playing of local game files on the website
@@ -43,8 +43,10 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 - Submit bots and make sure everything is running correctly
 - Write logging functions
 - Compile submitted C++ as C++ 11
+- Email heads of CS departements at Stuy, Bx, 
+- Getting started video (showing how to run c++, java, python bots from environment, put trn file in visualizer, etc.)
 
-### Release 2.0
+### March Release
 - User overall score
 	- Base score for competition participation + inverse of placing (1st / 30 people = 30 points)
 	- Overall leaderboard
