@@ -1,94 +1,136 @@
-var index;
-
-function modalLinkClicked(gameFile) {
-	console.log(gameFile)
-	$('#gameModal').modal('show');
-	getGameFile(gameFile, function(data) {
-		console.log(data)
-		begin(data)
-	})
-}
-
-function populateLeaderboard(problem) {
-	problem.submissions.sort(function(a, b) { return parseInt(b.score)-parseInt(a.score) })
-	console.log(problem)
-	$("#leaderTable").empty()
-	for(var a = 0; a < problem.submissions.length; a++) {
-		var user = problem.submissions[a].user
-		var domAddition = "<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' userID= '"+user.userID+"' href='#'>"+problem.submissions[a].score+"</a></td></tr></tbody>"
-		$("#leaderTable").append(domAddition);
-	}
-}
-
-function displayProblem(index) {
-	var problem = getProblemWithIndex(index)
-	populateLeaderboard(problem)
-
-    $("#jHeader").empty()
-	$("#jHeader").append(problem.problemFullName);
-	$("#jParagraph").empty()
-	$("#jParagraph").append(problem.problemDescription);
-
-	var result = $.ajax({
-		url: "problems/descriptions/"+problem.problemName+".html", 
-		async: true,
-		method: "GET",
-		success: function(result) {
-			$("#rulesPanelBody").empty()
-			$("#rulesPanelBody").append(result);
-		}
-    });
-}
-
 $(function() {
-	
 	$('.dropdown-toggle').dropdown();
 	$('.dropdown input, .dropdown label').click(function(e) {
 		e.stopPropagation();
 	});
-});
 
-function reloadTables() {
-	displayProblem(index)
-}
+	var table = {
+		init: function(submissions) {
+			this.cacheDOM();
+			this.setSubmissions(submissions);
+		},
+		cacheDOM: function() {
+			this.$table = $("#leaderTable")
+		},
+		setSubmissions: function(submissions) {
+			this.submissions = submissions;
+			this.render();
+		},
+		render: function() {
+			this.$table.empty();
+			for(var a = 0; a < this.submissions.length; a++) {
+				var user = this.submissions[a].user;
+				var score = this.submissions[a].score;
+				this.$table.append("<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' userID= '"+user.userID+"' href='#'>"+score+"</a></td></tr></tbody>");
+			}
+		}
+	};
 
-$( document ).ready(function() {
-	index = parseInt(getGET("problemIndex"));
+	var problemDisplay = {
+		init: function(problem) {
+			this.problem = problem;
+			this.cacheDOM();
+			this.render();
+		},
+		cacheDOM: function() {
+			this.$header = $("#jHeader");
+			this.$paragraph = $("#jParagraph");
+			this.$rulesPanel = $("#rulesPanelBody");
+
+			this.table = table;
+			this.table.init(this.problem.submissions);
+		},
+		setProblem: function(problem) {
+			this.problem = problem;
+			this.table.setSubmissions(problem.submissions);
+			this.render();
+		},
+		render: function() {
+			this.$header.html(this.problem.problemFullName);
+			this.$paragraph.html(this.problem.problemDescription);
+			
+			var result = $.ajax({
+				url: "problems/descriptions/"+this.problem.problemName+".html", 
+				async: true,
+				method: "GET",
+				context: this,
+				success: function(result) {
+					this.$rulesPanel.html(result);
+				}
+		    });
+		},
+	};
+
+	var problemPanner = {
+		init: function(startingIndex) {
+			this.problemIndex = startingIndex;
+			this.problemSize = getProblemsSize();
+
+			this.cacheDOM();
+			this.bindEvents();
+		},
+		cacheDOM: function() {
+			this.$backButton = $("#backButton");
+			this.$forwardButton = $("#nextButton");
+			this.$archivedTag = $("archivedTag");
+
+			this.problemDisplay = problemDisplay;
+			this.problemDisplay.init(getProblemWithIndex(this.problemIndex));
+
+			if(this.problemIndex == 0) {
+				this.$forwardButton.css("visibility", "hidden");
+				this.$archivedTag.css("display", "none");
+			}
+			if(this.problemIndex == this.problemSize-1) {
+				this.$backButton.css("visibility", "visible");
+			}
+		},
+		bindEvents: function() {
+			this.$backButton.click(this, this.moveBack.bind(this));
+			this.$forwardButton.click(this, this.moveForward.bind(this));
+		},
+		render: function() {
+			this.problemDisplay.setProblem(getProblemWithIndex(this.problemIndex));
+		},
+		moveBack: function() {
+			this.problemIndex++;
+			if(this.problemIndex == this.problemSize-1) {
+				this.$backButton.css("visibility", "hidden");
+			}
+			if(this.problemIndex == 1) {
+				this.$forwardButton.css("visibility", "visible");
+				this.$archivedTag.css("display", "block");
+			}
+
+			this.render();
+		},
+		moveForward: function() {
+			this.problemIndex--;
+			if(this.problemIndex == 0) {
+				this.$forwardButton.css("visibility", "hidden");
+				this.$archivedTag.css("display", "none");
+			}
+			if(this.problemIndex == this.problemSize-2) {
+				this.$backButton.css("visibility", "visible");
+			}
+
+			this.render();
+		}
+	};
+
+	// Get problem index from GET parameter
+	var index = parseInt(getGET("problemIndex"));
 	if(isNaN(index) == true || index == null || index === "" || index === " ") {
 		index = parseInt(getGET("problemID"));
 		if(isNaN(index) == true || index == null || index === "" || index === " ") {
 			index = 0;
 		} else {
-			index = problemIDToIndex(index)
+			index = problemIDToIndex(index);
 		}
 	}
-	var size = getProblemsSize();
-	$("#backButton").click(function() {
-		index++;
-		if(index == size-1) {
-			$("#backButton").css("visibility", "hidden");
-		}
-		if(index == 1) {
-			$("#nextButton").css("visibility", "visible");
-			$("#archivedTag").css("display", "block");
-		}
+	problemPanner.init(index);
 
-		displayProblem(index)
-	});
-
-	$("#nextButton").click(function() {
-		index--;
-		if(index == 0) {
-			$("#nextButton").css("visibility", "hidden");
-			$("#archivedTag").css("display", "none");
-		}
-		if(index == size-2) {
-			$("#backButton").css("visibility", "visible");
-		}
-
-		displayProblem(index)
-	});
-
+	// Game dropdown code
 	$(document).on("click",".matchDrop",function(e) {
 		var userID = $(this).attr("userID")
 		var latestGames = getLatestGamesForUser(userID)
@@ -106,16 +148,6 @@ $( document ).ready(function() {
 		else $(this).parent().parent().parent().find(".gameRow").css("display","none")
 	});
 
-	if(index == 0) {
-		$("#nextButton").css("visibility", "hidden");
-		$("#archivedTag").css("display", "none");
-	}
-	if(index == size-1) {
-		$("#backButton").css("visibility", "visible");
-	}
-
-	displayProblem(index)
-
 	if(getGET("didVerify") != null) verifySuccess()
 	if(getGET("didNotVerify") != null) verifyError()
 	if(getGET("didRecover") != null) recoverPasswordSuccess()
@@ -123,6 +155,15 @@ $( document ).ready(function() {
 
 	renderMathInElement(document.getElementById("rulesPanelBody"));
 });
+
+function modalLinkClicked(gameFile) {
+	console.log(gameFile)
+	$('#gameModal').modal('show');
+	getGameFile(gameFile, function(data) {
+		console.log(data)
+		begin(data)
+	})
+}
 
 function verifySuccess() {
 	$("#messageBox").empty()
