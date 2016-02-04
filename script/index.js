@@ -7,10 +7,14 @@ $(function() {
 	var table = {
 		init: function(submissions) {
 			this.cacheDOM();
+			this.bindEvents();
 			this.setSubmissions(submissions);
 		},
 		cacheDOM: function() {
 			this.$table = $("#leaderTable")
+		},
+		bindEvents: function() {
+			$(document).on("click", ".matchDrop", this.toggleDropdown.bind(this));
 		},
 		setSubmissions: function(submissions) {
 			this.submissions = submissions;
@@ -23,6 +27,26 @@ $(function() {
 				var score = this.submissions[a].score;
 				this.$table.append("<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' userID= '"+user.userID+"' href='#'>"+score+"</a></td></tr></tbody>");
 			}
+		},
+		toggleDropdown: function(event) {
+			var user = this.getUserWithID($(event.toElement).attr("userID"));
+			var latestGames = getLatestGamesForUser(user.userID);
+			console.log(latestGames)
+			for(var a = 0; a < latestGames.length; a++) {
+				var opponent = latestGames[a].users[0].userID == user.userID ? this.getUserWithID(latestGames[a].users[1].userID) : this.getUserWithID(latestGames[a].users[0].userID);
+				var opponentRank = latestGames[a].users[0].userID == user.userID ? latestGames[a].users[1].rank : latestGames[a].users[0].rank;
+				var gameResult = opponentRank === "0" ? "Lost" : "Won";
+				console.log(gameResult)
+				$("#user"+user.userID).append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td><a href='#gameID="+latestGames[a].gameID+"' onclick='modalLinkClicked(\""+latestGames[a].replayFilename+"\")'>"+gameResult+"</a></td></tr>");
+			}
+
+			var display = $(event.toElement).parent().parent().parent().find(".gameRow").css("display");
+			if (display === "none") $(event.toElement).parent().parent().parent().find(".gameRow").css("display","table-row")
+			else $(event.toElement).parent().parent().parent().find(".gameRow").css("display","none")
+		},
+		getUserWithID: function(userID) {
+			for(var a = 0; a < this.submissions.length; a++) if(this.submissions[a].user.userID == userID) return this.submissions[a].user;
+			return getUser(userID);
 		}
 	};
 
@@ -129,24 +153,6 @@ $(function() {
 		}
 	}
 	problemPanner.init(index);
-
-	// Game dropdown code
-	$(document).on("click",".matchDrop",function(e) {
-		var userID = $(this).attr("userID")
-		var latestGames = getLatestGamesForUser(userID)
-		console.log(latestGames)
-		for(var a = 0; a < latestGames.length; a++) {
-			var opponentIndex = null
-			for(var b = 0; b < latestGames[a].users.length; b++) if(latestGames[a].users[b].userID != userID) opponentIndex = b
-			var opponent = getUser(latestGames[a].users[opponentIndex].userID)
-			console.log(latestGames[a])
-			var gameResult = latestGames[a].users[opponentIndex].rank === "0" ? "Lost" : "Won"
-			$("#user"+userID).append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td><a href='#gameID="+latestGames[a].gameID+"' onclick='modalLinkClicked(\""+latestGames[a].replayFilename+"\")'>"+gameResult+"</a></td></tr>")
-		}
-		var display = $(this).parent().parent().parent().find(".gameRow").css("display");
-		if (display === "none") $(this).parent().parent().parent().find(".gameRow").css("display","table-row")
-		else $(this).parent().parent().parent().find(".gameRow").css("display","none")
-	});
 
 	if(getGET("didVerify") != null) verifySuccess()
 	if(getGET("didNotVerify") != null) verifyError()
