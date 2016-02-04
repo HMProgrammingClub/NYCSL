@@ -47,7 +47,7 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 - Send out email to HM Programming Club
 - Getting started video (showing how to run c++, java, python bots from environment, put trn file in visualizer, etc.)
 - Give prizes to January winners
-- Decide on prizes and put them in the problem description
+- ~~Decide on prizes and put them in the problem description~~
 - Migrate new MySQL database structure to the production server
 
 ### March Release
