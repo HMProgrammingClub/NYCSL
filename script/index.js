@@ -34,6 +34,26 @@ $(function() {
 		}
 	}
 
+	var messageBox = {
+		$messageBox: $("#messageBox"),
+		verifySuccess: function() {
+			$messageBox.empty()
+			$messageBox.append($("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Email Verification Success.</strong>&nbsp;&nbsp;Your email has been verified. You may now log in.</div>"))
+		},
+		verifyError: function() {
+			$messageBox.empty()
+			$messageBox.append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Email Verification Failed.</strong>&nbsp;&nbsp;There was a problem verifying your email.</div>"))
+		},
+		recoverPasswordSuccess: function() {
+			$messageBox.empty()
+			$messageBox.append($("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Password Changed.</strong>&nbsp;&nbsp;You successfully changed your password!</div>"))
+		},
+		recoverPasswordError: function() {
+			$messageBox.empty()
+			$messageBox.append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Password Change Failed.</strong>&nbsp;&nbsp;There was a problem changing your password. If this issue is persistent, email <a href='mailto:contact@nycsl.io'>contact@nycsl.io</a>.</div>"))
+		}
+	}
+
 	function GameDropdown(user, $parentField) {
 		this.setGames = function(games) {
 			this.games = games;
@@ -230,30 +250,10 @@ $(function() {
 	}
 	problemPanner.init(index);
 
-	if(getGET("didVerify") != null) verifySuccess()
-	if(getGET("didNotVerify") != null) verifyError()
-	if(getGET("didRecover") != null) recoverPasswordSuccess()
-	if(getGET("didNotRecover") != null) recoverPasswordError()
+	if(getGET("didVerify") != null) messageBox.verifySuccess()
+	if(getGET("didNotVerify") != null) messageBox.verifyError()
+	if(getGET("didRecover") != null) messageBox.recoverPasswordSuccess()
+	if(getGET("didNotRecover") != null) messageBox.recoverPasswordError()
 
 	renderMathInElement(document.getElementById("rulesPanelBody"));
 });
-
-function verifySuccess() {
-	$("#messageBox").empty()
-	$("#messageBox").append($("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Email Verification Success.</strong>&nbsp;&nbsp;Your email has been verified. You may now log in.</div>"))
-}
-
-function verifyError() {
-	$("#messageBox").empty()
-	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Email Verification Failed.</strong>&nbsp;&nbsp;There was a problem verifying your email.</div>"))
-}
-
-function recoverPasswordSuccess() {
-	$("#messageBox").empty()
-	$("#messageBox").append($("<div class='alert alert-info alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Password Changed.</strong>&nbsp;&nbsp;You successfully changed your password!</div>"))
-}
-
-function recoverPasswordError() {
-	$("#messageBox").empty()
-	$("#messageBox").append($("<div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><strong>Password Change Failed.</strong>&nbsp;&nbsp;There was a problem changing your password. If this issue is persistent, email <a href='mailto:contact@nycsl.io'>contact@nycsl.io</a>.</div>"))
-}
