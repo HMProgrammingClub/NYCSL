@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <time.h>
 
 enum Direction { NORTH, EAST, SOUTH, WEST };
 
