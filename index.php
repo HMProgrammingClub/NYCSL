@@ -133,6 +133,7 @@
 								screenHeight: 0 };
 
 		function begin(data) {
+			console.log(data)
 			var meta = data.split("\n")[0].split(" ")
 			var restOfFile = data.substring(data.indexOf("\n") + 1).replace(/[^0-9]/g, "");
 			var w = meta[0]
