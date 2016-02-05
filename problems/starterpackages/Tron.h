@@ -45,10 +45,3 @@ static std::vector< std::vector<int> > getMap() {
 static void sendMove(int move) {
 	std::cout << std::to_string(move) << "\n";
 }
-
-static void toFile(std::string input) {
-    time_t timer = time(NULL);
-    std::ofstream outputFile(std::to_string(timer) + ".txt");
-    outputFile << input;
-    outputFile.close();
-}
