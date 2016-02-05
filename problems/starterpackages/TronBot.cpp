@@ -1,6 +1,12 @@
 #include "Tron.h"
 
+//We can't print to console, because that channel is used for IO with the environment.
+//We therefore create a fstream and output to that. Use "debug << " rather than "std::cout << ".
+std::ofstream debug;
+
 int main() {
+	debug = std::ofstream("debug-" + time(NULL) + ".log");
+	
 	// Execute loop forever (or until game ends)
 	while (true) {
 		/* Get an integer map of the field. Each int
