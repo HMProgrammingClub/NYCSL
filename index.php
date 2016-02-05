@@ -133,16 +133,12 @@
 								screenHeight: 0 };
 
 		function begin(data) {
-			console.log(data)
 			var meta = data.split("\n")[0].split(" ")
 			var restOfFile = data.substring(data.indexOf("\n") + 1).replace(/[^0-9]/g, "");
 			var w = meta[0]
 			var h = meta[1]
 			var nf = meta[2]
 			var fc = restOfFile
-			console.log(restOfFile.length);
-			console.log(restOfFile);
-			console.log(w + " " + h + " " + nf + " " + fc.length);
 			
 			vertex_shader = document.getElementById('vs').textContent;
 			fragment_shader = document.getElementById('fs').textContent;
@@ -153,7 +149,6 @@
 			width = w;
 			height = h;
 			numFrames = nf;
-			console.log(fc);
 			
 			//Parse 1D array:
 			full_game = [];
@@ -295,10 +290,7 @@
 		}
 		
 		function nextFrame() {
-			console.log(turn_number);
 			var map = full_game[turn_number];
-			
-			//console.log(map);
 			
 			var colors = [];
 			for(var a = 0; a < map.length; a++) {

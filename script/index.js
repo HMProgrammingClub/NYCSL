@@ -4,6 +4,81 @@ $(function() {
 		e.stopPropagation();
 	});
 
+	var gameDisplay = {
+		isInitialized: false,
+		init: function() {
+			this.isInitialized = true;
+			this.cacheDOM();
+		},
+		cacheDOM: function() {
+			this.$modal = $("#gameModal");
+			this.$player1Field = $("#player1");
+			this.$player2Field = $("#player2");
+		},
+		setGame: function(player1, player2, replayFilename) {
+			if(this.isInitialized == false) this.init();
+
+			this.player1 = player1;
+			this.player2 = player2;
+			this.replayFilename = replayFilename;
+			this.render();
+		},
+		render: function() {
+			this.$modal.modal('show');
+			this.$player1Field.html(this.player1.firstName + " " + this.player1.lastName);
+			this.$player2Field.html(this.player2.firstName + " " + this.player2.lastName);
+			begin(getGameFile(this.replayFilename));
+		},
+		hide: function() {
+			this$modal.modal('hide');
+		}
+	}
+
+	function GameDropdown(user, $parentField) {
+		this.setGames = function(games) {
+			this.games = games;
+			this.render();
+			this.hide();
+		};
+		this.render = function() {
+			this.$parentField.find(".gameRow").remove();
+			for(var a = 0; a < this.games.length; a++) {
+				var opponent = this.games[a].users[0].userID == this.user.userID ? this.games[a].users[1] : this.games[a].users[0];
+				var gameResult = opponent.rank === "0" ? "Lost" : "Won";
+
+				this.$parentField.append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td><a href='#' gameID='"+this.games[a].gameID+"' class='gameLink"+this.user.userID+"'>"+gameResult+"</a></td></tr>");
+			}
+		};
+		this.toggle = function() {
+			if(this.isShown == true) this.hide();
+			else this.show();
+		};
+		this.hide = function() {
+			this.isShown = false;
+			this.$parentField.find(".gameRow").css("display", "none");
+		};
+		this.show = function() {
+			this.isShown = true;
+			this.$parentField.find(".gameRow").css("display", "table-row");
+		};
+		this.displayGame = function(event) {
+			var gameID = $(event.toElement).attr("gameID");
+			var game = null;
+			for(var a = 0; a < this.games.length; a++) {
+				if(this.games[a].gameID == gameID) {
+					game = this.games[a];
+					break;
+				}
+			}
+			gameDisplay.setGame(game.users[0], game.users[1], game.replayFilename);
+		};
+
+		this.user = user;
+		this.$parentField = $parentField;
+		console.log("bind")
+		$(document).on("click", ".gameLink"+this.user.userID, this.displayGame.bind(this));
+	}
+
 	var table = {
 		init: function(submissions) {
 			this.cacheDOM();
@@ -18,7 +93,11 @@ $(function() {
 		},
 		setSubmissions: function(submissions) {
 			this.submissions = submissions;
+			
 			this.render();
+
+			this.dropdowns = Array();
+			for(var a = 0; a < this.submissions.length; a++) this.dropdowns.push(new GameDropdown(this.submissions[a].user, $("#user"+this.submissions[a].user.userID)));
 		},
 		render: function() {
 			this.$table.empty();
@@ -29,24 +108,15 @@ $(function() {
 			}
 		},
 		toggleDropdown: function(event) {
-			var $clickedLink = $(event.toElement);
-			var display = $clickedLink.parent().parent().parent().find(".gameRow").css("display");
-			var user = this.getUserWithID($clickedLink.attr("userID"));
-
-			$clickedLink.parent().parent().parent().find(".gameRow").empty();
-
-			var latestGames = getLatestGamesForUser(user.userID);
-			for(var a = 0; a < latestGames.length; a++) {
-				var opponent = latestGames[a].users[0].userID == user.userID ? this.getUserWithID(latestGames[a].users[1].userID) : this.getUserWithID(latestGames[a].users[0].userID);
-				var opponentRank = latestGames[a].users[0].userID == user.userID ? latestGames[a].users[1].rank : latestGames[a].users[0].rank;
-				var gameResult = opponentRank === "0" ? "Lost" : "Won";
-				console.log(gameResult)
-				$("#user"+user.userID).append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td><a href='#gameID="+latestGames[a].gameID+"' onclick='modalLinkClicked(\""+latestGames[a].replayFilename+"\")'>"+gameResult+"</a></td></tr>");
+			var user = this.getUserWithID($(event.toElement).attr("userID"));
+			for(var a = 0; a < this.submissions.length; a++) {
+				if(this.submissions[a].user.userID == user.userID) {
+					console.log(user.userID)
+					if(this.dropdowns[a].games == null) this.dropdowns[a].setGames(getLatestGamesForUser(user.userID));
+					this.dropdowns[a].toggle();
+					break;
+				}
 			}
-
-			var display = $clickedLink.parent().parent().parent().find(".gameRow").css("display");
-			if (display === "none") $clickedLink.parent().parent().parent().find(".gameRow").css("display","table-row")
-			else $clickedLink.parent().parent().parent().find(".gameRow").css("display","none")
 		},
 		getUserWithID: function(userID) {
 			for(var a = 0; a < this.submissions.length; a++) if(this.submissions[a].user.userID == userID) return this.submissions[a].user;
@@ -165,12 +235,6 @@ $(function() {
 
 	renderMathInElement(document.getElementById("rulesPanelBody"));
 });
-
-function modalLinkClicked(gameFile) {
-	console.log(gameFile)
-	$('#gameModal').modal('show');
-	begin(getGameFile(gameFile))
-}
 
 function verifySuccess() {
 	$("#messageBox").empty()

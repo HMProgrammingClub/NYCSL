@@ -381,12 +381,18 @@ class DefHacksAPI extends API
 		if(isset($_GET['userID'])) {
 			$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 			$userID = $_GET['userID'];
+
 			$gameIDArrays = $this->selectMultiple("SELECT * FROM GameToUser WHERE userID = $userID LIMIT $limit");
 			$gameArrays = array();
 			foreach ($gameIDArrays as $gameIDArray) {
 				$gameID = $gameIDArray['gameID'];
 				$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
 				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank FROM GameToUser WHERE gameID = $gameID");
+				foreach($gameArray['users'] as &$gameUserRow) {
+					$gameUserRank = $gameUserRow['rank'];
+					$gameUserRow = $this->select("SELECT * FROM User WHERE userID = {$gameUserRow['userID']}");
+					$gameUserRow['rank'] = $gameUserRank;
+				}
 				array_push($gameArrays, $gameArray);
 			}
 			return $gameArrays;

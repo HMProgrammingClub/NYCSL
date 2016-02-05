@@ -29,8 +29,7 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 		method: "POST",
 		data: {email: email, password: password, firstName: firstName, lastName: lastName, async: async},
 		success: function (data) {
-
-			callback(data);            
+			callback(data);
 		}
 	});
 }
