@@ -36,17 +36,17 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 ##Todo
 
 ### February Release
-- Fix visulizer crash on chrome reload
+- ~~Fix visulizer crash on chrome reload~~
 - Show the player names and the winner on the game modal
 - Allow the playing of local game files on the website
-- Test the starter packages locally
+- Test the starter packages locally (Ben, Luca)
 - Submit bots and make sure everything is running correctly
-- Write logging functions
+- ~~Write logging functions (Ben, Luca)~~
 - Compile submitted C++ as C++ 11
-- Email heads of CS departements at Stuy, Bx, Dalton, Trinity
-- Send out email to HM Programming Club
-- Getting started video (showing how to run c++, java, python bots from environment, put trn file in visualizer, etc.)
-- Give prizes to January winners
+- Email heads of CS departements at Stuy, Bx, Dalton, Trinity (Ben, Luca)
+- Send out email to HM Programming Club (Ben, Luca)
+- Getting started video (showing how to run c++, java, python bots from environment, put trn file in visualizer, etc.) (Ben, Luca)
+- Give prizes to January winners (Ben, Luca)
 - ~~Decide on prizes and put them in the problem description~~
 - Migrate new MySQL database structure to the production server
 

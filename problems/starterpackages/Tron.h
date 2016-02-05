@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <time.h>
 
 enum Direction { NORTH, EAST, SOUTH, WEST };
 
@@ -43,10 +44,4 @@ static std::vector< std::vector<int> > getMap() {
 
 static void sendMove(int move) {
 	std::cout << std::to_string(move) << "\n";
-}
-
-static void toFile(std::string input) {
-    std::ofstream outputFile("/Users/Luca/Desktop/herpderp.txt");
-    outputFile << input;
-    outputFile.close();
 }
