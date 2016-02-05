@@ -39,7 +39,7 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 - ~~Fix visulizer crash on chrome reload~~
 - ~~Show the player names and the winner on the game modal~~
 - Keep track of who is player 1 and who is player 2
-- Rehash all the passwords
+- ~~Rehash all the passwords~~
 - Allow the playing of local game files on the website
 - Test the starter packages locally (Ben, Luca)
 - Submit bots and make sure everything is running correctly
