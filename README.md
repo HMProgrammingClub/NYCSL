@@ -41,7 +41,7 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 - Allow the playing of local game files on the website
 - Test the starter packages locally (Ben, Luca)
 - Submit bots and make sure everything is running correctly
-- Write logging functions (Ben, Luca)
+- ~~Write logging functions (Ben, Luca)~~
 - Compile submitted C++ as C++ 11
 - Email heads of CS departements at Stuy, Bx, Dalton, Trinity (Ben, Luca)
 - Send out email to HM Programming Club (Ben, Luca)
