@@ -47,7 +47,7 @@ static void sendMove(int move) {
 
 static void toFile(std::string input) {
     time_t timer = time(NULL);
-    std::ofstream outputFile("/Users/Luca/Desktop/" + std::to_string(timer) + ".txt");
+    std::ofstream outputFile("" + std::to_string(timer) + ".txt");
     outputFile << input;
     outputFile.close();
 }
