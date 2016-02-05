@@ -30,7 +30,7 @@ $(function() {
 			begin(getGameFile(this.replayFilename));
 		},
 		hide: function() {
-			this$modal.modal('hide');
+			this.$modal.modal('hide');
 		}
 	}
 
@@ -65,7 +65,7 @@ $(function() {
 			var gameID = $(event.toElement).attr("gameID");
 			var game = null;
 			for(var a = 0; a < this.games.length; a++) {
-				if(this.games[a].gameID == gameID) {
+				if (this.games[a].gameID == gameID) {
 					game = this.games[a];
 					break;
 				}
