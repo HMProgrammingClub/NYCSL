@@ -48,6 +48,7 @@ gameMap[positions[1].y][positions[1].x] = Tile.player2.value
 # Game loop
 frames = []
 isDone = False
+isTied = False
 winner = -1
 while isDone == False:
 	frames.append(copy.deepcopy(gameMap))
@@ -64,19 +65,24 @@ while isDone == False:
 			if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0 or gameMap[positions[a].y][positions[a].x] == Tile.takenByPlayer1.value or gameMap[positions[a].y][positions[a].x] == Tile.takenByPlayer2.value:
 				print("Player " + str(a+1) + " moved off of the map!")
 				winner = 1 + (0 if a == 1 else 1)
+
+				if isDone == True: isTied = True
 				isDone = True
-				break
+				continue
 
 			gameMap[positions[a].y][positions[a].x] = Tile.player1.value if a == 0 else Tile.player2.value
 		except Exception as e:
 			print("There was an error while running the game!")
 			print(str(e))
 			winner = 1 + (0 if a == 1 else 1)
+
+			if isDone == True: isTied = True
 			isDone = True
-			break
+			continue
 
 # Cleanup
-print("Player " + str(winner) + " won!")
+if isTied == True: print("The game ended in a tie!")
+else: print("Player " + str(winner) + " won!")
 networker.killAll()
 
 contents = "%d %d %d\n" % (width, height, len(frames))
