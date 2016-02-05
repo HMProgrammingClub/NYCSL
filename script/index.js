@@ -62,7 +62,7 @@ $(function() {
 			this.$parentField.find(".gameRow").css("display", "table-row");
 		};
 		this.displayGame = function(event) {
-			var gameID = $(event.toElement).attr("gameID");
+			var gameID = $(event.target).attr("gameID");
 			var game = null;
 			for(var a = 0; a < this.games.length; a++) {
 				if(this.games[a].gameID == gameID) {
@@ -108,7 +108,9 @@ $(function() {
 			}
 		},
 		toggleDropdown: function(event) {
-			var user = this.getUserWithID($(event.toElement).attr("userID"));
+			console.log(event)
+			var user = this.getUserWithID($(event.target).attr("userID"));
+			console.log(user)
 			for(var a = 0; a < this.submissions.length; a++) {
 				if(this.submissions[a].user.userID == user.userID) {
 					console.log(user.userID)
