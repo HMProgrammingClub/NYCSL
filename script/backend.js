@@ -35,17 +35,14 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 	});
 }
 
-function getGameFile(gameID,callback) {
+function getGameFile(gameID) {
 	console.log("problems/storage/"+gameID)
-	$.ajax({
-		url: "problems/storage/"+gameID,
+	var result = $.ajax({
+		url: "problems/storage/1454192586.trn",
 		async: false,
-		method: "GET",
-		success: function(data) {
-			console.log("data: " + data)
-			callback(data)
-		}
+		method: "GET"
 	});
+	return result.responseText;
 }
 
 function getLatestGamesForUser(userID) {
