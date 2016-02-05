@@ -101,8 +101,8 @@ def runGame(userIDs, muValues, sigmaValues):
 	cursor.execute("SELECT gameID FROM Game WHERE replayFilename = \'"+replayFilename+"\'")
 	gameID = cursor.fetchone()['gameID']
 	
-	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank) VALUES (%d, %d, %d)" % (gameID, winnerID, 0))
-	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank) VALUES (%d, %d, %d)" % (gameID, loserID, 1))
+	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, index) VALUES (%d, %d, %d)" % (gameID, winnerID, 0, 0 if userIDs[0] == winnerID else 1))
+	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, index) VALUES (%d, %d, %d)" % (gameID, loserID, 1, 0 if userIDs[0] == loserID else 1))
 	cnx.commit()
 
 	# Delete working path
