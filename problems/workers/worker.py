@@ -74,20 +74,24 @@ def runGame(userIDs, muValues, sigmaValues):
 	
 	
 	# Get player ranks and scores by parsing shellOutput
-	winnerNumber = int(lines[-2][len("Player ") : -len("won!")])
-	winnerIndex = winnerNumber - 1
+	if "won!" in lines[-2]:
+		winnerIndex = int(lines[-2][len("Player ") : -len("won!")]) - 1
+		loserIndex = (1 if winnerNumber == 2 else 2)-1
+		
+	else:
+		winnerIndex = random.randrange(0, 2)
+		loserIndex = 0 if winnerIndex == 1 else 1
+
 	winnerID = userIDs[winnerIndex]
-	loserIndex = (1 if winnerNumber == 2 else 2)-1
 	loserID = userIDs[loserIndex]
 
 	# Update trueskill mu and sigma values
-	teams = []
-	teams.append([trueskill.Rating(mu=float(muValues[winnerIndex]), sigma=float(sigmaValues[winnerIndex]))])
-	teams.append([trueskill.Rating(mu=float(muValues[loserIndex]), sigma=float(sigmaValues[loserIndex]))])
-	newRatings = [ratingTuple[0] for ratingTuple in trueskill.rate(teams)] 
+	winnerRating = trueskill.Rating(mu=float(muValues[winnerIndex]), sigma=float(sigmaValues[winnerIndex]))
+	loserRating = trueskill.Rating(mu=float(muValues[loserIndex]), sigma=float(sigmaValues[loserIndex]))
+	winnerRating, loserRating = trueskill.rate_1vs1(winnerRating, loserRating)
 
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (newRatings[0].mu, newRatings[0].sigma, int(newRatings[0].mu - (3*newRatings[1].sigma)), winnerID, TRON_PROBLEM_ID))
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (newRatings[1].mu, newRatings[1].sigma, int(newRatings[1].mu - (3*newRatings[1].sigma)), loserID, TRON_PROBLEM_ID))
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (winnerRating.mu, winnerRating.sigma, int(newRatings[0].mu - (3*newRatings[1].sigma)), winnerID, TRON_PROBLEM_ID))
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (loserRating.mu, loserRating.sigma, int(newRatings[1].mu - (3*newRatings[1].sigma)), loserID, TRON_PROBLEM_ID))
 	cnx.commit()
 
 	# Get replay file by parsing shellOutput
