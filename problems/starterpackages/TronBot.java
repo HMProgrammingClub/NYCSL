@@ -6,7 +6,7 @@ public class TronBot {
 		
 		// Execute loop forever (or until game ends)
 		while (true) {
-			Tron.outputDebug("test");
+			Tron.log("test");
 			/* Get an integer map of the field. Each int
 			 * can either be Tron.Tile.EMPTY, Tron.Tile.PLAYER1, 
 			 * Tron.Tile.PLAYER2, Tron.Tile.TAKEN_BY_PLAYER1, or
