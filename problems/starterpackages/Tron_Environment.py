@@ -58,7 +58,7 @@ class Networker:
 		startingTime = time.time()
 		while len(self.stdoutQueues[isSecond]) == 0:
 			time.sleep(0.01)
-			if time.time() - startingTime > 5: return None
+			if time.time() - startingTime > 2.5: return None
 		return int(self.stdoutQueues[isSecond].pop())
 
 	def killAll(self):
