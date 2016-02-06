@@ -1,5 +1,6 @@
 from Tron import *
 
+# Initialize the Networker object that allows getting the field and making moves
 networker = Networker()
 
 # We can't print to console, because that channel is used for IO with the environment.
@@ -7,6 +8,7 @@ networker = Networker()
 # Use log() rather than print.
 log("This is a python bot")
 
+# Execute loop forever (or until game ends)
 while True:
 	# Get the current map. It is a 2d list of integers.
 	# Each int can be the value of one of these variables: north, south, east, west
@@ -18,5 +20,5 @@ while True:
 			if gameMap[y][x] == me:
 				log("position: " + str(x) + ", " + str(y))
 
-	# Send your move
+	# Move north
 	networker.sendMove(north)
