@@ -63,7 +63,7 @@
 	<?php 
 		include 'includes/game.php'; 
 		include 'includes/footer.php';
-		include 'includes/tronshaders.php'
+		include 'includes/tronshaders.php';
 	?>
 
 	<script src="lib/jquery.min.js"></script>
