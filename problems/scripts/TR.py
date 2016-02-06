@@ -59,7 +59,7 @@ def compile(zipFilename):
 	shutil.rmtree(workingPath)
 	
 	if didCompile:
-		print(json.dumps({"isError": False, "message": "Your bot compiled correctly!"}))
+		print(json.dumps({"isError": False, "message": "Your bot compiled correctly!", "score": 0}))
 	else:
 		print(json.dumps({"isError": True, "message": "There was an error compiling your bot. Error message: \""+str(errors)+"\""}))
 compile(sys.argv[-1])

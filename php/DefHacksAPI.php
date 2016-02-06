@@ -362,12 +362,6 @@ class DefHacksAPI extends API
 				} else {
 					$this->insert("INSERT INTO Submission (problemID, userID, score, isReady) VALUES ($problemID, $userID, {$programOutput->score}, 1)");
 				}
-			} else if(isset($programOutput->isError) && $programOutput->isError == false) {
-				if(count($submissionArray) > 0) {
-					$this->insert("UPDATE Submission SET mu = 25.0, sigma = 8.33 WHERE submissionID = {$submissionArray['submissionID']}");
-				} else {
-					$this->insert("INSERT INTO Submission (problemID, userID, score, isReady) VALUES ($problemID, $userID, 0, 1)");
-				}
 			}
 
 			return $programOutput;
@@ -387,7 +381,7 @@ class DefHacksAPI extends API
 			foreach ($gameIDArrays as $gameIDArray) {
 				$gameID = $gameIDArray['gameID'];
 				$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
-				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank FROM GameToUser WHERE gameID = $gameID");
+				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, index FROM GameToUser WHERE gameID = $gameID");
 				foreach($gameArray['users'] as &$gameUserRow) {
 					$gameUserRank = $gameUserRow['rank'];
 					$gameUserRow = $this->select("SELECT * FROM User WHERE userID = {$gameUserRow['userID']}");
