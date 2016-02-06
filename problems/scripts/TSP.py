@@ -1,5 +1,6 @@
 import sys
 import math
+import json
 
 class Point:
     def __init__(self, x, y, z, index):
@@ -34,12 +35,12 @@ with open(filename) as fileIn:
                 try:
                     nums.append(int(w))
                 except ValueError:
-                    print('Error')
+                    print(json.dumps({"isError": True, "message": "There was a problem with your submission. Fix your file and try again"}))
                     sys.exit(-1)
 
 for a in nums:
     if a > 500 or a < 1:
-        print('Error')
+        print(json.dumps({"isError": True, "message": "There was a problem with your submission. Fix your file and try again"}))
         sys.exit(-1)
 
 
@@ -50,20 +51,20 @@ for a in range(0, 500):
 dist = 0.0
 for a in range(1, len(nums)):
     if beenTo[nums[a] - 1]:
-        print('Error')
+        print(json.dumps({"isError": True, "message": "There was a problem with your submission. Fix your file and try again"}))
         sys.exit(-1)
     beenTo[nums[a] - 1] = True
     b = a - 1
     dist += getDist(pts[nums[b] - 1], pts[nums[a] - 1])
 if beenTo[nums[0] - 1]:
-    print('Error')
+    print(json.dumps({"isError": True, "message": "There was a problem with your submission. Fix your file and try again"}))
     sys.exit(-1)
 beenTo[nums[0] - 1] = True
 dist += getDist(pts[nums[0] - 1], pts[nums[-1] - 1])
 
 for a in beenTo:
     if not(a):
-        print('Error')
+        print(json.dumps({"isError": True, "message": "There was a problem with your submission. Fix your file and try again"}))
         sys.exit(-1)
 
-print(dist)
+print(json.dumps({"isError": False, "score": dist, "message": "You got a score of " + str(dist) + "!"}))

@@ -1,46 +1,24 @@
 var url = "php/"
 
 function getUser(userID, email, password) {
-	var result = null;
-	if(userID != null && password != null) {
-		result = $.ajax({
-			url: url+"user", 
-			async: false,
-			method: "GET",
-			data: {userID: userID, password: password}
-		});
-		return result.responseJSON;
-	} else if(email != null && password != null) {
-		result = $.ajax({
-			url: url+"user", 
-			async: false,
-			method: "GET",
-			data: {email: email, password: password}
-		});
-		return result.responseJSON;
-	} else if(userID != null) {
-		result = $.ajax({
-			url: url+"user", 
-			async: false,
-			method: "GET",
-			data: {userID: userID}
-		});
+	var params = {}
+	if(userID != null) params.userID = userID;
+	if(email != null) params.email = email;
+	if(password != null) params.password = password;
 
-		return result.responseJSON;
-	} else if (email != null) {
-		result = $.ajax({
-			url: url+"user", 
-			async: false,
-			method: "GET",
-			data: {email: email},
-			success: function(result) {
-				console.log(result)
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				console.log(xhr.responseText)
-			}
-		});
-	}
+	var result = $.ajax({
+		url: url+"user", 
+		async: false,
+		method: "GET",
+		data: params,
+		success: function(result) {
+			console.log(result)
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText)
+		}
+	});
+
 	return result.responseJSON;
 }
 
@@ -51,13 +29,29 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 		method: "POST",
 		data: {email: email, password: password, firstName: firstName, lastName: lastName, async: async},
 		success: function (data) {
-
-			callback(data);            
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-
+			callback(data);
 		}
 	});
+}
+
+function getGameFile(gameID) {
+	console.log("problems/storage/"+gameID)
+	var result = $.ajax({
+		url: "problems/storage/1454192586.trn",
+		async: false,
+		method: "GET"
+	});
+	return result.responseText;
+}
+
+function getLatestGamesForUser(userID) {
+	var result = $.ajax({
+		url: url+"game",
+		async: false,
+		method: "GET",
+		data: {userID: userID, limit: 5}
+	});
+	return result.responseJSON;
 }
 
 function storeUserSession(userID, email, password, async) {
@@ -84,7 +78,9 @@ function getSession() {
 	var result = $.ajax({
 		url: url+"session", 
 		async: false,
-		method: "GET"
+		method: "GET",
+		contentType: "application/json; charset=utf-8",
+		data: {}
 	});
 	return result.responseJSON;
 }
@@ -105,25 +101,6 @@ function getProblem(problemID) {
 		data: {problemID: problemID}
 	});
 	return result.responseJSON;
-}
-
-function getProblemSubmissions(problemID) {
-	if(problemID == null) {
-		var result = $.ajax({
-			url: url+"submission", 
-			async: false,
-			method: "GET"
-		});
-		return result.responseJSON;
-	} else {
-		var result = $.ajax({
-			url: url+"submission", 
-			async: false,
-			method: "GET",
-			data: {problemID: problemID}
-		});
-		return result.responseJSON;
-	}
 }
 
 function getProblemSubmissionsWithSchool(problemID, schoolName) {
@@ -218,6 +195,12 @@ function storeSubmissionDatabase(formID) {
 		xhr: function() {
 			var myXhr = $.ajaxSettings.xhr();
 			return myXhr;
+		},
+		success: function(result) {
+			console.log(result)
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			console.log(xhr.responseText)
 		}
 	})
 	return result.responseJSON;
