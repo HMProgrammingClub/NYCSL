@@ -4,36 +4,6 @@ $(function() {
 		e.stopPropagation();
 	});
 
-	var gameDisplay = {
-		isInitialized: false,
-		init: function() {
-			this.isInitialized = true;
-			this.cacheDOM();
-		},
-		cacheDOM: function() {
-			this.$modal = $("#gameModal");
-			this.$player1Field = $("#player1");
-			this.$player2Field = $("#player2");
-		},
-		setGame: function(player1, player2, replayFilename) {
-			if(this.isInitialized == false) this.init();
-
-			this.player1 = player1;
-			this.player2 = player2;
-			this.replayFilename = replayFilename;
-			this.render();
-		},
-		render: function() {
-			this.$modal.modal('show');
-			this.$player1Field.html(this.player1.firstName + " " + this.player1.lastName);
-			this.$player2Field.html(this.player2.firstName + " " + this.player2.lastName);
-			begin(getGameFile(this.replayFilename));
-		},
-		hide: function() {
-			this.$modal.modal('hide');
-		}
-	}
-
 	var messageBox = {
 		$messageBox: $("#messageBox"),
 		verifySuccess: function() {
@@ -90,7 +60,7 @@ $(function() {
 					break;
 				}
 			}
-			gameDisplay.setGame(game.users[0], game.users[1], game.replayFilename);
+			gameDisplay.setGame(game.users[0], game.users[1], getGameFile(game.replayFilename));
 		};
 
 		this.user = user;

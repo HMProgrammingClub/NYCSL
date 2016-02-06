@@ -71,7 +71,7 @@
 			<form id="submitForm">
 				<ul class="nav navbar-nav navbar-right loggedIn" id="logoutNav">
 					<li><a href="#" id="submitButton">Submit To Current Competition</a><input type="file" id="myFile" name="outputFile" onchange="fileChanged()"></li>
-					<li><a href="#" id="submitButton">View Gamefile</a><input type="file" id="myFile" name="outputFile" onchange="gameFileChanged()"></li>
+					<li><a href="#" id="gameButton">View Gamefile</a><input type="file" id="gameFile" name="gameFile" onchange="gameFileChanged()"></li>
 					<li><a href="#" id="logoutButton">Logout</a></li>
 				</ul>
 			</form>
