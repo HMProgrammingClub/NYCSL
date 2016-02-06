@@ -7,16 +7,15 @@ public class Tron {
 	//We therefore create a PrintWriter and output to that. Use "OutputDebug" rather than "System.out.print".
 	public static PrintWriter debug;
 	public static <T> void log(T s) {
-		if(debug == null) {
-			try {
-				debug = new PrintWriter(new FileOutputStream(new File("debug.log")), true); //Cast to seconds.
-			} catch(Exception e) {
-				System.out.println("Debug file could not be open.");
-				System.exit(1);
-			}
+		try {
+			debug = new PrintWriter(new FileOutputStream(new File("debug.log"), true)); //Cast to seconds.
+		} catch(Exception e) {
+			System.out.println("Debug file could not be open.");
+			System.exit(1);
 		}
-		debug.print(s+"\n");
+		debug.append(s+"\n");
 		debug.flush();
+		debug.close();
 	}
 
 	public static enum Direction {
