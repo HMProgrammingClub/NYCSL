@@ -70,7 +70,10 @@ $(function() {
 	}
 
 	var table = {
-		init: function(submissions) {
+		init: function(submissions, isLatestGame) {
+			this.isLatestGame = isLatestGame;
+			console.log("is " + this.isLatestGame)
+
 			this.cacheDOM();
 			this.bindEvents();
 			this.setSubmissions(submissions);
@@ -86,8 +89,10 @@ $(function() {
 			
 			this.render();
 
-			this.dropdowns = Array();
-			for(var a = 0; a < this.submissions.length; a++) this.dropdowns.push(new GameDropdown(this.submissions[a].user, $("#user"+this.submissions[a].user.userID)));
+			if(this.isLatestGame) {
+				this.dropdowns = Array();
+				for(var a = 0; a < this.submissions.length; a++) this.dropdowns.push(new GameDropdown(this.submissions[a].user, $("#user"+this.submissions[a].user.userID)));
+			}
 		},
 		render: function() {
 			this.$table.empty();
@@ -98,15 +103,17 @@ $(function() {
 			}
 		},
 		toggleDropdown: function(event) {
-			console.log(event)
-			var user = this.getUserWithID($(event.target).attr("userID"));
-			console.log(user)
-			for(var a = 0; a < this.submissions.length; a++) {
-				if(this.submissions[a].user.userID == user.userID) {
-					console.log(user.userID)
-					if(this.dropdowns[a].games == null) this.dropdowns[a].setGames(getLatestGamesForUser(user.userID));
-					this.dropdowns[a].toggle();
-					break;
+			if(this.isLatestGame) {
+				console.log(event)
+				var user = this.getUserWithID($(event.target).attr("userID"));
+				console.log(user)
+				for(var a = 0; a < this.submissions.length; a++) {
+					if(this.submissions[a].user.userID == user.userID) {
+						console.log(user.userID)
+						if(this.dropdowns[a].games == null) this.dropdowns[a].setGames(getLatestGamesForUser(user.userID));
+						this.dropdowns[a].toggle();
+						break;
+					}
 				}
 			}
 		},
@@ -117,8 +124,12 @@ $(function() {
 	};
 
 	var problemDisplay = {
-		init: function(problem) {
+		init: function(problem, isLatestGame) {
 			this.problem = problem;
+
+			this.table = table;
+			this.table.init(this.problem.submissions, isLatestGame);
+
 			this.cacheDOM();
 			this.render();
 		},
@@ -126,9 +137,6 @@ $(function() {
 			this.$header = $("#jHeader");
 			this.$paragraph = $("#jParagraph");
 			this.$rulesPanel = $("#rulesPanelBody");
-
-			this.table = table;
-			this.table.init(this.problem.submissions);
 		},
 		setProblem: function(problem) {
 			this.problem = problem;
@@ -165,7 +173,7 @@ $(function() {
 			this.$archivedTag = $("archivedTag");
 
 			this.problemDisplay = problemDisplay;
-			this.problemDisplay.init(getProblemWithIndex(this.problemIndex));
+			this.problemDisplay.init(getProblemWithIndex(this.problemIndex), this.problemIndex == 0);
 
 			if(this.problemIndex == 0) {
 				this.$forwardButton.css("visibility", "hidden");
@@ -210,14 +218,15 @@ $(function() {
 
 	// Get problem index from GET parameter
 	var index = parseInt(getGET("problemIndex"));
-	if(isNaN(index) == true || index == null || index === "" || index === " ") {
+	if(isNaN(index) == true || index == null || index == undefined) {
 		index = parseInt(getGET("problemID"));
-		if(isNaN(index) == true || index == null || index === "" || index === " ") {
+		if(isNaN(index) == true || index == null || index == undefined) {
 			index = 0;
 		} else {
 			index = problemIDToIndex(index);
 		}
 	}
+
 	problemPanner.init(index);
 
 	if(getGET("didVerify") != null) messageBox.verifySuccess()
