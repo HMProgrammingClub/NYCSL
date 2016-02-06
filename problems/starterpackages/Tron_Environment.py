@@ -111,6 +111,7 @@ frames = []
 isDone = False
 isTied = False
 winner = -1
+
 frames.append(copy.deepcopy(gameMap))
 while isDone == False:
 	for a in range(2):
@@ -118,8 +119,10 @@ while isDone == False:
 			move = networker.frameNetworking(copy.deepcopy(frames[-1]), a)
 			gameMap[positions[a].y][positions[a].x] = Tile.takenByPlayer1.value if a == 0 else Tile.takenByPlayer2.value
 			
-			if move == None:
-				print("Player " + str(a+1) + " timed out!")
+			if move == None or move < 0 or move > 3:
+				if move == None: print("Player " + str(a+1) + " timed out!")
+				else: print("Player " + str(a+1) + " sent us a move that is not between 0 and 3!")
+				
 				winner = 1 + (0 if a == 1 else 1)
 				if isDone == True: isTied = True
 				isDone = True
@@ -129,21 +132,14 @@ while isDone == False:
 			elif move == Direction.south.value: positions[a].y -= 1
 			elif move == Direction.east.value: positions[a].x += 1
 			elif move == Direction.west.value: positions[a].x -= 1
-			else:
-				print("Player " + str(a+1) + " sent us a move that is not between 0 and 3!")
-				winner = 1 + (0 if a == 1 else 1)
-				if isDone == True: isTied = True
-				isDone = True
-				continue
 
 			# check if legitimate move
-			print(gameMap)
 			if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0 or gameMap[positions[a].y][positions[a].x] != Tile.empty.value:
 				if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0: print("Player " + str(a+1) + " fell off the map!")
-				elif gameMap[positions[a].y][positions[a].x] == Tile.player1.value or gameMap[positions[a].y][positions[a].x] == Tile.player1.value: print("Player " + str(a+1) + " collided with another player!")
+				elif gameMap[positions[a].y][positions[a].x] == Tile.player1.value or gameMap[positions[a].y][positions[a].x] == Tile.player2.value: print("Player " + str(a+1) + " collided with another player!")
 				else: print("Player " + str(a+1) + " collide with a tile that has already been taken!")
+				
 				winner = 1 + (0 if a == 1 else 1)
-
 				if isDone == True: isTied = True
 				isDone = True
 				continue
