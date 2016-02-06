@@ -54,7 +54,6 @@
 							<tbody id="leaderboard">
 							</tbody>
 						</table>
-						<button type="button" id="loadBtn" class="btn btn-secondary btn-block">Load More</button>
 					</div>
 				</div>
 			</div>
