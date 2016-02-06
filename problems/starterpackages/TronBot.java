@@ -14,7 +14,8 @@ public class TronBot {
 			 * Tron.Tile.TAKEN_BY_OPPONENT.   */
 			ArrayList<ArrayList<Tile>> gameMap = Tron.getMap();
 
-			Tron.log("java test");
+			// Print 'Hello World' and a newline to the debug file.
+			Tron.log("Hello World");
 
 			/* Send your move.  This can be Tron.Direction.NORTH,
 			 * Tron.Direction.SOUTH, Tron.Direction.EAST, or

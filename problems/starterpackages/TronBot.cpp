@@ -7,7 +7,8 @@ int main() {
 	init();
 	// Execute loop forever (or until game ends)
 	while (true) {
-		log("c++ test");
+		// Print 'Hello World' and a newline to the debug file
+		log("Hello World");
 		/* Get an integer map of the field. Each int
 		 * can either be Tron.Tile.EMPTY, Tron.Tile.PLAYER1, 
 		 * Tron.Tile.PLAYER2, Tron.Tile.TAKEN_BY_PLAYER1, or
