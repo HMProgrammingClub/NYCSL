@@ -111,8 +111,8 @@ frames = []
 isDone = False
 isTied = False
 winner = -1
+frames.append(copy.deepcopy(gameMap))
 while isDone == False:
-	frames.append(copy.deepcopy(gameMap))
 	for a in range(2):
 		try:
 			move = networker.frameNetworking(copy.deepcopy(frames[-1]), a)
@@ -137,6 +137,7 @@ while isDone == False:
 				continue
 
 			# check if legitimate move
+			print(gameMap)
 			if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0 or gameMap[positions[a].y][positions[a].x] != Tile.empty.value:
 				if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0: print("Player " + str(a+1) + " fell off the map!")
 				elif gameMap[positions[a].y][positions[a].x] == Tile.player1.value or gameMap[positions[a].y][positions[a].x] == Tile.player1.value: print("Player " + str(a+1) + " collided with another player!")
@@ -156,7 +157,7 @@ while isDone == False:
 			if isDone == True: isTied = True
 			isDone = True
 			continue
-
+	frames.append(copy.deepcopy(gameMap))
 # Cleanup
 if isTied == True: print("The game ended in a tie!")
 else: print("Player " + str(winner) + " won!")
