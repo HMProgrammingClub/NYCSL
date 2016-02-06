@@ -3,7 +3,7 @@ import java.io.*;
 
 public class TronBot {
 	public static void main(String[] args) {
-		
+		Tron.init();
 		// Execute loop forever (or until game ends)
 		while (true) {
 			/* Get an integer map of the field. Each int

@@ -37,6 +37,11 @@ class Networker:
 		stderrMonitor = Thread(target=monitorFile, args=(self.processes[-1].stderr, self.stderrQueues[-1]))
 		stderrMonitor.daemon = True
 		stderrMonitor.start()
+
+	def initialNetworking(self):
+		for a in range(len(self.processes)):
+			self.processes[a].stdin.write(str(a+1) + "\n")
+			self.processes[a].stdin.flush()
 		
 	def serializeMap(self, map, isSecond):
 		returnString = ""
@@ -80,9 +85,6 @@ class Point:
 		self.x = x
 		self.y = y
 
-# Clear log file
-open("debug.log", "w").close()
-
 networker = Networker()
 if len(sys.argv) >= 2:
 	for a in range(-2, 0):
@@ -92,6 +94,8 @@ else:
 	# Network initialization
 	for a in range(2):
 		networker.startPlayer(input("Enter the start command for the player " + str(a) + ":"))
+
+networker.initialNetworking()
 
 # Map setup
 width = 16

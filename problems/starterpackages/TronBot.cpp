@@ -4,7 +4,7 @@
 //We therefore create a fstream and output to that. Use "debug << " rather than "std::cout << ".
 
 int main() {
-	
+	init();
 	// Execute loop forever (or until game ends)
 	while (true) {
 		log("c++ test");

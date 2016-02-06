@@ -11,8 +11,19 @@ enum Tile {
 	TAKEN_BY_PLAYER1, TAKEN_BY_PLAYER2
 };
 
+static std::ofstream debug;
+
+static std::string getString()  {
+	std::string newString;
+	std::getline(std::cin, newString);
+	return newString;
+}
+
+static void init() {
+	debug = std::ofstream("debug"+getString()+".log");
+}
+
 static void log(std::string logString) {
-	std::ofstream debug = std::ofstream("debug.log", std::ofstream::out | std::ofstream::app);
 	debug << logString << "\n";
 }
 
@@ -33,12 +44,6 @@ static std::vector< std::vector<int> > deserializeMap(std::string mapString) {
 	}
 
 	return map;
-}
-
-static std::string getString()  {
-	std::string newString;
-	std::getline(std::cin, newString);
-	return newString;
 }
 
 static std::vector< std::vector<int> > getMap() {
