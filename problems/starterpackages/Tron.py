@@ -7,8 +7,8 @@ south = 2
 west = 3
 
 empty = 0
-myCar = 1
-opponentCar = 2
+me = 1
+opponent = 2
 takenByMe = 3
 takenByOpponent = 4
 
@@ -21,7 +21,7 @@ class Networker:
 	def __init__(self):
 		global debug
 		debug = open("debug"+sys.stdin.readline().strip()+".log", "w")
-		
+
 	def deserializeMap(self, mapString):
 		tiles = [int(tile) for tile in mapString.split(" ")]
 		map = [tiles[a*16 : (a+1)*16] for a in range(16)]
