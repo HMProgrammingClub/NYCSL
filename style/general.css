@@ -23,6 +23,10 @@ body {
 	display:none;
 }
 
+#gameFile {
+	display:none;
+}
+
 #navCont {
 	margin:0 auto;
 	width:90%;
@@ -38,4 +42,17 @@ body {
 
 #archivedTag {
 	display:none;
+}
+
+.gameRow {
+	display:none;
+}
+
+#leaderTable {
+	padding-bottom:0px;
+	margin-bottom:0px;
+}
+
+.gameRow {
+	background-color:#F8F8F8;
 }
