@@ -42,7 +42,7 @@ class Networker:
 		returnString = ""
 		for row in map:
 			for tile in row:
-				returnString += str(tile-1 if tile == 2 or tile == 4 else (tile+1 if tile != 0 else tile)) + " "
+				returnString += str(tile if isSecond else tile-1 if tile == 2 or tile == 4 else tile+1 if tile != 0 else 0) + " "
 		return returnString
 		
 	def frameNetworking(self, map, isSecond):
@@ -50,8 +50,10 @@ class Networker:
 		self.processes[isSecond].stdin.flush()
 
 		# Return move
+		startingTime = time.time()
 		while len(self.stdoutQueues[isSecond]) == 0:
 			time.sleep(0.01)
+			if time.time() - startingTime > 5: return None
 		return int(self.stdoutQueues[isSecond].pop())
 
 	def killAll(self):
@@ -77,6 +79,9 @@ class Point:
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
+
+# Clear log file
+open("debug.log", "w")
 
 networker = Networker()
 if len(sys.argv) >= 2:
@@ -110,12 +115,27 @@ while isDone == False:
 	frames.append(copy.deepcopy(gameMap))
 	for a in range(2):
 		try:
+			move = networker.frameNetworking(copy.deepcopy(frames[-1]), a)
+			print(a)
 			gameMap[positions[a].y][positions[a].x] = Tile.takenByPlayer1.value if a == 0 else Tile.takenByPlayer2.value
-			move = networker.frameNetworking(gameMap, a)
+			
+			if move == None:
+				print("Player " + str(a+1) + " timed out!")
+				winner = 1 + (0 if a == 1 else 1)
+				if isDone == True: isTied = True
+				isDone = True
+				continue
+
 			if move == Direction.north.value: positions[a].y += 1
 			elif move == Direction.south.value: positions[a].y -= 1
 			elif move == Direction.east.value: positions[a].x += 1
 			elif move == Direction.west.value: positions[a].x -= 1
+			else:
+				print("Player " + str(a+1) + " sent us a move that is not between 0 and 3!")
+				winner = 1 + (0 if a == 1 else 1)
+				if isDone == True: isTied = True
+				isDone = True
+				continue
 
 			# check if legitimate move
 			if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0 or gameMap[positions[a].y][positions[a].x] != Tile.empty.value:
