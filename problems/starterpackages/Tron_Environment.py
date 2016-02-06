@@ -42,7 +42,7 @@ class Networker:
 		returnString = ""
 		for row in map:
 			for tile in row:
-				returnString += str(tile if isSecond else tile-1 if tile == 2 or tile == 4 else tile+1 if tile != 0 else 0) + " "
+				returnString += str(tile if isSecond == False else tile-1 if tile == 2 or tile == 4 else tile+1 if tile != 0 else 0) + " "
 		return returnString
 		
 	def frameNetworking(self, map, isSecond):
@@ -116,7 +116,6 @@ while isDone == False:
 	for a in range(2):
 		try:
 			move = networker.frameNetworking(copy.deepcopy(frames[-1]), a)
-			print(a)
 			gameMap[positions[a].y][positions[a].x] = Tile.takenByPlayer1.value if a == 0 else Tile.takenByPlayer2.value
 			
 			if move == None:

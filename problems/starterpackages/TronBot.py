@@ -26,12 +26,8 @@ log(direction)
 networker.sendMove(direction)
 
 while True:
-	index += 1
 	gameMap = networker.getMap()
-	row, col = findMe(gameMap)
-	log( str(row) + ", " +str(col))
-	if ((col == 0 or col == 15) and (row == 0 or row == 15)):
-		direction = (direction+1) %4
+	log(str(findMe(gameMap)))
 
 	# actually send it
 	networker.sendMove(direction)
