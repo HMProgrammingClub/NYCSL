@@ -252,3 +252,5 @@ problems/scripts/.idea/.name
 *.pyc
 *.class
 *.trn
+
+*.exe

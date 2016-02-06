@@ -6,17 +6,11 @@ public class Tron {
 	//We can't print to console, because that channel is used for IO with the environment.
 	//We therefore create a PrintWriter and output to that. Use "OutputDebug" rather than "System.out.print".
 	public static PrintWriter debug;
-	public static <T> void outputDebug(T s) {
-		if(debug == null) {
-			try {
-				debug = new PrintWriter("debug-" + (System.currentTimeMillis() / 1000) + ".log"); //Cast to seconds.
-			} catch(Exception e) {
-				System.out.println("Debug file could not be open.");
-				System.exit(1);
-			}
+	public static <T> void log(T s) {
+		if(debug != null) {
+			debug.append(s+"\n");
+			debug.flush();
 		}
-		debug.print(s);
-		debug.flush();
 	}
 
 	public static enum Direction {
@@ -26,6 +20,15 @@ public class Tron {
 	public static enum Tile {
 		EMPTY, PLAYER1, PLAYER2, 
 		TAKEN_BY_PLAYER1, TAKEN_BY_PLAYER2
+	}
+
+	public static void init() {
+		try {
+			debug = new PrintWriter(new FileOutputStream(new File("debug"+getString().trim()+".log"))); //Cast to seconds.
+		} catch(Exception e) {
+			System.out.println("Debug file could not be open.");
+			System.exit(1);
+		}
 	}
 
 	private static int[][] deserializeMap(String mapString) {
@@ -59,7 +62,6 @@ public class Tron {
 	public static int[][] getMap() {
 		String message = getString().trim();
 		if(message.equals("KILL")) {
-			outputDebug("exit");
 			System.exit(0);
 		}
 		return deserializeMap(message);
