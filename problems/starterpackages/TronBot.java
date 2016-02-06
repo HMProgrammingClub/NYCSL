@@ -12,7 +12,7 @@ public class TronBot {
 			 * can either be Tron.Tile.EMPTY, Tron.Tile.ME, 
 			 * Tron.Tile.OPPONENT, Tron.Tile.TAKEN_BY_ME, or
 			 * Tron.Tile.TAKEN_BY_OPPONENT.   */
-			ArrayList<ArrayList<Tile>> gameMap = Tron.getMap();
+			ArrayList<ArrayList<Tron.Tile>> gameMap = Tron.getMap();
 
 			Tron.log("java test");
 
