@@ -3,14 +3,16 @@ import java.io.*;
 
 public class TronBot {
 	public static void main(String[] args) {
+		// Call this to initialize networking and the debug file
 		Tron.init();
+
 		// Execute loop forever (or until game ends)
 		while (true) {
 			/* Get an integer map of the field. Each int
-			 * can either be Tron.Tile.EMPTY, Tron.Tile.PLAYER1, 
-			 * Tron.Tile.PLAYER2, Tron.Tile.TAKEN_BY_PLAYER1, or
-			 * Tron.Tile.TAKEN_BY_PLAYER2.   */
-			int[][] gameMap = Tron.getMap();
+			 * can either be Tron.Tile.EMPTY, Tron.Tile.ME, 
+			 * Tron.Tile.OPPONENT, Tron.Tile.TAKEN_BY_ME, or
+			 * Tron.Tile.TAKEN_BY_OPPONENT.   */
+			ArrayList<ArrayList<Tile>> gameMap = Tron.getMap();
 
 			Tron.log("java test");
 

@@ -18,8 +18,8 @@ public class Tron {
 	}
 
 	public static enum Tile {
-		EMPTY, PLAYER1, PLAYER2, 
-		TAKEN_BY_PLAYER1, TAKEN_BY_PLAYER2
+		EMPTY, ME, OPPONENT, 
+		TAKEN_BY_ME, TAKEN_BY_OPPONENT
 	}
 
 	public static void init() {
@@ -31,10 +31,10 @@ public class Tron {
 		}
 	}
 
-	private static int[][] deserializeMap(String mapString) {
+	private static ArrayList<ArrayList<Tile>> deserializeMap(String mapString) {
 		String[] tiles = mapString.trim().split(" ");
 		int[] tileVals = new int[tiles.length];
-		for (int i=0; i<tiles.length; i++) tileVals[i] = Integer.parseInt(tiles[i].trim());
+		for (int i=0; i<tiles.length; i++) tileVals[i] = Tile.values()[Integer.parseInt(tiles[i].trim())];
 
 		int[][] map = new int[16][16];
 		for (int i=0; i<16; i++) map[i] = Arrays.copyOfRange(tileVals,i*16,(i+1)*16);
@@ -59,7 +59,7 @@ public class Tron {
 		}
     }
 
-	public static int[][] getMap() {
+	public static ArrayList<ArrayList<Tile>> getMap() {
 		String message = getString().trim();
 		if(message.equals("KILL")) {
 			System.exit(0);
