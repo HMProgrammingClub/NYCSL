@@ -1,19 +1,12 @@
 import java.util.*;
+import java.io.*;
 
 public class TronBot {
-	//We can't print to console, because that channel is used for IO with the environment.
-	//We therefore create a PrintWriter and output to that. Use "OutputDebug" rather than "System.out.print".
-	private static PrintWriter debug;
-	private <T> void OutputDebug(T s) {
-		debug.print(s);
-		debug.flush();
-	}
-	
 	public static void main(String[] args) {
-		debug = new PrintWriter("debug-" + (System.currentTimeMillis() / 1000) + ".log"); //Cast to seconds.
 		
 		// Execute loop forever (or until game ends)
 		while (true) {
+			Tron.outputDebug("test");
 			/* Get an integer map of the field. Each int
 			 * can either be Tron.Tile.EMPTY, Tron.Tile.PLAYER1, 
 			 * Tron.Tile.PLAYER2, Tron.Tile.TAKEN_BY_PLAYER1, or
