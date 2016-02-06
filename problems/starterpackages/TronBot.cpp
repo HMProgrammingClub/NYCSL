@@ -5,7 +5,7 @@
 std::ofstream debug;
 
 int main() {
-	debug = std::ofstream("debug-" + time(NULL) + ".log");
+	debug = std::ofstream("debug-" + std::to_string(time(NULL)) + ".log");
 	
 	// Execute loop forever (or until game ends)
 	while (true) {
@@ -17,6 +17,6 @@ int main() {
 		/* Send your move.  This can be Tron.Direction.NORTH,
 		 * Tron.Direction.SOUTH, Tron.Direction.EAST, or
 		 * Tron.Direction.WEST.          */
-		sendMove(NORTH);
+		sendMove(WEST);
 	}
 }	
