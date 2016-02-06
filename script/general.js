@@ -1,9 +1,47 @@
+var gameDisplay = {
+	isInitialized: false,
+	init: function() {
+		this.isInitialized = true;
+		this.cacheDOM();
+	},
+	cacheDOM: function() {
+		this.$modal = $("#gameModal");
+		this.$player1Field = $("#player1");
+		this.$player2Field = $("#player2");
+	},
+	setGame: function(player1Name, player2Name, replayContents) {
+		if(this.isInitialized == false) this.init();
+
+		this.player1Name = player1Name;
+		this.player2Name = player2Name;
+		this.replayContents = replayContents;
+		this.render();
+	},
+	render: function() {
+		this.$modal.modal('show');
+		this.$player1Field.html(this.player1Name);
+		this.$player2Field.html(this.player2Name);
+		begin(this.replayContents);
+	},
+	hide: function() {
+		this.$modal.modal('hide');
+	}
+}
+
 function fileChanged() {
 	var response = storeSubmissionDatabase("submitForm");
 	if (response.isError) parseError(response.message)
 	else congratsError(response.message)
 
 	reloadTables()
+}
+
+function gameFileChanged() {
+	var fr = new FileReader();
+	fr.onload = function() {
+		gameDisplay.setGame("Player 1", "Player 2", fr.result);
+	};
+	fr.readAsText($("#gameFile").prop("files")[0]);
 }
 
 function login(user) {
@@ -135,6 +173,10 @@ $(document).ready(function() {
 		$('#myFile').click();
 	})
 	
+	$('#gameButton').click(function() {
+		$('#gameFile').click();
+	})
+
 	$('#logoutButton').click(function() {
 		destroySession(false);
 		logOut();
