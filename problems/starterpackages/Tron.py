@@ -12,9 +12,9 @@ opponentCar = 2
 takenByMe = 3
 takenByOpponent = 4
 
-debug = open("debug.log", "a")
 def log(string):
-	debug.write(str(string)+"\n")
+	with open("debug.log", "a") as debug:
+		debug.write(str(string)+"\n")
 
 class Networker:
 	def deserializeMap(self, mapString):

@@ -81,7 +81,7 @@ class Point:
 		self.y = y
 
 # Clear log file
-open("debug.log", "w")
+open("debug.log", "w").close()
 
 networker = Networker()
 if len(sys.argv) >= 2:
