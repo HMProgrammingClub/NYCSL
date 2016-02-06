@@ -35,16 +35,24 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 
 ##Todo
 
-### Release 1.0
-- Only load top ~20 on leaderboard
-	- Button to load 10 more 
-- Add Memchached
-- Remove js redundancy
-- Reduce backend calls
-- Test for Security Vunerabilities
-- On the user page show the number of people who participated in the competition with the person's rank in the competition
+### February Release
+- ~~Fix visulizer crash on chrome reload~~
+- ~~Show the player names and the winner on the game modal~~
+- Keep track of who is player 1 and who is player 2
+- ~~Rehash all the passwords~~
+- Allow the playing of local game files on the website
+- Test the starter packages locally (Ben, Luca)
+- Submit bots and make sure everything is running correctly
+- ~~Write logging functions (Ben, Luca)~~
+- Compile submitted C++ as C++ 11
+- Email heads of CS departements at Stuy, Bx, Dalton, Trinity (Ben, Luca)
+- Send out email to HM Programming Club (Ben, Luca)
+- Getting started video (showing how to run c++, java, python bots from environment, put trn file in visualizer, etc.) (Ben, Luca)
+- Give prizes to January winners (Ben, Luca)
+- ~~Decide on prizes and put them in the problem description~~
+- Migrate new MySQL database structure to the production server
 
-### Release 2.0
+### March Release
 - User overall score
 	- Base score for competition participation + inverse of placing (1st / 30 people = 30 points)
 	- Overall leaderboard
