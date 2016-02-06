@@ -16,7 +16,7 @@ public class TronBot {
 			/* Send your move.  This can be Tron.Direction.NORTH,
 			 * Tron.Direction.SOUTH, Tron.Direction.EAST, or
 			 * Tron.Direction.WEST.          */
-			Tron.sendMove(Tron.Direction.NORTH);
+			Tron.sendMove(Tron.Direction.SOUTH);
 		}
 	}
 

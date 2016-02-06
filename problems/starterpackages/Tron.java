@@ -9,13 +9,13 @@ public class Tron {
 	public static <T> void log(T s) {
 		if(debug == null) {
 			try {
-				debug = new PrintWriter("debug.log"); //Cast to seconds.
+				debug = new PrintWriter(new FileOutputStream(new File("debug.log")), true); //Cast to seconds.
 			} catch(Exception e) {
 				System.out.println("Debug file could not be open.");
 				System.exit(1);
 			}
 		}
-		debug.print(s);
+		debug.print(s+"\n");
 		debug.flush();
 	}
 
