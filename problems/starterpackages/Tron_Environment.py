@@ -104,8 +104,8 @@ gameMap = [[Tile.empty.value for a in range(width)] for b in range(height)]
 
 # Place pieces on map
 positions = []
-positions.append(Point(int(width/2), 0))
-positions.append(Point(int(width/2), height-1))
+positions.append(Point(0, 0))
+positions.append(Point(width-1, height-1))
 
 gameMap[positions[0].y][positions[0].x] = Tile.player1.value
 gameMap[positions[1].y][positions[1].x] = Tile.player2.value
