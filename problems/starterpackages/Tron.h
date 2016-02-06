@@ -11,6 +11,11 @@ enum Tile {
 	TAKEN_BY_PLAYER1, TAKEN_BY_PLAYER2
 };
 
+static void log(std::string logString) {
+	std::ofstream debug = std::ofstream("debug.log", std::ofstream::out | std::ofstream::app);
+	debug << logString << "\n";
+}
+
 static std::vector< std::vector<int> > deserializeMap(std::string mapString) {
 	std::vector<int> tileVals;
 	std::istringstream f(mapString);
