@@ -7,16 +7,17 @@ import pymysql.cursors
 import random
 import shutil
 from sandbox import *
+import config
 
 TRON_PROBLEM_ID = 3
 
-cnx = pymysql.connect(host="104.131.81.214", user="superuser", database="DefHacks", password="fustercluck", charset="utf8mb4", cursorclass=pymysql.cursors.DictCursor)
+cnx = pymysql.connect(host="104.131.81.214", user="superuser", database="DefHacks", password=config.PASS, charset="utf8mb4", cursorclass=pymysql.cursors.DictCursor)
 cursor = cnx.cursor()
 
 def unpack(filePath, destinationFilePath):
 	tempPath = os.path.join(destinationFilePath, "bot")
 	os.mkdir(tempPath)
-	
+
 	# Extract the archive into a folder call 'bot'
 	if platform.system() == 'Windows':
 		os.system("7z x -o"+tempPath+" -y "+filePath+". > NUL")
@@ -31,7 +32,7 @@ def unpack(filePath, destinationFilePath):
 	# Copy contents of bot folder to destinationFilePath remove bot folder
 	for filename in os.listdir(tempPath):
 		shutil.move(os.path.join(tempPath, filename), os.path.join(destinationFilePath, filename))
-	
+
 	shutil.rmtree(tempPath)
 	#os.remove(filePath)
 
@@ -39,13 +40,13 @@ def runGame(userIDs, muValues, sigmaValues):
 	# Setup working path
 	workingPath = "workingPath"
 	if os.path.exists(workingPath):
-		shutil.rmtree(workingPath)	
+		shutil.rmtree(workingPath)
 	os.makedirs(workingPath)
 	os.chmod(workingPath, 0o777)
-	
+
 	shutil.copyfile("TR_environment_main.py", os.path.join(workingPath, "TR_environment_main.py"))
 	shutil.copyfile("TR_environment_networking.py", os.path.join(workingPath, "TR_environment_networking.py"))
-	
+
 	sandbox = Sandbox(workingPath)
 
 	# Unpack and setup bot files
@@ -56,7 +57,7 @@ def runGame(userIDs, muValues, sigmaValues):
 		print(botPath)
 		os.chmod(botPath, 0o777)
 		os.chmod(os.path.join(botPath, "run.sh"), 0o777)
-	
+
 	# Build the shell command that will run the game. Executable called environment houses the game environment
 	runGameShellCommand = "python3 /var/www/nycsl/problems/workers/"+workingPath+"/TR_environment_main.py "
 	for botPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(botPath)+"; "+os.path.join(os.path.abspath(botPath), "run.sh")+"\" "
@@ -71,13 +72,13 @@ def runGame(userIDs, muValues, sigmaValues):
 		if line == None:
 			break
 		lines.append(line)
-	
-	
+
+
 	# Get player ranks and scores by parsing shellOutput
 	if "won!" in lines[-2]:
 		winnerIndex = int(lines[-2][len("Player ") : -len("won!")]) - 1
 		loserIndex = (1 if winnerNumber == 2 else 2)-1
-		
+
 	else:
 		winnerIndex = random.randrange(0, 2)
 		loserIndex = 0 if winnerIndex == 1 else 1
@@ -97,14 +98,14 @@ def runGame(userIDs, muValues, sigmaValues):
 	# Get replay file by parsing shellOutput
 	replayFilename = lines[-1][len("Output file is stored at ") : len(lines[-1])]
 	shutil.move(os.path.join(workingPath, replayFilename), "../storage")
-	
+
 	# Store results of game
 	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+os.basename(replayFilename)+"\')")
 	cnx.commit()
 
 	cursor.execute("SELECT gameID FROM Game WHERE replayFilename = \'"+replayFilename+"\'")
 	gameID = cursor.fetchone()['gameID']
-	
+
 	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, index) VALUES (%d, %d, %d)" % (gameID, winnerID, 0, 0 if userIDs[0] == winnerID else 1))
 	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, index) VALUES (%d, %d, %d)" % (gameID, loserID, 1, 0 if userIDs[0] == loserID else 1))
 	cnx.commit()
