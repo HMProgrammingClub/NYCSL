@@ -56,7 +56,7 @@ function begin(data) {
 	
 	//Add canvas listener:
 	play = true;
-	canvas.addEventListener("keypress", keyFunc, false)
+	document.addEventListener("keydown", keyFunc);
 	
 	//Set turn number to be 0;
 	turn_number = 0;
@@ -118,12 +118,13 @@ function begin(data) {
 }
 
 function keyFunc(e) {
+	console.log(e.keyCode);
 	if(e.keyCode == 37) {
-		turn_number--;
+		if(turn_number > 0) turn_number--;
 		play = false;
 	}
 	else if(e.keyCode == 39) {
-		turn_number++;
+		if(turn_number < numFrames - 1) turn_number++;
 		play = false;
 	}
 	else if(e.keyCode == 32) {
@@ -192,7 +193,7 @@ function onWindowResize(event) {
 }
 
 function animate() {
-	if(turn_number < numFrames - 1) requestAnimationFrame(animate);
+	requestAnimationFrame(animate);
 	counter++;
 	if(play && turn_number < numFrames - 1 && counter % 12 == 0) turn_number++;
 	nextFrame();
