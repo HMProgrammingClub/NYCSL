@@ -338,6 +338,10 @@ class DefHacksAPI extends API
 			if(count($submissionArray) > 0) {
 				$this->insert("UPDATE Submission SET isReady = 0 WHERE submissionID = {$submissionArray['submissionID']}");
 			}
+			if($problemArray['doReset'] == true) {
+				$this->insert("UPDATE Submission SET score = 0, mu = 25.000, sigma = 8.333 WHERE submissionID = {$submissionArray['submissionID']}");
+			}
+			
 			$targetPath = "../problems/outputs/{$problemName}/";
 			if(!file_exists($targetPath)) mkdir($targetPath);
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
@@ -345,10 +349,8 @@ class DefHacksAPI extends API
 			if(file_exists($targetPath)) unlink($targetPath);
 			clearstatcache();
 			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
-
 			// Pass target file to python script
-			exec("python3 ../problems/scripts/$problemName.py $targetPath", $rawOutput);
-			
+			exec("python3 ../problems/scripts/$problemName.py $targetPath", $rawOutput);	
 			if(!isset($rawOutput[0])) return array("isError" => true, "message" => "There was a problem with your submission file.");
 			$programOutput = json_decode($rawOutput[count($rawOutput)-1]);
 			
@@ -358,7 +360,7 @@ class DefHacksAPI extends API
 				$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
 				if($userArray['userID'] != NULL) {
 					if(($isAscending == true && $userArray['score'] > $programOutput->score) || ($isAscending == false && $userArray['score'] < $programOutput->score) || $problemArray['doReset'] == true) {		
-						$this->insert("UPDATE Submission SET score = {$programOutput->score}, isReady = 1 WHERE userID = $userID and problemID = $problemID");	
+						$this->insert("UPDATE Submission SET score = {$programOutput->score}, isReady = 1, mu = 25.000, sigma = 8.333  WHERE userID = $userID and problemID = $problemID");	
 					}
 				} else {
 					$this->insert("INSERT INTO Submission (problemID, userID, score, isReady) VALUES ($problemID, $userID, {$programOutput->score}, 1)");

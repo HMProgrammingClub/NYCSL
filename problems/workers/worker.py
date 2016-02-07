@@ -58,7 +58,8 @@ def runGame(userIDs, muValues, sigmaValues):
 	# Build the shell command that will run the game. Executable called environment houses the game environment
 	runGameShellCommand = "python3 /var/www/nycsl/problems/workers/"+workingPath+"/Tron_Environment.py "
 	for botPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(botPath)+"; "+os.path.join(os.path.abspath(botPath), "run.sh")+"\" "
-
+	
+	print(runGameShellCommand)
 	# Run game
 	sandbox.start(runGameShellCommand)
 	lines = []
@@ -127,4 +128,5 @@ while True:
 				if os.path.isfile(os.path.join("../storage", f)):
 					os.remove(os.path.join("../storage", f))
 					break
-		os.system("free")
+		os.system("docker stop $(docker ps -a -q)")
+		os.system("docker rm $(docker ps -a -q)")
