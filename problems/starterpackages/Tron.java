@@ -6,13 +6,13 @@ public class Tron {
 	//We can't print to console, because that channel is used for IO with the environment.
 	//We therefore create a PrintWriter and output to that. Use "OutputDebug" rather than "System.out.print".
 	public static PrintWriter debug;
-	public static <T> void log(T s) {
+	public static void log(String s) {
 		if(debug != null) {
 			debug.append(s);
 			debug.flush();
 		}
 	}
-	public static <T> void logln(T s) {
+	public static <T> void logln(String s) {
 		if(debug != null) {
 			debug.append(s + "\n");
 			debug.flush();
