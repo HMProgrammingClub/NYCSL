@@ -346,8 +346,8 @@ class DefHacksAPI extends API
 			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
 
 			// Pass target file to python script
-			exec("python ../problems/scripts/$problemName.py $targetPath", $rawOutput);
-
+			exec("python3 ../problems/scripts/$problemName.py $targetPath", $rawOutput);
+			
 			if(!isset($rawOutput[0])) return array("isError" => true, "message" => "There was a problem with your submission file.");
 			$programOutput = json_decode($rawOutput[count($rawOutput)-1]);
 			
@@ -356,7 +356,7 @@ class DefHacksAPI extends API
 			if(isset($programOutput->score)) {
 				$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
 				if($userArray['userID'] != NULL) {
-					if(($isAscending == true && $userArray['score'] > $programOutput->score) || ($isAscending == false && $userArray['score'] < $programOutput->score)) {		
+					if(($isAscending == true && $userArray['score'] > $programOutput->score) || ($isAscending == false && $userArray['score'] < $programOutput->score) || $problemArray['doReset'] == true) {		
 						$this->insert("UPDATE Submission SET score = {$programOutput->score}, isReady = 1 WHERE userID = $userID and problemID = $problemID");	
 					}
 				} else {
@@ -375,12 +375,12 @@ class DefHacksAPI extends API
 			$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 			$userID = $_GET['userID'];
 
-			$gameIDArrays = $this->selectMultiple("SELECT * FROM GameToUser WHERE userID = $userID LIMIT $limit");
+			$gameIDArrays = $this->selectMultiple("SELECT * FROM GameToUser WHERE userID = $userID ORDER BY gameID DESC LIMIT $limit");
 			$gameArrays = array();
 			foreach ($gameIDArrays as $gameIDArray) {
 				$gameID = $gameIDArray['gameID'];
 				$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
-				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, index FROM GameToUser WHERE gameID = $gameID");
+				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID");
 				foreach($gameArray['users'] as &$gameUserRow) {
 					$gameUserRank = $gameUserRow['rank'];
 					$gameUserRow = $this->select("SELECT * FROM User WHERE userID = {$gameUserRow['userID']}");
