@@ -193,7 +193,7 @@ function onWindowResize(event) {
 }
 
 function animate() {
-	if(turn_number < numFrames - 1) requestAnimationFrame(animate);
+	requestAnimationFrame(animate);
 	counter++;
 	if(play && turn_number < numFrames - 1 && counter % 12 == 0) turn_number++;
 	nextFrame();
