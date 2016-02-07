@@ -15,6 +15,8 @@ takenByOpponent = 4
 debug = None
 
 def log(string):
+	if debug != None: debug.write(str(string))
+def logln(string):
 	if debug != None: debug.write(str(string)+"\n")
 
 class Networker:

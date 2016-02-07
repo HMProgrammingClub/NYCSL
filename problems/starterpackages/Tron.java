@@ -8,7 +8,13 @@ public class Tron {
 	public static PrintWriter debug;
 	public static <T> void log(T s) {
 		if(debug != null) {
-			debug.append(s+"\n");
+			debug.append(s);
+			debug.flush();
+		}
+	}
+	public static <T> void logln(T s) {
+		if(debug != null) {
+			debug.append(s + "\n");
 			debug.flush();
 		}
 	}
