@@ -56,11 +56,12 @@ def compile(zipFilename):
 	print("wut")
 	unpack(zipFilename, workingPath)
 	print("ye")
+	print(os.listdir(workingPath))
 	language, errors = compile_anything(workingPath)
 	didCompile = True if errors == None else False
 	if didCompile:
 		zipFolder(workingPath, zipFilename)
-	shutil.rmtree(workingPath)
+	#shutil.rmtree(workingPath)
 	print("ye2")
 	if didCompile:
 		print(json.dumps({"isError": False, "message": "Your bot compiled correctly!", "score": 0}))

@@ -1,3 +1,4 @@
+//CUTTING OFF NEXT-BEST MOVE STRATEGY, with Greedy after cut attempt
 import java.util.*;
 import java.io.*;
 
@@ -11,21 +12,31 @@ public class TronBot {
 		Random r = new Random();
 		Tron.init();
 		Tron.logln("Starting Game!");
+		ArrayList<ArrayList<Tron.Tile>> board = Tron.getMap();
+		int sideSteps = 0;
+		int[] myPos = TronUtils.myPos(board);
+		int sideStepDir = myPos[0] == 0? 4 : 3;
 
 		while (true) {
-			ArrayList<ArrayList<Tron.Tile>> board = Tron.getMap();
-			int[] myPos = TronUtils.myPos(board);
+			Tron.logln("Here");
+			myPos = TronUtils.myPos(board);
 			logPos(myPos);
-			boolean moveFound = false;
-			for (int i = 1; i <= 4; i++) {
-				if (direcFree(board, i)) {
-					Tron.logln("Moving " + dirs.get(i));
-          			go(i);
-					moveFound = true;
-          			break;
+			if (sideSteps < 14) {
+				go(sideStepDir);
+				sideSteps++;
+			} else {
+				//move to greedy strategy
+				boolean moveFound = false;
+				for (int i = 1; i <= 4; i++) {
+					if (direcFree(board, i)) {
+						go(i);
+						moveFound = true;
+						break;
+					}
 				}
+				if (!moveFound) suicide();
 			}
-			if (!moveFound) go(r.nextInt(4) + 1);
+			board = Tron.getMap();
 		}
 	}
 	public static boolean direcFree(ArrayList<ArrayList<Tron.Tile>> board, int d) {
@@ -39,11 +50,11 @@ public class TronBot {
 			desiredPos[0] = myPos[0];
 			desiredPos[1] = myPos[1] + 1;
 		}
-		else if (d == 3) { //left
+		else if (d == 4) { //left
 			desiredPos[0] = myPos[0] + 1;
 			desiredPos[1] = myPos[1];
 		}
-		else if (d == 4) { //right
+		else if (d == 3) { //right
 			desiredPos[0] = myPos[0] - 1;
 			desiredPos[1] = myPos[1];
 		}
@@ -52,8 +63,8 @@ public class TronBot {
 	public static void go(int d) {
 		if (d == 1) up();
 		else if (d == 2) down();
-		else if (d == 3) left();
-		else if (d == 4) right();
+		else if (d == 4) left();
+		else if (d == 3) right();
 	}
 	public static void up() {
 		Tron.sendMove(Tron.Direction.SOUTH);
@@ -69,5 +80,8 @@ public class TronBot {
 	}
 	public static void logPos(int[] pos) {
 		Tron.logln("Position: " + pos[0] + " " + pos[1]);
+	}
+	public static void suicide() {
+		go(new Random().nextInt(4) + 1);
 	}
 }
