@@ -322,8 +322,6 @@ class DefHacksAPI extends API
 			isset($_POST['userID']) &&
 			isset($_FILES['outputFile']['name'])) {
 
-
-			/*
 			// Parameters
 			$userID = $_POST['userID'];
 			
@@ -365,9 +363,7 @@ class DefHacksAPI extends API
 					$this->insert("INSERT INTO Submission (problemID, userID, score, isReady) VALUES ($problemID, $userID, {$programOutput->score}, 1)");
 				}
 			}
-			return $programOutput."";
-
-			*/ return "Nuh uh. Sneaky sneaky.";
+			return $programOutput;
 		} else {
 			return "Didn't reach endpoint";
 		}
