@@ -120,11 +120,11 @@ function begin(data) {
 function keyFunc(e) {
 	console.log(e.keyCode);
 	if(e.keyCode == 37) {
-		turn_number--;
+		if(turn_number > 0) turn_number--;
 		play = false;
 	}
 	else if(e.keyCode == 39) {
-		turn_number++;
+		if(turn_number < numFrames - 1) turn_number++;
 		play = false;
 	}
 	else if(e.keyCode == 32) {
