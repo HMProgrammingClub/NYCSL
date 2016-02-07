@@ -1,0 +1,13 @@
+{
+	"name": "nycsl-chat",
+	"version": "0.0.1",
+	"description": "Chat Client for NYCSL, at Horace Mann",
+	"main": "index.js",
+	"author": "Henry Wildermuth",
+	"private": true,
+	"license": "MIT",
+	"dependencies": {
+		"express": "3.4.8",
+		"socket.io": "1.2.0"
+	}
+}
