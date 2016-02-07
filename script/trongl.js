@@ -56,7 +56,7 @@ function begin(data) {
 	
 	//Add canvas listener:
 	play = true;
-	canvas.addEventListener("keypress", keyFunc, false)
+	document.addEventListener("keypress", keyFunc, false)
 	
 	//Set turn number to be 0;
 	turn_number = 0;
