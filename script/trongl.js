@@ -1,4 +1,4 @@
-window.requestAnimationFrame = window.requestAnimationFrame || (
+window.requestAnimationFrame = window.requestAnimationFrame ||(
 function() {
 	return  window.webkitRequestAnimationFrame ||
 			window.mozRequestAnimationFrame ||
@@ -12,7 +12,7 @@ function() {
 var canvas, 
 		gl,
 		width, height, numFrames, full_game,
-		turn_number, counter,
+		turn_number, counter, play,
 		vertex_buffer, color_buffer,
 		blankColor, player1Color, player2Color, dimFactor,
 		vertex_locations, player1Color, player2Color,
@@ -54,6 +54,10 @@ function begin(data) {
 		full_game.push(frame);
 	}
 	
+	//Add canvas listener:
+	play = true;
+	canvas.addEventListener("keypress", keyFunc, false)
+	
 	//Set turn number to be 0;
 	turn_number = 0;
 	counter = 0;
@@ -63,14 +67,14 @@ function begin(data) {
 		gl = canvas.getContext('experimental-webgl');
 	} catch(error) { }
 
-	if (!gl) {
+	if(!gl) {
 		throw "cannot create webgl context";
 	}
 	
 	vl = [];
 	var dx = 2.0 / width, dy = 2.0 / height, xSize = 0.4 * dx, ySize = 0.4 * dy;
-	for(var yPos = -1 + (dy / 2); yPos < 1; yPos += dy) {
-		for(var xPos = -1 + (dx / 2); xPos < 1; xPos += dx) {
+	for(var yPos = -1 +(dy / 2); yPos < 1; yPos += dy) {
+		for(var xPos = -1 +(dx / 2); xPos < 1; xPos += dx) {
 			vl.push(xPos - xSize);
 			vl.push(yPos - ySize);
 			vl.push(xPos + xSize);
@@ -113,6 +117,18 @@ function begin(data) {
 	animate();
 }
 
+function keyFunc(e) {
+	if(e.keyCode == 37) {
+		turn_number--;
+	}
+	else if(e.keyCode == 39) {
+		turn_number++;
+	}
+	else if(e.keyCode == 32) {
+		play = !play;
+	}
+}
+
 function createProgram(vertex, fragment) {
 
 	var program = gl.createProgram();
@@ -120,7 +136,7 @@ function createProgram(vertex, fragment) {
 	var vs = createShader(vertex, gl.VERTEX_SHADER);
 	var fs = createShader('#ifdef GL_ES\nprecision highp float;\n#endif\n\n' + fragment, gl.FRAGMENT_SHADER);
 
-	if (vs == null || fs == null) return null;
+	if(vs == null || fs == null) return null;
 
 	gl.attachShader(program, vs);
 	gl.attachShader(program, fs);
@@ -130,7 +146,7 @@ function createProgram(vertex, fragment) {
 
 	gl.linkProgram(program);
 
-	if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+	if(!gl.getProgramParameter(program, gl.LINK_STATUS)) {
 
 		alert("ERROR:\n" +
 		"VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
@@ -153,7 +169,7 @@ function createShader(src, type) {
 	gl.shaderSource(shader, src);
 	gl.compileShader(shader);
 
-	if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+	if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
 
 		alert((type == gl.VERTEX_SHADER ? "VERTEX" : "FRAGMENT") + " SHADER:\n" + gl.getShaderInfoLog(shader));
 		return null;
@@ -176,7 +192,7 @@ function onWindowResize(event) {
 function animate() {
 	if(turn_number < numFrames - 1) requestAnimationFrame(animate);
 	counter++;
-	if(turn_number < numFrames - 1 && counter % 10 == 0) turn_number++;
+	if(play && turn_number < numFrames - 1 && counter % 12 == 0) turn_number++;
 	nextFrame();
 	render();
 }
@@ -221,7 +237,7 @@ function nextFrame() {
 
 function render() {
 
-	if (!currentProgram) return;
+	if(!currentProgram) return;
 
 	parameters.time = new Date().getTime() - parameters.start_time;
 
