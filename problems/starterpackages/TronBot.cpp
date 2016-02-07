@@ -1,21 +1,31 @@
 #include "Tron.h"
 
-//We can't print to console, because that channel is used for IO with the environment.
-//We therefore create a fstream and output to that. Use "debug << " rather than "std::cout << ".
-
 int main() {
 	init();
 	// Execute loop forever (or until game ends)
-	while (true) {
-		log("c++ test");
-		/* Get an integer map of the field. Each int
-		 * can either be Tron.Tile.EMPTY, Tron.Tile.PLAYER1, 
-		 * Tron.Tile.PLAYER2, Tron.Tile.TAKEN_BY_PLAYER1, or
-		 * Tron.Tile.TAKEN_BY_PLAYER2.   */
-		std::vector< std::vector<int> > gameMap = getMap();
-		/* Send your move.  This can be Tron.Direction.NORTH,
-		 * Tron.Direction.SOUTH, Tron.Direction.EAST, or
-		 * Tron.Direction.WEST.          */
+	while(true) {
+		//Gets the newest map. Every int will have a value of EMPTY, ME, OPPONENT, TAKEN_BY_ME, or TAKEN_BY_OPPONENT.
+		std::vector< std::vector<int> > m = getMap();
+		int myLocX, myLocY, opLocX, opLocY;
+		for(int y = 0; y < 16; y++)  {
+			for(int x = 0; x < 16; x++) {
+				if(m[y][x] == ME) {
+					myLocX = x;
+					myLocY = y;
+				}
+				else if(m[y][x] == OPPONENT) {
+					opLocX = x;
+					opLocY = y;
+				}
+			}
+		}
+
+		//Sample - logs where each player is.
+		logln("Me: " + std::to_string(myLocX) + ' ' + std::to_string(myLocY) + "; Opponent: " + std::to_string(opLocX) + ' ' + std::to_string(opLocY));
+
+		//Figure out what direction to go in.
+
+		//Send NORTH, EAST, SOUTH, or WEST
 		sendMove(WEST);
 	}
 }	

@@ -4,12 +4,16 @@
 #include <fstream>
 #include <time.h>
 
-enum Direction { NORTH, EAST, SOUTH, WEST };
+#define NORTH 0
+#define EAST 1
+#define SOUTH 2
+#define WEST 3
 
-enum Tile {
-	EMPTY, PLAYER1, PLAYER2, 
-	TAKEN_BY_PLAYER1, TAKEN_BY_PLAYER2
-};
+#define EMPTY 0
+#define ME 1
+#define OPPONENT 2
+#define TAKEN_BY_ME 3
+#define TAKEN_BY_OPPONENT 4
 
 static std::ofstream debug;
 
@@ -23,8 +27,11 @@ static void init() {
 	debug = std::ofstream("debug"+getString()+".log");
 }
 
-static void log(std::string logString) {
-	debug << logString << "\n";
+template<typename T> static void log(T s) {
+	debug << s;
+}
+template<typename T> static void logln(T s) {
+	debug << s << '\n';
 }
 
 static std::vector< std::vector<int> > deserializeMap(std::string mapString) {
@@ -37,9 +44,8 @@ static std::vector< std::vector<int> > deserializeMap(std::string mapString) {
 	std::vector< std::vector<int> > map;
 
 	for (int i=0; i<16; i++) {
-		std::vector<int>::const_iterator first = tileVals.begin() + i*16;
-		std::vector<int>::const_iterator last = tileVals.begin() + (i+1)*16;
-		std::vector<int> newVec(first, last);
+		std::vector<int> newVec;
+		for(auto it = tileVals.begin() + i * 16; it != tileVals.begin() + (i + 1) * 16; it++) newVec.push_back(*it);
 		map.push_back(newVec);
 	}
 
