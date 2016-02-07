@@ -68,7 +68,8 @@ class DefHacksAPI extends API
 
 	private function getProblem($problemID) {
 		$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = {$problemID}");
-			$problemArray['submissions'] = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = {$problemArray['problemID']}");
+			if($problemArray['isAscending'] == 1) $problemArray['submissions'] = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = {$problemArray['problemID']} ORDER BY score ASC");
+			else $problemArray['submissions'] = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = {$problemArray['problemID']} ORDER BY score DESC");
 			foreach($problemArray['submissions'] as &$submission) {
 				$submission['user'] = $this->select("SELECT * FROM User WHERE userID = {$submission['userID']}");
 				unset($submission['userID']);

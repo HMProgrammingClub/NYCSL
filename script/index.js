@@ -60,7 +60,7 @@ $(function() {
 					break;
 				}
 			}
-			gameDisplay.setGame(game.users[0], game.users[1], getGameFile(game.replayFilename));
+			gameDisplay.setGame(game.users[0].firstName + " " + game.users[0].lastName, game.users[1].firstName + " " + game.users[1].lastName, getGameFile(game.replayFilename));
 		};
 
 		this.user = user;
