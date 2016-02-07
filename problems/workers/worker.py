@@ -52,21 +52,18 @@ def runGame(userIDs, muValues, sigmaValues):
 	for botPath in botPaths: os.mkdir(botPath)
 	for a in range(len(userIDs)): unpack("../outputs/TR/"+ str(userIDs[a]) + ".zip", botPaths[a])
 	for botPath in botPaths:
-		print(botPath)
 		os.chmod(botPath, 0o777)
 		os.chmod(os.path.join(botPath, "run.sh"), 0o777)
 	
 	# Build the shell command that will run the game. Executable called environment houses the game environment
 	runGameShellCommand = "python3 /var/www/nycsl/problems/workers/"+workingPath+"/Tron_Environment.py "
 	for botPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(botPath)+"; "+os.path.join(os.path.abspath(botPath), "run.sh")+"\" "
-	print(runGameShellCommand)
 
 	# Run game
 	sandbox.start(runGameShellCommand)
 	lines = []
 	while True:
 		line = sandbox.read_line(200)
-		print(line)
 		if line == None:
 			break
 		lines.append(line)
@@ -74,10 +71,12 @@ def runGame(userIDs, muValues, sigmaValues):
 	
 	# Get player ranks and scores by parsing shellOutput
 	if "won!" in lines[-2]:
+		print("there is a winner")
 		winnerIndex = int(lines[-2][len("Player ") : -len("won!")]) - 1
 		loserIndex = 0 if winnerIndex == 1 else 1
 		
 	else:
+		print("tie")
 		winnerIndex = random.randrange(0, 2)
 		loserIndex = 0 if winnerIndex == 1 else 1
 
@@ -88,7 +87,7 @@ def runGame(userIDs, muValues, sigmaValues):
 	winnerRating = trueskill.Rating(mu=float(muValues[winnerIndex]), sigma=float(sigmaValues[winnerIndex]))
 	loserRating = trueskill.Rating(mu=float(muValues[loserIndex]), sigma=float(sigmaValues[loserIndex]))
 	winnerRating, loserRating = trueskill.rate_1vs1(winnerRating, loserRating)
-
+	print(winnerRating)	
 	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (winnerRating.mu, winnerRating.sigma, int(winnerRating.mu - (3*winnerRating.sigma)), winnerID, TRON_PROBLEM_ID))
 	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (loserRating.mu, loserRating.sigma, int(loserRating.mu - (3*loserRating.sigma)), loserID, TRON_PROBLEM_ID))
 	cnx.commit()
@@ -114,11 +113,18 @@ def runGame(userIDs, muValues, sigmaValues):
 while True:
 	cursor.execute("SELECT * FROM Submission WHERE isReady = 1 and problemID = " + str(TRON_PROBLEM_ID))
 	submissions = cursor.fetchall()
-	print(str(submissions))
 	submissions.sort(key=lambda x: int(x['score']))
 	for submission in submissions:
 		allowedOpponents = copy.deepcopy(submissions)
 		allowedOpponents.remove(submission)
 		opponent = allowedOpponents[random.randrange(0, len(allowedOpponents))]
 
-		runGame([submission['userID'], opponent['userID']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['mu']])
+		runGame([submission['userID'], opponent['userID']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['sigma']])
+		if len(os.listdir("../storage")) > 1000: 
+			files = os.listdir("../storage")
+			files.sort()
+			for f in files:				
+				if os.path.isfile(os.path.join("../storage", f)):
+					os.remove(os.path.join("../storage", f))
+					break
+		os.system("free")
