@@ -1,2 +1,2 @@
-#Java
-java -Xmx1500m -jar TronBot.jar
+#Python3
+python3 TronBot.py

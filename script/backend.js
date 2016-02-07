@@ -37,7 +37,7 @@ function storeUserBackend(email, password, firstName, lastName, async, callback)
 function getGameFile(gameID) {
 	console.log("problems/storage/"+gameID)
 	var result = $.ajax({
-		url: "problems/storage/1454192586.trn",
+		url: "problems/storage/"+gameID,
 		async: false,
 		method: "GET"
 	});
