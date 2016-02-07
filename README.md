@@ -36,9 +36,9 @@ Currently NYCSL is being used and tested by the Horace Mann School programming c
 ##Todo
 
 ### February Release
-- Keep track of who is player 1 and who is player 2
-- Allow the playing of local game files on the website
-- Test the starter packages locally (Ben, Luca)
+- ~~Keep track of who is player 1 and who is player 2~~
+- ~~Allow the playing of local game files on the website~
+- ~~Test the starter packages locally (Ben, Luca)~~
 - Submit bots and make sure everything is running correctly
 - Compile submitted C++ as C++ 11
 - Modularize and migrate new leaderboard to school view
