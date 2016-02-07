@@ -8,7 +8,13 @@ public class Tron {
 	public static PrintWriter debug;
 	public static <T> void log(T s) {
 		if(debug != null) {
-			debug.append(s+"\n");
+			debug.append(s);
+			debug.flush();
+		}
+	}
+	public static <T> void logln(T s) {
+		if(debug != null) {
+			debug.append(s + "\n");
 			debug.flush();
 		}
 	}
@@ -18,8 +24,8 @@ public class Tron {
 	}
 
 	public static enum Tile {
-		EMPTY, PLAYER1, PLAYER2, 
-		TAKEN_BY_PLAYER1, TAKEN_BY_PLAYER2
+		EMPTY, ME, OPPONENT, 
+		TAKEN_BY_ME, TAKEN_BY_OPPONENT
 	}
 
 	public static void init() {
@@ -31,13 +37,15 @@ public class Tron {
 		}
 	}
 
-	private static int[][] deserializeMap(String mapString) {
+	private static ArrayList<ArrayList<Tile>> deserializeMap(String mapString) {
 		String[] tiles = mapString.trim().split(" ");
-		int[] tileVals = new int[tiles.length];
-		for (int i=0; i<tiles.length; i++) tileVals[i] = Integer.parseInt(tiles[i].trim());
 
-		int[][] map = new int[16][16];
-		for (int i=0; i<16; i++) map[i] = Arrays.copyOfRange(tileVals,i*16,(i+1)*16);
+		ArrayList<Tile> tileVals = new ArrayList<Tile>();
+		for (int i=0; i<tiles.length; i++) tileVals.add(Tile.values()[Integer.parseInt(tiles[i].trim())]);
+
+
+		ArrayList<ArrayList<Tile>> map = new ArrayList<ArrayList<Tile>>();
+		for (int i=0; i<16; i++) map.add(new ArrayList<Tile>(tileVals.subList(i*16,(i+1)*16)));
 		return map;
 	}
 
@@ -59,7 +67,7 @@ public class Tron {
 		}
     }
 
-	public static int[][] getMap() {
+	public static ArrayList<ArrayList<Tile>> getMap() {
 		String message = getString().trim();
 		if(message.equals("KILL")) {
 			System.exit(0);
