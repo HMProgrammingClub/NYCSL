@@ -56,7 +56,7 @@ function begin(data) {
 	
 	//Add canvas listener:
 	play = true;
-	document.addEventListener("keypress", keyFunc, false)
+	document.addEventListener("keydown", keyFunc);
 	
 	//Set turn number to be 0;
 	turn_number = 0;
@@ -118,6 +118,7 @@ function begin(data) {
 }
 
 function keyFunc(e) {
+	console.log(e.keyCode);
 	if(e.keyCode == 37) {
 		turn_number--;
 		play = false;
