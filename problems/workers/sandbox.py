@@ -105,6 +105,7 @@ class Sandbox:
 													universal_newlines=True,
 													cwd=working_directory)
 		except OSError:
+			print("There was an error")
 			raise SandboxError('Failed to start {0}'.format(shell_command))
 		self._is_alive = True
 		stdout_monitor = Thread(target=_monitor_file,
