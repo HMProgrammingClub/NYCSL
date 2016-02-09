@@ -60,7 +60,12 @@ $(function() {
 					break;
 				}
 			}
-			gameDisplay.setGame(game.users[0].firstName + " " + game.users[0].lastName, game.users[1].firstName + " " + game.users[1].lastName, getGameFile(game.replayFilename));
+			var users = game.users;
+			users.sort(function(a, b) {
+				return a.playerIndex > b.playerIndex;
+			});
+			console.log(users);
+			gameDisplay.setGame(users[0].firstName + " " + users[0].lastName, users[1].firstName + " " + users[1].lastName, getGameFile(game.replayFilename));
 		};
 
 		this.user = user;
