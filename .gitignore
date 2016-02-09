@@ -254,3 +254,5 @@ problems/scripts/.idea/.name
 *.trn
 
 *.exe
+
+*/workingPath
