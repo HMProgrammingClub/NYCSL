@@ -7,6 +7,30 @@ def getPosition(gameMap):
 			if gameMap[y][x] == me:
 				return (x, y)
 
+
+def getNumberAround(x, y, gameMap, booleanFunction):
+	num = 0
+
+	withinBorders = lambda x, y: x > -1 and x < 16 and y > -1 and y < 16
+
+	if withinBorders(x-1, y) and booleanFunction(x-1, y, gameMap): num += 1
+	if withinBorders(x+1, y) and booleanFunction(x+1, y, gameMap): num += 1
+	if withinBorders(x, y-1) and booleanFunction(x, y-1, gameMap): num += 1
+	if withinBorders(x, y+1) and booleanFunction(x, y+1, gameMap): num += 1
+
+	return num
+
+def bordersEnemy(x, y, gameMap):
+	return getNumberAround(x, y, gameMap, lambda x, y, gameMap: gameMap[y][x] == opponent) > 0
+
+def getNumWalls(x, y, gameMap):
+	if isAcceptable(x, y, gameMap) == False: return 5
+	
+	numberAround = getNumberAround(x, y, gameMap, lambda x, y, gameMap: isAcceptable(x, y, gameMap) == False)
+	if bordersEnemy(x, y, gameMap): numberAround += 1
+	return numberAround
+
+
 def isAcceptable(x, y, gameMap):
 	return x > -1 and x < 16 and y > -1 and y < 16 and gameMap[y][x] == empty
 
@@ -21,33 +45,17 @@ turn = 0
 while True:
 	gameMap = networker.getMap()
 	x, y = getPosition(gameMap)
-	if turn == 9:
-		if isAcceptable(x-1, y, gameMap):
-			networker.sendMove(west)
-			lastDirection = west
-		else:
-			networker.sendMove(east)
-			lastDirection = east
-	else:
-		acceptableMoves = []
-		if isAcceptable(x, y-1, gameMap): acceptableMoves.append(south)
-		if isAcceptable(x, y+1, gameMap): acceptableMoves.append(north)
-		if isAcceptable(x-1, y, gameMap): acceptableMoves.append(west)
-		if isAcceptable(x+1, y, gameMap): acceptableMoves.append(east)
+	
+	mostWalls = 0
+	bestDirection = north
 
-		# Move north
-		if lastDirection != None and lastDirection in acceptableMoves: networker.sendMove(lastDirection)
-		elif len(acceptableMoves) > 0: 
-			if south in acceptableMoves and y >= 8:
-				networker.sendMove(south)
-				lastDirection = south
-			elif north in acceptableMoves and y < 8:
-				networker.sendMove(north)
-				lastDirection = north
-			else: 
-				networker.sendMove(acceptableMoves[0])
-				lastDirection = acceptableMoves[0]
-		else: 
-			networker.sendMove(north)
+	wallList = [getNumWalls(x, y+1, gameMap), getNumWalls(x+1, y, gameMap), getNumWalls(x, y-1, gameMap), getNumWalls(x-1, y, gameMap)]
+	logln(str(wallList))
+	for a in range(len(wallList)):
+		if wallList[a] > mostWalls and wallList[a] < 4:
+			mostWalls = wallList[a]
+			bestDirection = a
+	logln(bestDirection)
+	networker.sendMove(bestDirection)
 
 	turn += 1

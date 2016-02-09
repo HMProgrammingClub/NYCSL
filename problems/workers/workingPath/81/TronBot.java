@@ -1,4 +1,3 @@
-//CUTTING OFF NEXT-BEST MOVE STRATEGY, with Greedy after cut attempt
 import java.util.*;
 import java.io.*;
 
@@ -13,29 +12,73 @@ public class TronBot {
 		Tron.init();
 		Tron.logln("Starting Game!");
 		ArrayList<ArrayList<Tron.Tile>> board = Tron.getMap();
-		int sideSteps = 0;
 		int[] myPos = TronUtils.myPos(board);
-		int sideStepDir = myPos[0] == 0? 4 : 3;
+		int dir1, dir2;
+		if (myPos[0] == 0) {
+			dir1 = 3;
+			dir2 = 2;
+		} else {
+			dir1 = 4;
+			dir2 = 1;
+		}
+		int steps = 0;
 
 		while (true) {
-			Tron.logln("Here");
 			myPos = TronUtils.myPos(board);
 			logPos(myPos);
-			if (sideSteps < 14) {
-				go(sideStepDir);
-				sideSteps++;
-			} else {
-				//move to greedy strategy
+			if (steps >= 27) {
 				boolean moveFound = false;
 				for (int i = 1; i <= 4; i++) {
 					if (direcFree(board, i)) {
-						go(i);
+						if (myPos[1] + 1 >= 16) {
+							if (direcFree(board, 1)) go (1);
+							else if (direcFree(board, 4)) go (4);
+							else if (direcFree(board, 3)) go (3);
+							else suicide();
+						} else {
+							go (i);
+						}
 						moveFound = true;
 						break;
 					}
 				}
 				if (!moveFound) suicide();
+			} else {
+				boolean moveFound = false;
+				if (steps % 2 == 0) {
+					if (direcFree(board,dir1)) {
+						go(dir1);
+						moveFound = true;
+					}
+					else steps = 30;
+				}
+				else {
+					if (direcFree(board,dir2)) {
+						go(dir2);
+						moveFound = true;
+					}
+					else steps = 30;
+				}
+				if (!moveFound) {
+					boolean mf = false;
+					for (int i = 1; i <= 4; i++) {
+						if (direcFree(board, i)) {
+							if (myPos[1] + 1 >= 16) {
+								if (direcFree(board, 1)) go (1);
+								else if (direcFree(board, 4)) go (4);
+								else if (direcFree(board, 3)) go (3);
+								else suicide();
+							} else {
+								go (i);
+							}
+							mf = true;
+							break;
+						}
+					}
+					if (!mf) suicide();
+				}
 			}
+			steps++;
 			board = Tron.getMap();
 		}
 	}
@@ -50,11 +93,11 @@ public class TronBot {
 			desiredPos[0] = myPos[0];
 			desiredPos[1] = myPos[1] + 1;
 		}
-		else if (d == 4) { //left
+		else if (d == 3) { //left
 			desiredPos[0] = myPos[0] + 1;
 			desiredPos[1] = myPos[1];
 		}
-		else if (d == 3) { //right
+		else if (d == 4) { //right
 			desiredPos[0] = myPos[0] - 1;
 			desiredPos[1] = myPos[1];
 		}
@@ -63,8 +106,8 @@ public class TronBot {
 	public static void go(int d) {
 		if (d == 1) up();
 		else if (d == 2) down();
-		else if (d == 4) left();
-		else if (d == 3) right();
+		else if (d == 3) left();
+		else if (d == 4) right();
 	}
 	public static void up() {
 		Tron.sendMove(Tron.Direction.SOUTH);
