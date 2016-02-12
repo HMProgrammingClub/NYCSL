@@ -53,7 +53,7 @@ class Networker:
 	def frameNetworking(self, map, isSecond):
 		self.processes[isSecond].stdin.write(self.serializeMap(map, isSecond) + "\n")
 		self.processes[isSecond].stdin.flush()
-
+		
 		# Return move
 		startingTime = time.time()
 		while len(self.stdoutQueues[isSecond]) == 0:
@@ -112,56 +112,60 @@ gameMap[positions[1].y][positions[1].x] = Tile.player2.value
 
 # Game loop
 frames = []
-isDone = False
 isTied = False
 winner = -1
 
 frames.append(copy.deepcopy(gameMap))
-while isDone == False:
+while isTied == False and winner == -1:
 	for a in range(2):
 		try:
+			# Get move
 			move = networker.frameNetworking(copy.deepcopy(frames[-1]), a)
+			
+			# Set position to taken by player
 			gameMap[positions[a].y][positions[a].x] = Tile.takenByPlayer1.value if a == 0 else Tile.takenByPlayer2.value
 			
-			if move == None or move < 0 or move > 3:
-				if move == None: print("Player " + str(a+1) + " timed out!")
-				else: print("Player " + str(a+1) + " sent us a move that is not between 0 and 3!")
+			if move != None or (move >= 0 and move < 4):
+				if move == Direction.north.value: positions[a].y += 1
+				elif move == Direction.south.value: positions[a].y -= 1
+				elif move == Direction.east.value: positions[a].x += 1
+				elif move == Direction.west.value: positions[a].x -= 1
 				
-				winner = 1 + (0 if a == 1 else 1)
-				if isDone == True: isTied = True
-				isDone = True
-				continue
+				if positions[a].x < width and positions[a].y < height and positions[a].x >= 0 and positions[a].y >= 0 and gameMap[positions[a].y][positions[a].x] == Tile.empty.value:
+					gameMap[positions[a].y][positions[a].x] = Tile.player1.value if a == 0 else Tile.player2.value
+					continue
+				else:
+					
+					if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0: 
+						print("Player " + str(a+1) + " fell off the map!")
+					elif gameMap[positions[a].y][positions[a].x] == Tile.player1.value or gameMap[positions[a].y][positions[a].x] == Tile.player2.value: 
+						print("Player " + str(a+1) + " collided with another player!")
+						isTied = True
+					else: 
+						print("Player " + str(a+1) + " collide with a tile that has already been taken!")
+			else:
+				if move == None: 
+					print("Player " + str(a+1) + " timed out!")
+				else: 
+					print("Player " + str(a+1) + " sent us a move that is not between 0 and 3!")
+			if winner != -1: 
+				isTied = True
+			winner = 1 + (0 if a == 1 else 1)
 
-			if move == Direction.north.value: positions[a].y += 1
-			elif move == Direction.south.value: positions[a].y -= 1
-			elif move == Direction.east.value: positions[a].x += 1
-			elif move == Direction.west.value: positions[a].x -= 1
-
-			# check if legitimate move
-			if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0 or gameMap[positions[a].y][positions[a].x] != Tile.empty.value:
-				if positions[a].x >= width or positions[a].y >= height or positions[a].x < 0 or positions[a].y < 0: print("Player " + str(a+1) + " fell off the map!")
-				elif gameMap[positions[a].y][positions[a].x] == Tile.player1.value or gameMap[positions[a].y][positions[a].x] == Tile.player2.value: print("Player " + str(a+1) + " collided with another player!")
-				else: print("Player " + str(a+1) + " collide with a tile that has already been taken!")
-				
-				winner = 1 + (0 if a == 1 else 1)
-				if isDone == True: isTied = True
-				isDone = True
-				continue
-
-			gameMap[positions[a].y][positions[a].x] = Tile.player1.value if a == 0 else Tile.player2.value
 		except Exception as e:
 			print("There was an error while running the game!")
 			print(str(e))
 			winner = 1 + (0 if a == 1 else 1)
 
-			if isDone == True: isTied = True
-			isDone = True
 			continue
 	frames.append(copy.deepcopy(gameMap))
 # Cleanup
 if isTied == True: print("The game ended in a tie!")
 else: print("Player " + str(winner) + " won!")
-networker.killAll()
+try:
+	networker.killAll()
+except Exception as e:
+	pass
 
 contents = "%d %d %d\n" % (width, height, len(frames))
 for frame in frames: contents += " ".join(str(tile) for row in frame for tile in row) + "\n"

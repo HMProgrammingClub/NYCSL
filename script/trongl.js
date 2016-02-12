@@ -47,12 +47,19 @@ function begin(data) {
 	var loc = 0;
 	for(var a = 0; a < numFrames; a++) {
 		var frame = [];
-		for(var b = 0; b < height * width; b++) {
-			frame.push(fc[loc]);
-			loc++;
+		for(var rowIndex = 0; rowIndex < height; rowIndex++) {	
+			var row = [];
+			for(var columnIndex = 0; columnIndex < width; columnIndex++) {
+				row.push(fc[loc]);
+				loc++;
+			}
+			row.reverse();
+			frame = frame.concat(row);
 		}
+		frame.reverse();
 		full_game.push(frame);
 	}
+	console.log(full_game);
 	
 	//Add canvas listener:
 	play = true;
