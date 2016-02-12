@@ -52,6 +52,8 @@ def runGame(userIDs, muValues, sigmaValues):
 	for botPath in botPaths: os.mkdir(botPath)
 	for a in range(len(userIDs)): unpack("../outputs/TR/"+ str(userIDs[a]) + ".zip", botPaths[a])
 	for botPath in botPaths:
+		if os.path.isfile(os.path.join(botPath, "run.sh")) == False:
+			return		
 		os.chmod(botPath, 0o777)
 		os.chmod(os.path.join(botPath, "run.sh"), 0o777)
 	
@@ -69,6 +71,9 @@ def runGame(userIDs, muValues, sigmaValues):
 			break
 		lines.append(line)
 	
+	print("Output----------------------")
+	print("\n".join(lines));	
+	print("----------------------------")
 	
 	# Get player ranks and scores by parsing shellOutput
 	if "won!" in lines[-2]:
@@ -108,8 +113,6 @@ def runGame(userIDs, muValues, sigmaValues):
 	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, loserID, 1, 0 if userIDs[0] == loserID else 1))
 	cnx.commit()
 
-	# Delete working path
-	shutil.rmtree(workingPath)
 
 while True:
 	cursor.execute("SELECT * FROM Submission WHERE isReady = 1 and problemID = " + str(TRON_PROBLEM_ID))
