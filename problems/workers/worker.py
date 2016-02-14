@@ -43,76 +43,78 @@ def runGame(userIDs, muValues, sigmaValues):
 	os.makedirs(workingPath)
 	os.chmod(workingPath, 0o777)
 	
-	shutil.copyfile("Tron_Environment.py", os.path.join(workingPath, "Tron_Environment.py"))
+	try:
+		shutil.copyfile("Tron_Environment.py", os.path.join(workingPath, "Tron_Environment.py"))
 	
-	sandbox = Sandbox(workingPath)
+		sandbox = Sandbox(workingPath)
 
-	# Unpack and setup bot files
-	botPaths = [os.path.join(workingPath, str(userID)) for userID in userIDs]
-	for botPath in botPaths: os.mkdir(botPath)
-	for a in range(len(userIDs)): unpack("../outputs/TR/"+ str(userIDs[a]) + ".zip", botPaths[a])
-	for botPath in botPaths:
-		if os.path.isfile(os.path.join(botPath, "run.sh")) == False:
-			return		
-		os.chmod(botPath, 0o777)
-		os.chmod(os.path.join(botPath, "run.sh"), 0o777)
-	
-	# Build the shell command that will run the game. Executable called environment houses the game environment
-	runGameShellCommand = "python3 /var/www/nycsl/problems/workers/"+workingPath+"/Tron_Environment.py "
-	for botPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(botPath)+"; "+os.path.join(os.path.abspath(botPath), "run.sh")+"\" "
-	
-	print(runGameShellCommand)
-	# Run game
-	sandbox.start(runGameShellCommand)
-	lines = []
-	while True:
-		line = sandbox.read_line(200)
-		if line == None:
-			break
-		lines.append(line)
-	
-	print("Output----------------------")
-	print("\n".join(lines));	
-	print("----------------------------")
-	
-	# Get player ranks and scores by parsing shellOutput
-	if "won!" in lines[-2]:
-		print("there is a winner")
-		winnerIndex = int(lines[-2][len("Player ") : -len("won!")]) - 1
-		loserIndex = 0 if winnerIndex == 1 else 1
+		# Unpack and setup bot files
+		botPaths = [os.path.join(workingPath, str(userID)) for userID in userIDs]
+		for botPath in botPaths: os.mkdir(botPath)
+		for a in range(len(userIDs)): unpack("../outputs/TR/"+ str(userIDs[a]) + ".zip", botPaths[a])
+		for botPath in botPaths:
+			if os.path.isfile(os.path.join(botPath, "run.sh")) == False:
+				return		
+			os.chmod(botPath, 0o777)
+			os.chmod(os.path.join(botPath, "run.sh"), 0o777)
 		
-	else:
-		print("tie")
-		winnerIndex = random.randrange(0, 2)
-		loserIndex = 0 if winnerIndex == 1 else 1
+		# Build the shell command that will run the game. Executable called environment houses the game environment
+		runGameShellCommand = "python3 /var/www/nycsl/problems/workers/"+workingPath+"/Tron_Environment.py "
+		for botPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(botPath)+"; "+os.path.join(os.path.abspath(botPath), "run.sh")+"\" "
+		
+		print(runGameShellCommand)
+		# Run game
+		sandbox.start(runGameShellCommand)
+		lines = []
+		while True:
+			line = sandbox.read_line(200)
+			if line == None:
+				break
+			lines.append(line)
+		
+		print("Output----------------------")
+		print("\n".join(lines));	
+		print("----------------------------")
+		
+		# Get player ranks and scores by parsing shellOutput
+		if "won!" in lines[-2]:
+			winnerIndex = int(lines[-2][len("Player ") : -len("won!")]) - 1
+			loserIndex = 0 if winnerIndex == 1 else 1
+			
+		else:
+			winnerIndex = random.randrange(0, 2)
+			loserIndex = 0 if winnerIndex == 1 else 1
 
-	winnerID = userIDs[winnerIndex]
-	loserID = userIDs[loserIndex]
+		winnerID = userIDs[winnerIndex]
+		loserID = userIDs[loserIndex]
 
-	# Update trueskill mu and sigma values
-	winnerRating = trueskill.Rating(mu=float(muValues[winnerIndex]), sigma=float(sigmaValues[winnerIndex]))
-	loserRating = trueskill.Rating(mu=float(muValues[loserIndex]), sigma=float(sigmaValues[loserIndex]))
-	winnerRating, loserRating = trueskill.rate_1vs1(winnerRating, loserRating)
-	print(winnerRating)	
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (winnerRating.mu, winnerRating.sigma, int(winnerRating.mu - (3*winnerRating.sigma)), winnerID, TRON_PROBLEM_ID))
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (loserRating.mu, loserRating.sigma, int(loserRating.mu - (3*loserRating.sigma)), loserID, TRON_PROBLEM_ID))
-	cnx.commit()
+		# Update trueskill mu and sigma values
+		winnerRating = trueskill.Rating(mu=float(muValues[winnerIndex]), sigma=float(sigmaValues[winnerIndex]))
+		loserRating = trueskill.Rating(mu=float(muValues[loserIndex]), sigma=float(sigmaValues[loserIndex]))
+		winnerRating, loserRating = trueskill.rate_1vs1(winnerRating, loserRating)
+		print(winnerRating)	
+		cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (winnerRating.mu, winnerRating.sigma, int(winnerRating.mu - (3*winnerRating.sigma)), winnerID, TRON_PROBLEM_ID))
+		cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (loserRating.mu, loserRating.sigma, int(loserRating.mu - (3*loserRating.sigma)), loserID, TRON_PROBLEM_ID))
+		cnx.commit()
 
-	# Get replay file by parsing shellOutput
-	replayFilename = lines[-1][len("Output file is stored at ") : len(lines[-1])]
-	shutil.move(os.path.join(workingPath, replayFilename), "../storage")
-	
-	# Store results of game
-	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+os.path.basename(replayFilename)+"\')")
-	cnx.commit()
+		# Get replay file by parsing shellOutput
+		replayFilename = lines[-1][len("Output file is stored at ") : len(lines[-1])]
+		shutil.move(os.path.join(workingPath, replayFilename), "../storage")
+		
+		# Store results of game
+		cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+os.path.basename(replayFilename)+"\')")
+		cnx.commit()
 
-	cursor.execute("SELECT gameID FROM Game WHERE replayFilename = \'"+replayFilename+"\'")
-	gameID = cursor.fetchone()['gameID']
-	
-	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, winnerID, 0, 0 if userIDs[0] == winnerID else 1))
-	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, loserID, 1, 0 if userIDs[0] == loserID else 1))
-	cnx.commit()
+		cursor.execute("SELECT gameID FROM Game WHERE replayFilename = \'"+replayFilename+"\'")
+		gameID = cursor.fetchone()['gameID']
+		
+		cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, winnerID, 0, 0 if userIDs[0] == winnerID else 1))
+		cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, loserID, 1, 0 if userIDs[0] == loserID else 1))
+		cnx.commit()
+	except Exception as e:
+		print("Error: " + e)
 
+	shutil.rmtree(workingPath)
 
 while True:
 	cursor.execute("SELECT * FROM Submission WHERE isReady = 1 and problemID = " + str(TRON_PROBLEM_ID))
