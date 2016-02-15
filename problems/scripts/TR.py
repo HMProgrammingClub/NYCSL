@@ -43,20 +43,14 @@ def zipFolder(folderPath, destinationFilePath):
 	os.chdir(originalDir)
 
 def compile(zipFilename):
-	print("compile")
 	# Setup working path
 	workingPath = "workingPath"
-	print("w")
 	if os.path.exists(workingPath):
 		shutil.rmtree(workingPath)	
-	print("w2")
 	os.makedirs(workingPath)
-	print("nkdri")
 	os.chmod(workingPath, 0o777)
-	print("wut")
 	unpack(zipFilename, workingPath)
-	print("ye")
-	print(os.listdir(workingPath))
+	
 	language, errors = compile_anything(workingPath)
 	didCompile = True if errors == None else False
 	if didCompile:

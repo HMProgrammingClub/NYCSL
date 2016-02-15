@@ -112,7 +112,7 @@ def runGame(userIDs, muValues, sigmaValues):
 		cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, loserID, 1, 0 if userIDs[0] == loserID else 1))
 		cnx.commit()
 	except Exception as e:
-		print("Error: " + e)
+		print("Error: " + str(e))
 
 	shutil.rmtree(workingPath)
 
