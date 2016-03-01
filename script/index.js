@@ -160,7 +160,7 @@ $(function() {
 				success: function(result) {
 					this.$rulesPanel.html(result);
 				}
-		    });
+			});
 		},
 	};
 
