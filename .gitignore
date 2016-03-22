@@ -268,3 +268,5 @@ nohub.out
 *.trn
 
 *.exe
+
+gitpull.php
