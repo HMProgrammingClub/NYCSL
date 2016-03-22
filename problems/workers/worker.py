@@ -10,7 +10,7 @@ from sandbox import *
 import copy
 
 TRON_PROBLEM_ID = 3
-cnx = pymysql.connect(host="159.203.78.116", user="superuser", database="DefHacks", password="horsekicksman", charset="utf8mb4", cursorclass=pymysql.cursors.DictCursor)
+cnx = pymysql.connect(host="159.203.78.116", user="superuser", database="DefHacks", password=PASS, charset="utf8mb4", cursorclass=pymysql.cursors.DictCursor)
 cursor = cnx.cursor()
 
 def unpack(filePath, destinationFilePath):
