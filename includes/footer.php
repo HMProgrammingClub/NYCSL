@@ -31,7 +31,7 @@
 						<li>Bronx High School of Science</li>						
 					</ul>
 				</p>
-				<p>NYCSL.io was created by programmers  <a href="https://github.com/truell20">Michael Truell</a>, <a href="https://github.com/joshuagruenstein">Josh Gruenstein</a>, <a href="https://github.com/G4cool">Luca Koval</a>, and <a href="https://github.com/Sydriax">Ben Spector</a> from Horace Mann during the defhacks("Winter",2015) hackathon at Facebook NY.  The code is available on Github <a href="https://github.com/BackPropagation/NYCSL">here</a>.  You may contact us at <a href="mailto:contact@nycsl.io">contact@nycsl.io</a>.
+				<p>NYCSL.io was created by programmers  <a href="https://github.com/truell20">Michael Truell</a>, <a href="https://github.com/joshuagruenstein">Josh Gruenstein</a>, <a href="https://github.com/Sydriax">Ben Spector</a>,and  <a href="https://github.com/G4Cool">Luca Koval</a> from Horace Mann.  The code is available on Github <a href="https://github.com/BackPropagation/NYCSL">here</a>.  You may contact us at <a href="mailto:contact@nycsl.io">contact@nycsl.io</a>.
 			</div>
 		</div>
 	</div>
