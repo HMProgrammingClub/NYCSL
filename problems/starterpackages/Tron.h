@@ -24,7 +24,7 @@ static std::string getString()  {
 }
 
 static void init() {
-	debug = std::ofstream("debug"+getString()+".log");
+	debug.open("debug"+getString()+".log");
 }
 
 template<typename T> static void log(T s) {
