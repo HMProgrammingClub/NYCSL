@@ -7,7 +7,6 @@ import pymysql.cursors
 import random
 import shutil
 from sandbox import *
-from config import *
 import copy
 
 TRON_PROBLEM_ID = 3
