@@ -32,35 +32,3 @@ The website utilizes a LAMP backend (Linux, Apache, MySQL and PHP) for the major
 As code is deployed to the server over git, there is a `master` and a `dev` branch.  The master branch contains things that work.  The `dev` branch contains things are works in progress.  Every so often `dev` is merged into `master`, and vice versa.  Feel free to make pull requests of bugs you find and features you'd like to implement, especially if you're a NYCSL participant.
 
 Currently NYCSL is being used and tested by the Horace Mann School programming club.  Release 1.0 will occur once NYCSL is ready for promotion to other schools.  Release 2.0 is where longer-term features should go (for the moment).
-
-##Todo
-
-### February Release
-- ~~Keep track of who is player 1 and who is player 2~~
-- ~~Allow the playing of local game files on the website~
-- ~~Test the starter packages locally (Ben, Luca)~~
-- Submit bots and make sure everything is running correctly
-- Compile submitted C++ as C++ 11
-- Modularize and migrate new leaderboard to school view
-- ~~Rehash all the passwords~~
-- ~~Write logging functions (Ben, Luca)~~
-- ~~Decide on prizes and put them in the problem description~~
-- ~~Migrate new MySQL database structure to the production server~~
-- ~~Fix visualizer crash on chrome reload~~
-- ~~Show the player names and the winner on the game modal~~
-
-
-### February Post-Release
-- Give prizes to January winners (Ben, Luca)
-- Email heads of CS departments at Stuy, Bx, Dalton, Trinity (Ben, Luca)
-- Send out email to HM Programming Club (Ben, Luca)
-- Getting started video (showing how to run c++, java, python bots from environment, put .trn file in visualizer, etc.) (Ben, Luca)
-
-### 2.0 Release
-- Full user settings pages
-- User overall score
-	- Base score for competition participation + inverse of placing (1st / 30 people = 30 points)
-	- Overall leaderboard
-	- Badges?
-- Basic chatroom for participants to discuss and collaborate in 
-- Show number of submissions on the leaderboard?
