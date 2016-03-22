@@ -347,8 +347,10 @@ class DefHacksAPI extends API
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
 			$targetPath = $targetPath . $userID . "." . $ext[count($ext)-1];
 			if(file_exists($targetPath)) unlink($targetPath);
-			clearstatcache();
+			
 			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
+			chmod($targetPath, 400);
+
 			// Pass target file to python script
 			exec("python3 ../problems/scripts/$problemName.py $targetPath", $rawOutput);	
 			if(!isset($rawOutput[0])) return array("isError" => true, "message" => "There was a problem with your submission file.");
