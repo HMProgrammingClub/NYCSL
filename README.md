@@ -27,7 +27,7 @@ The website utilizes a LAMP backend (Linux, Apache, MySQL and PHP) for the major
 
 Send us a pull request. If you are looking for things to do, check out the repo's open issues. We will be happy to add you as a contributor and credit you in the README.
 
-If you find a bug or have any trouble with the library, please open an issue. We are happy to help you out.
+If you find a bug or have any trouble with the website, please open an issue. We are happy to help you out.
 
 ### Authors
 
