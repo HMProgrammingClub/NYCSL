@@ -113,28 +113,7 @@ def runGame(userIDs, muValues, sigmaValues):
 	cnx.commit()
 
 	shutil.rmtree(workingPath)
-
-def sendGmail(user, pwd, recipient, subject, body):
-	import smtplib
-
-	gmailUser = user
-	gmailPwd = pwd
-	FROM = user
-	TO = recipient if type(recipient) is list else [recipient]
-	SUBJECT = subject
-	TEXT = body
-
-	# Prepare actual message
-	message = """\From: %s\nTo: %s\nSubject: %s\n\n%s
-	""" % (FROM, ", ".join(TO), SUBJECT, TEXT)
-
-	server = smtplib.SMTP("smtp.gmail.com", 587)
-	server.ehlo()
-	server.starttls()
-	server.login(gmailUser, gmailPwd)
-	server.sendmail(FROM, TO, message)
-	server.close()
-
+	
 while True:
 	try:
 		cursor.execute("SELECT * FROM Submission WHERE isReady = 1 and problemID = " + str(TRON_PROBLEM_ID))
@@ -156,4 +135,4 @@ while True:
 			os.system("docker stop $(docker ps -a -q)")
 			os.system("docker rm $(docker ps -a -q)")
 	except Exception as e:
-		sendGmail("mntruell@gmail.com", "Microsoft3!", "mntruell@gmail.com", "Error in NYCSL worker", "Here is the content of the error: "+str(e))
+		print("There was an error!")
