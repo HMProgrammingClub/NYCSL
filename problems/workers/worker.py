@@ -124,35 +124,37 @@ while True:
 	cursor.execute("SELECT * FROM Submission WHERE isReady = 1 and problemID = " + str(TRON_PROBLEM_ID))
 	submissions = cursor.fetchall()
 	submissions.sort(key=lambda x: int(x['score']))
-	for submission in submissions:
-		allowedOpponents = copy.deepcopy(submissions)
-		allowedOpponents.remove(submission)
-		opponent = allowedOpponents[random.randrange(0, len(allowedOpponents))]
+	
+	submission = submissions[random.randrange(0, len(submissions))]
 
-		submissionStartingRank = getRank(submission['submissionID'])
-		opponentStartingRank = getRank(opponent['submissionID'])
-		
-		runGame([submission['userID'], opponent['userID']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['sigma']])
+	allowedOpponents = copy.deepcopy(submissions)
+	allowedOpponents.remove(submission)
+	opponent = allowedOpponents[random.randrange(0, len(allowedOpponents))]
 
-		newSubmissionRank = getRank(submission['submissionID'])
-		newOpponentRank = getRank(opponent['submissionID'])
+	submissionStartingRank = getRank(submission['submissionID'])
+	opponentStartingRank = getRank(opponent['submissionID'])
+	
+	runGame([submission['userID'], opponent['userID']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['sigma']])
 
-		def rankChangePost(userID, rank):
-			cursor.execute("SELECT * FROM User WHERE userID="+str(userID))
-			player = cursor.fetchone()
-			postToSlack(player['firstName'] + " " + player['lastName'] + " has moved into " + str(rank) + " place")
+	newSubmissionRank = getRank(submission['submissionID'])
+	newOpponentRank = getRank(opponent['submissionID'])
 
-		if newSubmissionRank != submissionStartingRank:
-			rankChangePost(submission['userID'], newSubmissionRank)
-		if newOpponentRank != opponentStartingRank:
-			rankChangePost(opponent['userID'], newOpponentRank)
+	def rankChangePost(userID, rank):
+		cursor.execute("SELECT * FROM User WHERE userID="+str(userID))
+		player = cursor.fetchone()
+		postToSlack(player['firstName'] + " " + player['lastName'] + " has moved into " + str(rank) + " place")
 
-		if len(os.listdir("../storage")) > 1000: 
-			files = os.listdir("../storage")
-			files.sort()
-			for f in files:				
-				if os.path.isfile(os.path.join("../storage", f)):
-					os.remove(os.path.join("../storage", f))
-					break
-		os.system("docker stop $(docker ps -a -q)")
-		os.system("docker rm $(docker ps -a -q)")
+	if newSubmissionRank != submissionStartingRank:
+		rankChangePost(submission['userID'], newSubmissionRank)
+	if newOpponentRank != opponentStartingRank:
+		rankChangePost(opponent['userID'], newOpponentRank)
+
+	if len(os.listdir("../storage")) > 1000: 
+		files = os.listdir("../storage")
+		files.sort()
+		for f in files:				
+			if os.path.isfile(os.path.join("../storage", f)):
+				os.remove(os.path.join("../storage", f))
+				break
+	os.system("docker stop $(docker ps -a -q)")
+	os.system("docker rm $(docker ps -a -q)")
