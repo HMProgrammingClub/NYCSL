@@ -7,6 +7,7 @@ import pymysql.cursors
 import random
 import shutil
 import urllib.request
+import urllib.parse
 from sandbox import *
 from config import *
 import copy
@@ -118,7 +119,8 @@ def runGame(userIDs, muValues, sigmaValues):
 def getRank(submissionID):
 	return int(urllib.request.urlopen("http://nycsl.io/php/rank?submissionID="+str(submissionID)).read())
 def postToSlack(text):
-	urllib.request.urlopen("https://slack.com/api/chat.postMessage?token="+SLACK_TOKEN+"&channel=programming_electrics&text="+text)
+	urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : ROBOTICS_SLACK_TOKEN, "channel" : "programming_electrics", "text": text}))
+	urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : NYCSL_SLACK_TOKEN, "channel" : "general", "text": text}))
 
 while True:
 	cursor.execute("SELECT * FROM Submission WHERE isReady = 1 and problemID = " + str(TRON_PROBLEM_ID))
@@ -142,7 +144,7 @@ while True:
 	def rankChangePost(userID, rank):
 		cursor.execute("SELECT * FROM User WHERE userID="+str(userID))
 		player = cursor.fetchone()
-		postToSlack(player['firstName'] + " " + player['lastName'] + " has moved into " + str(rank) + " place")
+		postToSlack(player['firstName'] + " " + player['lastName'] + " has moved into rank " + str(rank))
 
 	if newSubmissionRank != submissionStartingRank:
 		rankChangePost(submission['userID'], newSubmissionRank)
