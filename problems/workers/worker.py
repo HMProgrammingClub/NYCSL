@@ -119,6 +119,7 @@ def runGame(userIDs, muValues, sigmaValues):
 def getRank(submissionID):
 	return int(urllib.request.urlopen("http://nycsl.io/php/rank?submissionID="+str(submissionID)).read())
 def postToSlack(text):
+	pass
 	#urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : ROBOTICS_SLACK_TOKEN, "channel" : "programming_electrics", "text": text}))
 	#urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : NYCSL_SLACK_TOKEN, "channel" : "general", "text": text}))
 
