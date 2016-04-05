@@ -119,8 +119,8 @@ def runGame(userIDs, muValues, sigmaValues):
 def getRank(submissionID):
 	return int(urllib.request.urlopen("http://nycsl.io/php/rank?submissionID="+str(submissionID)).read())
 def postToSlack(text):
-	urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : ROBOTICS_SLACK_TOKEN, "channel" : "programming_electrics", "text": text}))
-	urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : NYCSL_SLACK_TOKEN, "channel" : "general", "text": text}))
+	#urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : ROBOTICS_SLACK_TOKEN, "channel" : "programming_electrics", "text": text}))
+	#urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : NYCSL_SLACK_TOKEN, "channel" : "general", "text": text}))
 
 while True:
 	cursor.execute("SELECT * FROM Submission WHERE isReady = 1 and problemID = " + str(TRON_PROBLEM_ID))
