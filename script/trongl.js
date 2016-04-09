@@ -73,7 +73,7 @@ function begin(data) {
 	
 	vl = [];
 	var dx = 2.0 / width, dy = 2.0 / height, xSize = 0.4 * dx, ySize = 0.4 * dy;
-	for(var yPos = -1 +(dy / 2); yPos < 1; yPos += dy) {
+	for(var yPos = 1 - (dy / 2); yPos > -1; yPos -= dy) {
 		for(var xPos = -1 +(dx / 2); xPos < 1; xPos += dx) {
 			vl.push(xPos - xSize);
 			vl.push(yPos - ySize);
