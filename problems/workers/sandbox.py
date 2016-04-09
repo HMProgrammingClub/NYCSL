@@ -91,6 +91,7 @@ class Sandbox:
 	def start(self, shell_command):
 		"""Start a command running in the sandbox"""
 		shell_command = "docker run -v /var/www/nycsl/problems/workers/workingPath:/var/www/nycsl/problems/workers/workingPath --privileged=true virtual_machine sh -c \'" + shell_command + "\'"
+		print("Shell command")
 		print(shell_command)
 		if self.is_alive:
 			raise SandboxError("Tried to run command with one in progress.")
@@ -105,6 +106,7 @@ class Sandbox:
 													universal_newlines=True,
 													cwd=working_directory)
 		except OSError:
+			print("There was an error")
 			raise SandboxError('Failed to start {0}'.format(shell_command))
 		self._is_alive = True
 		stdout_monitor = Thread(target=_monitor_file,

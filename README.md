@@ -8,59 +8,27 @@ NYCSL, or the New York Computer Science League, is a programming competition cre
 
 Each month at midnight a new challenge is posted. Programmers in NYCSL have one month to upload as many solutions as they like; only the top score is shown. Solutions are instantly graded and put up on both global and school-wide leaderboards. Problems are designed such that they are suitable for programmers of all skill levels; beginners are encouraged to participate.
 
-NYCSL.io was created by programmers [Michael Truell](https://github.com/truell20), [Josh Gruenstein](https://github.com/joshuagruenstein), [Luca Koval](https://github.com/G4Cool), and [Ben Spector](https://github.com/Sydriax). The project began at the defhacks("Winter",2015) hackathon by CSTUY at Facebook NY. 
-
-You may contact us at [contact@nycsl.io](mailto:contact@nycsl.io). 
-
-###Schools
-
-Currently the following schools are supported. If you'd like your school to be added, please contact us (or make a pull request).
-
-- Dalton
-- Horace Mann
-- Stuyvesant
-- Fieldston
-- Trinity
-- Bronx Science
-
 ## Technical
 
 The website utilizes a LAMP backend (Linux, Apache, MySQL and PHP) for the majority of tasks.  However, problem grading is done through Python scripts called from PHP.  The backend is organized as a RESTful API.  The front-end is JavaScript + jQuery for scripting and Bootstrap 3 using FezVrasta's wonderful [bootstrap-material-design](https://github.com/FezVrasta/bootstrap-material-design) theme for style.
 
-### Development
+## Folder Contents
 
-As code is deployed to the server over git, there is a `master` and a `dev` branch.  The master branch contains things that work.  The `dev` branch contains things are works in progress.  Every so often `dev` is merged into `master`, and vice versa.  Feel free to make pull requests of bugs you find and features you'd like to implement, especially if you're a NYCSL participant.
+- `img/` - All of the images used on the site.
+- `includes/` - Common html elements that are included throughout the site.
+- `lib/` - Any js libraries used on the site.
+- `php/` - Our RESTFul API.
+- `problems/` - Competition specific content.
+- `script/` - Frontend javascript.
+- `style/` - CSS.
+- `tests/` - Unit tests written in QUnit.
 
-Currently NYCSL is being used and tested by the Horace Mann School programming club.  Release 1.0 will occur once NYCSL is ready for promotion to other schools.  Release 2.0 is where longer-term features should go (for the moment).
+## Contributing
 
-##Todo
+Send us a pull request. If you are looking for things to do, check out the repo's open issues. We will be happy to add you as a contributor and credit you in the README.
 
-### February Release
-- ~~Keep track of who is player 1 and who is player 2~~
-- ~~Allow the playing of local game files on the website~
-- ~~Test the starter packages locally (Ben, Luca)~~
-- Submit bots and make sure everything is running correctly
-- Compile submitted C++ as C++ 11
-- Modularize and migrate new leaderboard to school view
-- ~~Rehash all the passwords~~
-- ~~Write logging functions (Ben, Luca)~~
-- ~~Decide on prizes and put them in the problem description~~
-- ~~Migrate new MySQL database structure to the production server~~
-- ~~Fix visualizer crash on chrome reload~~
-- ~~Show the player names and the winner on the game modal~~
+If you find a bug or have any trouble with the website, please open an issue. We are happy to help you out.
 
+### Authors
 
-### February Post-Release
-- Give prizes to January winners (Ben, Luca)
-- Email heads of CS departments at Stuy, Bx, Dalton, Trinity (Ben, Luca)
-- Send out email to HM Programming Club (Ben, Luca)
-- Getting started video (showing how to run c++, java, python bots from environment, put .trn file in visualizer, etc.) (Ben, Luca)
-
-### 2.0 Release
-- Full user settings pages
-- User overall score
-	- Base score for competition participation + inverse of placing (1st / 30 people = 30 points)
-	- Overall leaderboard
-	- Badges?
-- Basic chatroom for participants to discuss and collaborate in 
-- Show number of submissions on the leaderboard?
+Fido was created by [Michael Truell](https://github.com/truell20), [Joshua Gruenstein](https://github.com/joshuagruenstein), [Ben Spector](https://github.com/Sydriax), and [Luca Koval](https://github.com/G4Cool) for the Horace Mann Programming Club.

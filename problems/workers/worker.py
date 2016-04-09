@@ -6,11 +6,14 @@ import trueskill
 import pymysql.cursors
 import random
 import shutil
+import urllib.request
+import urllib.parse
 from sandbox import *
+from config import *
+import copy
 
 TRON_PROBLEM_ID = 3
-
-cnx = pymysql.connect(host="104.131.81.214", user="superuser", database="DefHacks", password="fustercluck", charset="utf8mb4", cursorclass=pymysql.cursors.DictCursor)
+cnx = pymysql.connect(host="162.243.229.252", user="superuser", database="Defhacks", password=PASS, charset="utf8mb4", cursorclass=pymysql.cursors.DictCursor)
 cursor = cnx.cursor()
 
 def unpack(filePath, destinationFilePath):
@@ -43,9 +46,8 @@ def runGame(userIDs, muValues, sigmaValues):
 	os.makedirs(workingPath)
 	os.chmod(workingPath, 0o777)
 	
-	shutil.copyfile("TR_environment_main.py", os.path.join(workingPath, "TR_environment_main.py"))
-	shutil.copyfile("TR_environment_networking.py", os.path.join(workingPath, "TR_environment_networking.py"))
-	
+	shutil.copyfile("Tron_Environment.py", os.path.join(workingPath, "Tron_Environment.py"))
+
 	sandbox = Sandbox(workingPath)
 
 	# Unpack and setup bot files
@@ -53,30 +55,33 @@ def runGame(userIDs, muValues, sigmaValues):
 	for botPath in botPaths: os.mkdir(botPath)
 	for a in range(len(userIDs)): unpack("../outputs/TR/"+ str(userIDs[a]) + ".zip", botPaths[a])
 	for botPath in botPaths:
-		print(botPath)
+		if os.path.isfile(os.path.join(botPath, "run.sh")) == False:
+			return		
 		os.chmod(botPath, 0o777)
 		os.chmod(os.path.join(botPath, "run.sh"), 0o777)
 	
 	# Build the shell command that will run the game. Executable called environment houses the game environment
-	runGameShellCommand = "python3 /var/www/nycsl/problems/workers/"+workingPath+"/TR_environment_main.py "
+	runGameShellCommand = "python3 /var/www/nycsl/problems/workers/"+workingPath+"/Tron_Environment.py "
 	for botPath in botPaths: runGameShellCommand += "\"cd "+os.path.abspath(botPath)+"; "+os.path.join(os.path.abspath(botPath), "run.sh")+"\" "
+	
 	print(runGameShellCommand)
-
 	# Run game
 	sandbox.start(runGameShellCommand)
 	lines = []
 	while True:
 		line = sandbox.read_line(200)
-		print(line)
 		if line == None:
 			break
 		lines.append(line)
 	
+	print("Output----------------------")
+	print("\n".join(lines));	
+	print("----------------------------")
 	
 	# Get player ranks and scores by parsing shellOutput
 	if "won!" in lines[-2]:
 		winnerIndex = int(lines[-2][len("Player ") : -len("won!")]) - 1
-		loserIndex = (1 if winnerNumber == 2 else 2)-1
+		loserIndex = 0 if winnerIndex == 1 else 1
 		
 	else:
 		winnerIndex = random.randrange(0, 2)
@@ -89,9 +94,9 @@ def runGame(userIDs, muValues, sigmaValues):
 	winnerRating = trueskill.Rating(mu=float(muValues[winnerIndex]), sigma=float(sigmaValues[winnerIndex]))
 	loserRating = trueskill.Rating(mu=float(muValues[loserIndex]), sigma=float(sigmaValues[loserIndex]))
 	winnerRating, loserRating = trueskill.rate_1vs1(winnerRating, loserRating)
-
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (winnerRating.mu, winnerRating.sigma, int(newRatings[0].mu - (3*newRatings[1].sigma)), winnerID, TRON_PROBLEM_ID))
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (loserRating.mu, loserRating.sigma, int(newRatings[1].mu - (3*newRatings[1].sigma)), loserID, TRON_PROBLEM_ID))
+	print(winnerRating)	
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (winnerRating.mu, winnerRating.sigma, int(winnerRating.mu - (3*winnerRating.sigma)), winnerID, TRON_PROBLEM_ID))
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (loserRating.mu, loserRating.sigma, int(loserRating.mu - (3*loserRating.sigma)), loserID, TRON_PROBLEM_ID))
 	cnx.commit()
 
 	# Get replay file by parsing shellOutput
@@ -99,31 +104,60 @@ def runGame(userIDs, muValues, sigmaValues):
 	shutil.move(os.path.join(workingPath, replayFilename), "../storage")
 	
 	# Store results of game
-	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+os.basename(replayFilename)+"\')")
+	cursor.execute("INSERT INTO Game (replayFilename) VALUES (\'"+os.path.basename(replayFilename)+"\')")
 	cnx.commit()
 
 	cursor.execute("SELECT gameID FROM Game WHERE replayFilename = \'"+replayFilename+"\'")
 	gameID = cursor.fetchone()['gameID']
 	
-	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, index) VALUES (%d, %d, %d)" % (gameID, winnerID, 0, 0 if userIDs[0] == winnerID else 1))
-	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, index) VALUES (%d, %d, %d)" % (gameID, loserID, 1, 0 if userIDs[0] == loserID else 1))
+	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, winnerID, 0, 0 if userIDs[0] == winnerID else 1))
+	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, loserID, 1, 0 if userIDs[0] == loserID else 1))
 	cnx.commit()
 
-	# Delete working path
 	shutil.rmtree(workingPath)
+
+def getRank(submissionID):
+	return int(urllib.request.urlopen("http://nycsl.io/php/rank?submissionID="+str(submissionID)).read())
+def postToSlack(text):
+	pass
+	#urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : ROBOTICS_SLACK_TOKEN, "channel" : "programming_electrics", "text": text}))
+	#urllib.request.urlopen("https://slack.com/api/chat.postMessage?"+ urllib.parse.urlencode({"token" : NYCSL_SLACK_TOKEN, "channel" : "general", "text": text}))
 
 while True:
 	cursor.execute("SELECT * FROM Submission WHERE isReady = 1 and problemID = " + str(TRON_PROBLEM_ID))
 	submissions = cursor.fetchall()
 	submissions.sort(key=lambda x: int(x['score']))
-	for submission in submissions:
-		allowedOpponents = []
-		while len(allowedOpponents) == 0:
-			allowedOpponents = []
-			allowedDifferenceInScore = 5 / (0.65*random.random())
-			for possibleOpponent in submissions:
-				if submission['userID'] != possibleOpponent['userID'] and abs(submission['score'] - possibleOpponent['score']) < allowedDifferenceInScore:
-					allowedOpponents.append(possibleOpponent)
-		opponent = allowedOpponents[random.randrange(0, len(allowedOpponents))]
+	
+	submission = submissions[random.randrange(0, len(submissions))]
 
-		runGame([submission['userID'], opponent['userID']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['mu']])
+	allowedOpponents = copy.deepcopy(submissions)
+	allowedOpponents.remove(submission)
+	opponent = allowedOpponents[random.randrange(0, len(allowedOpponents))]
+
+	submissionStartingRank = getRank(submission['submissionID'])
+	opponentStartingRank = getRank(opponent['submissionID'])
+	
+	runGame([submission['userID'], opponent['userID']], [submission['mu'], opponent['mu']], [submission['sigma'], opponent['sigma']])
+
+	newSubmissionRank = getRank(submission['submissionID'])
+	newOpponentRank = getRank(opponent['submissionID'])
+
+	def rankChangePost(userID, rank):
+		cursor.execute("SELECT * FROM User WHERE userID="+str(userID))
+		player = cursor.fetchone()
+		postToSlack(player['firstName'] + " " + player['lastName'] + " has moved into rank " + str(rank))
+
+	if newSubmissionRank != submissionStartingRank:
+		rankChangePost(submission['userID'], newSubmissionRank)
+	if newOpponentRank != opponentStartingRank:
+		rankChangePost(opponent['userID'], newOpponentRank)
+
+	if len(os.listdir("../storage")) > 1000: 
+		files = os.listdir("../storage")
+		files.sort()
+		for f in files:				
+			if os.path.isfile(os.path.join("../storage", f)):
+				os.remove(os.path.join("../storage", f))
+				break
+	os.system("docker stop $(docker ps -a -q)")
+	os.system("docker rm $(docker ps -a -q)")

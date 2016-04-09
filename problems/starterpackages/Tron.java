@@ -12,7 +12,12 @@ public class Tron {
 			debug.flush();
 		}
 	}
+<<<<<<< HEAD
 	public static <T> void logln(T s) {
+=======
+	
+	public static void logln(String s) {
+>>>>>>> origin/master
 		if(debug != null) {
 			debug.append(s + "\n");
 			debug.flush();

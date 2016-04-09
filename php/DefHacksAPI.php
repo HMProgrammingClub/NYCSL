@@ -68,7 +68,8 @@ class DefHacksAPI extends API
 
 	private function getProblem($problemID) {
 		$problemArray = $this->select("SELECT * FROM Problem WHERE problemID = {$problemID}");
-			$problemArray['submissions'] = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = {$problemArray['problemID']}");
+			if($problemArray['isAscending'] == 1) $problemArray['submissions'] = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = {$problemArray['problemID']} ORDER BY score ASC");
+			else $problemArray['submissions'] = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = {$problemArray['problemID']} ORDER BY score DESC");
 			foreach($problemArray['submissions'] as &$submission) {
 				$submission['user'] = $this->select("SELECT * FROM User WHERE userID = {$submission['userID']}");
 				unset($submission['userID']);
@@ -337,17 +338,21 @@ class DefHacksAPI extends API
 			if(count($submissionArray) > 0) {
 				$this->insert("UPDATE Submission SET isReady = 0 WHERE submissionID = {$submissionArray['submissionID']}");
 			}
+			if($problemArray['doReset'] == true) {
+				$this->insert("UPDATE Submission SET score = 0, mu = 25.000, sigma = 8.333 WHERE submissionID = {$submissionArray['submissionID']}");
+			}
+			
 			$targetPath = "../problems/outputs/{$problemName}/";
 			if(!file_exists($targetPath)) mkdir($targetPath);
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
 			$targetPath = $targetPath . $userID . "." . $ext[count($ext)-1];
 			if(file_exists($targetPath)) unlink($targetPath);
-			clearstatcache();
+			
 			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
+			chmod($targetPath, 400);
 
 			// Pass target file to python script
-			exec("python ../problems/scripts/$problemName.py $targetPath", $rawOutput);
-
+			exec("python3 ../problems/scripts/$problemName.py $targetPath", $rawOutput);	
 			if(!isset($rawOutput[0])) return array("isError" => true, "message" => "There was a problem with your submission file.");
 			$programOutput = json_decode($rawOutput[count($rawOutput)-1]);
 			
@@ -356,8 +361,8 @@ class DefHacksAPI extends API
 			if(isset($programOutput->score)) {
 				$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
 				if($userArray['userID'] != NULL) {
-					if(($isAscending == true && $userArray['score'] > $programOutput->score) || ($isAscending == false && $userArray['score'] < $programOutput->score)) {		
-						$this->insert("UPDATE Submission SET score = {$programOutput->score}, isReady = 1 WHERE userID = $userID and problemID = $problemID");	
+					if(($isAscending == true && $userArray['score'] > $programOutput->score) || ($isAscending == false && $userArray['score'] < $programOutput->score) || $problemArray['doReset'] == true) {		
+						$this->insert("UPDATE Submission SET score = {$programOutput->score}, isReady = 1, mu = 25.000, sigma = 8.333  WHERE userID = $userID and problemID = $problemID");	
 					}
 				} else {
 					$this->insert("INSERT INTO Submission (problemID, userID, score, isReady) VALUES ($problemID, $userID, {$programOutput->score}, 1)");
@@ -375,16 +380,19 @@ class DefHacksAPI extends API
 			$limit = isset($_GET['limit']) ? $_GET['limit'] : 10;
 			$userID = $_GET['userID'];
 
-			$gameIDArrays = $this->selectMultiple("SELECT * FROM GameToUser WHERE userID = $userID LIMIT $limit");
+			$gameIDArrays = $this->selectMultiple("SELECT * FROM GameToUser WHERE userID = $userID ORDER BY gameID DESC LIMIT $limit");
 			$gameArrays = array();
+			
+			// Get each game's info
 			foreach ($gameIDArrays as $gameIDArray) {
 				$gameID = $gameIDArray['gameID'];
 				$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
-				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, index FROM GameToUser WHERE gameID = $gameID");
+				
+				// Get information about users
+				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID");
 				foreach($gameArray['users'] as &$gameUserRow) {
-					$gameUserRank = $gameUserRow['rank'];
-					$gameUserRow = $this->select("SELECT * FROM User WHERE userID = {$gameUserRow['userID']}");
-					$gameUserRow['rank'] = $gameUserRank;
+					$userInfo = $this->select("SELECT * FROM User WHERE userID = {$gameUserRow['userID']}");
+					foreach($userInfo as $key => $value) $gameUserRow[$key] = $value;
 				}
 				array_push($gameArrays, $gameArray);
 			}
