@@ -7,7 +7,7 @@ function getUser(userID, email, password) {
 	if(password != null) params.password = password;
 
 	var result = $.ajax({
-		url: url+"user", 
+		url: url+"user",
 		async: false,
 		method: "GET",
 		data: params,
@@ -24,7 +24,7 @@ function getUser(userID, email, password) {
 
 function storeUserBackend(email, password, firstName, lastName, async, callback) {
 	var result = $.ajax({
-		url: url+"user", 
+		url: url+"user",
 		async: async,
 		method: "POST",
 		data: {email: email, password: password, firstName: firstName, lastName: lastName, async: async},
@@ -57,14 +57,14 @@ function getLatestGamesForUser(userID) {
 function storeUserSession(userID, email, password, async) {
 	if(userID != null && password != null) {
 		var result = $.ajax({
-			url: url+"session", 
+			url: url+"session",
 			async: async,
 			method: "POST",
 			data: {userID: userID, password: password}
 		});
 	} else if(email != null && password != null) {
 		var result = $.ajax({
-			url: url+"session", 
+			url: url+"session",
 			async: async,
 			method: "POST",
 			data: {email: email, password: password}
@@ -76,7 +76,7 @@ function storeUserSession(userID, email, password, async) {
 
 function getSession() {
 	var result = $.ajax({
-		url: url+"session", 
+		url: url+"session",
 		async: false,
 		method: "GET",
 		contentType: "application/json; charset=utf-8",
@@ -87,7 +87,7 @@ function getSession() {
 
 function destroySession(async) {
 	var result = $.ajax({
-		url: url+"session", 
+		url: url+"session",
 		async: async,
 		method: "DELETE"
 	});
@@ -95,7 +95,7 @@ function destroySession(async) {
 
 function getProblem(problemID) {
 	var result = $.ajax({
-		url: url+"problem", 
+		url: url+"problem",
 		async: false,
 		method: "GET",
 		data: {problemID: problemID}
@@ -105,7 +105,7 @@ function getProblem(problemID) {
 
 function getProblemSubmissionsWithSchool(problemID, schoolName) {
 	var result = $.ajax({
-		url: url+"submission", 
+		url: url+"submission",
 		async: false,
 		method: "GET",
 		data: {problemID: problemID, schoolName: schoolName}
@@ -115,7 +115,7 @@ function getProblemSubmissionsWithSchool(problemID, schoolName) {
 
 function getUserSubmissions(userID) {
 	var result = $.ajax({
-		url: url+"submission", 
+		url: url+"submission",
 		async: false,
 		method: "GET",
 		data: {userID: userID}
@@ -125,7 +125,7 @@ function getUserSubmissions(userID) {
 
 function getSubmission(submissionID) {
 	var result = $.ajax({
-		url: url+"submission", 
+		url: url+"submission",
 		async: false,
 		method: "GET",
 		data: {submissionID: submissionID}
@@ -135,7 +135,7 @@ function getSubmission(submissionID) {
 
 function getSchools() {
 	var result = $.ajax({
-		url: url+"schools", 
+		url: url+"schools",
 		async: false,
 		method: "GET"
 	});
@@ -144,7 +144,7 @@ function getSchools() {
 
 function getProblemWithIndex(index) {
 	var result = $.ajax({
-		url: url+"problem", 
+		url: url+"problem",
 		async: false,
 		method: "GET",
 		data: {index: index}
@@ -154,7 +154,7 @@ function getProblemWithIndex(index) {
 
 function getProblemsSize() {
 	var result = $.ajax({
-		url: url+"problem", 
+		url: url+"problem",
 		async: false,
 		method: "GET",
 		data: {size: 1}
@@ -164,7 +164,7 @@ function getProblemsSize() {
 
 function getRankOfSubmission(submissionID) {
 	var result = $.ajax({
-		url: url+"rank", 
+		url: url+"rank",
 		async: false,
 		method: "GET",
 		data: {submissionID: submissionID}
@@ -174,7 +174,7 @@ function getRankOfSubmission(submissionID) {
 
 function problemIDToIndex(problemID) {
 	var result = $.ajax({
-		url: url+"toIndex", 
+		url: url+"toIndex",
 		async: false,
 		method: "GET",
 		data: {problemID: problemID}
@@ -186,7 +186,7 @@ function problemIDToIndex(problemID) {
 function storeSubmissionDatabase(formID) {
 	var formData = new FormData($("#"+formID)[0]);
 	var result = $.ajax({
-		url: url+"submission", 
+		url: url+"submission",
 		async: false,
 		method: "POST",
 		data: formData,
@@ -208,7 +208,7 @@ function storeSubmissionDatabase(formID) {
 
 function verifyEmail(userID, verificationCode) {
 	var result = $.ajax({
-		url: url+"verify", 
+		url: url+"verify",
 		async: false,
 		method: "POST",
 		data: {userID: userID, code: verificationCode}
@@ -219,7 +219,7 @@ function verifyEmail(userID, verificationCode) {
 
 function sendRecoveryEmail(email) {
 	var result = $.ajax({
-		url: url+"recover", 
+		url: url+"recover",
 		async: false,
 		method: "POST",
 		data: {email: email}
@@ -230,7 +230,7 @@ function sendRecoveryEmail(email) {
 
 function recoverEmail(userID, recoveryCode, password) {
 	var result = $.ajax({
-		url: url+"recover", 
+		url: url+"recover",
 		async: false,
 		method: "POST",
 		data: {userID: userID, code: recoveryCode, password: password}
