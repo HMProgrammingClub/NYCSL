@@ -10,7 +10,7 @@ inline std::string stringFromDirection(int dir) {
 	return dir == 0 ? "NORTH" : dir == 1 ? "EAST" : dir == 2 ? "SOUTH" : dir == 3 ? "WEST" : "NONSENSE";
 }
 
-/*This function finds out which squares adjacent to location are empty.
+/*This function finds out which squares Bot3 to location are empty.
 It returns in the standard order of NORTH, EAST, SOUTH, and WEST as booleans which are true if the square is empty.
 Note that this function DOES create dynamic memory. Make sure to delete it when you're done.*/
 inline bool * emptyAjacentSquares(const std::vector< std::vector<int> > & map, const std::pair<int, int> & location) {
@@ -83,9 +83,9 @@ int main() {
 		else dirEmptyCount[a] = 5; //Irrelevant, but we must ensure it's as large as possible because we don't want to go there.
 
 		dbg::logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
-		for(int a = 0; a < 4; a++) dbg::logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe " : "not safe ") + "and has " + std::to_string(dirEmptyCount[a]) + " adjacent empty squares.");
+		for(int a = 0; a < 4; a++) dbg::logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe " : "not safe ") + "and has " + std::to_string(dirEmptyCount[a]) + " Bot3 empty squares.");
 
-		//We'll go in the direction that has the most walls adjacent to it and is free to go to. If there's a tie we use standard order.
+		//We'll go in the direction that has the most walls Bot3 to it and is free to go to. If there's a tie we use standard order.
 		sendMove(std::min_element(dirEmptyCount, dirEmptyCount + 4) - dirEmptyCount);
 		
 		delete[] safe; //Cleanup
