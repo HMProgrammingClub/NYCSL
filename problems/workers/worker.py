@@ -82,11 +82,10 @@ def runGame(userIDs, muValues, sigmaValues):
 	if "won!" in lines[-2]:
 		winnerIndex = int(lines[-2][len("Player ") : -len("won!")]) - 1
 		loserIndex = 0 if winnerIndex == 1 else 1
-		
+	
 	else:
 		winnerIndex = random.randrange(0, 2)
 		loserIndex = 0 if winnerIndex == 1 else 1
-
 	winnerID = userIDs[winnerIndex]
 	loserID = userIDs[loserIndex]
 
@@ -159,5 +158,8 @@ while True:
 			if os.path.isfile(os.path.join("../storage", f)):
 				os.remove(os.path.join("../storage", f))
 				break
+	
+	# Keep docker from crashing the system
+	os.system("sudo rm /run/network/ifstate.veth*")	
 	os.system("docker stop $(docker ps -a -q)")
 	os.system("docker rm $(docker ps -a -q)")
