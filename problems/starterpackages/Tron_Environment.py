@@ -104,20 +104,20 @@ width = 16
 height = 16
 gameMap = [[Tile.empty.value for a in range(width)] for b in range(height)]
 
-# Decide if map is mirrored or rotationally symmetric
-isMirror = bool(random.getrandbits(1))
+# Decide if map is mirrored or rotationally symmetric. 0 Indicates rotational symmetry, 1 vertical mirroring, and 2 horizontal mirroring.
+isMirror = random.randint(0, 2)
 
 # Place pieces on map
 positions = []
 positions.append(Point(random.randint(0, width), random.randint(0, height)))
-positions.append(Point(positions[0].x if isMirror else width-1-positions[0].x, height-1-positions[0].y))
+positions.append(Point(positions[0].x if isMirror == 1 else width-1-positions[0].x, positions[0].y if isMirror == 2 else height-1-positions[0].y))
 
-prob_wall = 0.2
-for a in range(0, int((height+1) / 2)):
-	for b in range(0, width):
+prob_wall = 0.12
+for a in range(0, int((height+1) / 2) if isMirror != 2 else height):
+	for b in range(0, width if isMirror != 2 else int((width+1) / 2)):
 		if random.random() < prob_wall:
 			gameMap[a][b] = 5
-			gameMap[height-1-a][b if isMirror else width-1-b] = 5
+			gameMap[a if isMirror == 2 else height-1-a][b if isMirror == 1 else width-1-b] = 5
 
 gameMap[positions[0].y][positions[0].x] = Tile.player1.value
 gameMap[positions[1].y][positions[1].x] = Tile.player2.value
