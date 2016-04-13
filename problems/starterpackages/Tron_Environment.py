@@ -3,6 +3,7 @@ import time
 import copy
 import sys
 import subprocess
+import random
 from threading import Thread
 
 def monitorFile(connection, queue):
@@ -47,7 +48,7 @@ class Networker:
 		returnString = ""
 		for row in map:
 			for tile in row:
-				returnString += str(tile if isSecond == False else tile-1 if tile == 2 or tile == 4 else tile+1 if tile != 0 else 0) + " "
+				returnString += str(tile if isSecond == False or tile == 0 or tile == 5 else tile-1 if tile == 2 or tile == 4 else tile+1) + " "
 		return returnString
 		
 	def frameNetworking(self, map, isSecond):
@@ -79,6 +80,7 @@ class Tile(Enum):
 	player2 = 2
 	takenByPlayer1 = 3
 	takenByPlayer2 = 4
+	wall = 5
 
 class Point:
 	def __init__(self, x, y):
@@ -102,13 +104,29 @@ width = 16
 height = 16
 gameMap = [[Tile.empty.value for a in range(width)] for b in range(height)]
 
+# Decide if map is mirrored or rotationally symmetric
+isMirror = bool(random.getrandbits(1))
+
 # Place pieces on map
 positions = []
-positions.append(Point(0, 0))
-positions.append(Point(width-1, height-1))
+positions.append(Point(random.randint(0, width), random.randint(0, height)))
+positions.append(Point(positions[0].x if isMirror else width-1-positions[0].x, height-1-positions[0].y))
+
+prob_wall = 0.2
+for a in range(0, int((height+1) / 2)):
+	for b in range(0, width):
+		if random.random() < prob_wall:
+			gameMap[a][b] = 5
+			gameMap[height-1-a][b if isMirror else width-1-b] = 5
 
 gameMap[positions[0].y][positions[0].x] = Tile.player1.value
 gameMap[positions[1].y][positions[1].x] = Tile.player2.value
+
+for a in range(0, height):
+	s = ""
+	for b in range(0, width):
+		s += str(str(gameMap[a][b]))
+	print(s)
 
 # Game loop
 frames = []

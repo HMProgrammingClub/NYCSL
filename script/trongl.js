@@ -14,7 +14,7 @@ var canvas,
 		width, height, numFrames, full_game,
 		turn_number, counter, play,
 		vertex_buffer, color_buffer,
-		blankColor, player1Color, player2Color, dimFactor,
+		blankColor, wallColor, player1Color, player2Color, dimFactor,
 		vertex_locations, player1Color, player2Color,
 		vertex_shader, fragment_shader, 
 		currentProgram,
@@ -101,6 +101,7 @@ function begin(data) {
 	//Get player colors from file.
 	player1Color = new Float32Array([ 1.0, 0.0, 0.0 ]);
 	player2Color = new Float32Array([ 0.0, 0.0, 1.0 ]);
+	wallColor = new Float32Array([ 0.2, 0.2, 0.2 ]);
 	blankColor = new Float32Array([ 0.5, 0.5, 0.5 ]);
 	dimFactor = 0.3;
 
@@ -233,10 +234,15 @@ function nextFrame() {
 				colors.push(player2Color[1] * dimFactor);
 				colors.push(player2Color[2] * dimFactor);
 			}
-			else {
+			else if(map[a] == 0) {
 				colors.push(blankColor[0]);
 				colors.push(blankColor[1]);
 				colors.push(blankColor[2]);
+			}
+			else if(map[a] == 5) {
+				colors.push(wallColor[0]);
+				colors.push(wallColor[1]);
+				colors.push(wallColor[2]);
 			}
 		}
 	}
