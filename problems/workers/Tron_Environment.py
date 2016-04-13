@@ -179,11 +179,15 @@ while isDone == False:
 # Cleanup
 if isTied == True: print("The game ended in a tie!")
 else: print("Player " + str(winner) + " won!")
-networker.killAll()
+
+try:
+	networker.killAll()
+except:
+	pass
 
 contents = "%d %d %d\n" % (width, height, len(frames))
 for frame in frames: contents += " ".join(str(tile) for row in frame for tile in row) + "\n"
 filename = str(int(time.time()*10)) + ".trn"
-open(filename, "w").write(contents)
+open("/var/www/nycsl/problems/workers/workingPath/"+filename, "w").write(contents)
 
 print("Output file is stored at " + filename)
