@@ -112,7 +112,7 @@ positions = []
 positions.append(Point(random.randint(0, width), random.randint(0, height)))
 positions.append(Point(positions[0].x if isMirror == 1 else width-1-positions[0].x, positions[0].y if isMirror == 2 else height-1-positions[0].y))
 
-prob_wall = 0.2
+prob_wall = 0.12
 for a in range(0, int((height+1) / 2) if isMirror != 2 else height):
 	for b in range(0, width if isMirror != 2 else int((width+1) / 2)):
 		if random.random() < prob_wall:
