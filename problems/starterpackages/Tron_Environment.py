@@ -122,12 +122,6 @@ for a in range(0, int((height+1) / 2) if isMirror != 2 else height):
 gameMap[positions[0].y][positions[0].x] = Tile.player1.value
 gameMap[positions[1].y][positions[1].x] = Tile.player2.value
 
-for a in range(0, height):
-	s = ""
-	for b in range(0, width):
-		s += str(str(gameMap[a][b]))
-	print(s)
-
 # Game loop
 frames = []
 isDone = False
