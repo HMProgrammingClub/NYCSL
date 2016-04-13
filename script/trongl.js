@@ -101,9 +101,9 @@ function begin(data) {
 	//Get player colors from file.
 	player1Color = new Float32Array([ 1.0, 0.0, 0.0 ]);
 	player2Color = new Float32Array([ 0.0, 0.0, 1.0 ]);
-	wallColor = new Float32Array([ 0.2, 0.2, 0.2 ]);
+	wallColor = new Float32Array([ 0.1, 0.1, 0.1 ]);
 	blankColor = new Float32Array([ 0.5, 0.5, 0.5 ]);
-	dimFactor = 0.3;
+	dimFactor = 0.4;
 
 	//Create Vertex buffer
 	vertex_buffer = gl.createBuffer();
