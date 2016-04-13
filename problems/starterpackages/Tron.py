@@ -11,6 +11,7 @@ me = 1
 opponent = 2
 takenByMe = 3
 takenByOpponent = 4
+wall = 5
 
 debug = None
 

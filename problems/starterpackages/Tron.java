@@ -6,20 +6,15 @@ public class Tron {
 	//We can't print to console, because that channel is used for IO with the environment.
 	//We therefore create a PrintWriter and output to that. Use "OutputDebug" rather than "System.out.print".
 	public static PrintWriter debug;
-	public static <T> void log(T s) {
+	public static void log(Object s) {
 		if(debug != null) {
-			debug.append(s);
+			debug.append(s.toString());
 			debug.flush();
 		}
 	}
-<<<<<<< HEAD
-	public static <T> void logln(T s) {
-=======
-	
-	public static void logln(String s) {
->>>>>>> origin/master
+	public static void logln(Object s) {
 		if(debug != null) {
-			debug.append(s + "\n");
+			debug.append(s.toString() + "\n");
 			debug.flush();
 		}
 	}
@@ -30,7 +25,7 @@ public class Tron {
 
 	public static enum Tile {
 		EMPTY, ME, OPPONENT, 
-		TAKEN_BY_ME, TAKEN_BY_OPPONENT
+		TAKEN_BY_ME, TAKEN_BY_OPPONENT, WALL
 	}
 
 	public static void init() {

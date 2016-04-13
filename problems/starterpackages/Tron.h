@@ -14,6 +14,7 @@
 #define OPPONENT 2
 #define TAKEN_BY_ME 3
 #define TAKEN_BY_OPPONENT 4
+#define WALL 5
 
 static std::ofstream debug;
 
