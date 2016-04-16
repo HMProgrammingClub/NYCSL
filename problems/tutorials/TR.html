@@ -3,8 +3,7 @@ Welcome to the Tron Tutorials! In this short series, we'll build three progressi
 <h1>Basic Bot</h1>
 <p>Our first bot will be the basic bot. Its strategy is very simple: it will find where it is on the map, look at the squares around it on the map, and then move to an empty square in the order of preference of N, E, S, W.
 The first thing we'll need to do for this bot is to find out where we are. To do so, we can simply iterate through the entire two-dimensional array that we're given  and check whether the square matches the value of our player:</p>
-<pre><code>
-std::pair<int, int> myLocation;
+<pre><code>std::pair<int, int> myLocation;
 for(int y = 0; y < 16; y++)  {
 	for(int x = 0; x < 16; x++) {
 		if(m[y][x] == ME) {
@@ -17,21 +16,18 @@ for(int y = 0; y < 16; y++)  {
 <p>We need to confirm that the square we are checking actually exists. If it doesn't, our bot will fail because it will try to check the value of a square which doesn't exist, which will make it crash.</p>
 <p>We need to check that the square is empty.</p>
 <p>If both of the above are true, then we will deem the square safe and put the value as true. Otherwise, we will set it to be false, or not safe.</p>
-<pre><code>
-bool safe[4];
+<pre><code>bool safe[4];
 safe[NORTH] = myLocation.second != 15 && m[myLocation.second + 1][myLocation.first] == EMPTY;
 safe[EAST] = myLocation.first != 15 && m[myLocation.second][myLocation.first + 1] == EMPTY;
 safe[SOUTH] = myLocation.second != 0 && m[myLocation.second - 1][myLocation.first] == EMPTY;
 safe[WEST] = myLocation.first != 0 && m[myLocation.second][myLocation.first - 1] == EMPTY;
 </code></pre>
 <p>Next, we can do a bit of output to make debugging easier for later, as once you modify it something is bound to break. We'll log our location and whether each individual direction is safe. To make this easier, we can also write a little function which will tell us what direction a given integer corresponds to. 0 corresponds to NORTH, 1 to EAST, 2 to SOUTH, and 3 to WEST.</p>
-<pre><code>
-dbg::logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
-		for(int a = 0; a < 4; a++) dbg::logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe." : "not safe."));
+<pre><code>dbg::logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
+for(int a = 0; a < 4; a++) dbg::logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe." : "not safe."));
 </code></pre>
 <p>Finally, we need to find the first direction in the order NORTH, EAST, SOUTH, WEST which is safe to go in, and to move in that direction.</p>
-<pre><code>
-bool * safeLoc = std::find(safe, safe + 4, true);
+<pre><code>bool * safeLoc = std::find(safe, safe + 4, true);
 if(safeLoc != safe + 4) {
 	sendMove(safeLoc - safe);
 }
