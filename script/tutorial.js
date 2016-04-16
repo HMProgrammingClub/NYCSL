@@ -18,6 +18,7 @@ $(function() {
 				context: this,
 				success: function(result) {
 					this.$body.html(result);
+          hljs.initHighlighting();
 				}
 			});
     }

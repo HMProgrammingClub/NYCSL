@@ -19,8 +19,6 @@
 	<link href="style/general.css" rel="stylesheet">
 
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
 </head>
 
 <body>
@@ -53,6 +51,7 @@
 	<script src="lib/auto-render.min.js"></script>
 	<script src="script/backend.js"></script>
 	<script src="script/general.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
 	<script src="script/tutorial.js"></script>
 </body>
 </html>
