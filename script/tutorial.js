@@ -6,8 +6,8 @@ $(function() {
       this.render();
     },
     cacheDOM: function() {
-      this.$header = $("#jHeader");
-      this.$body = $("#jParagraph")
+      this.$header = $("#header");
+      this.$body = $("#paragraph")
     },
     render: function() {
       this.$header.html(this.problem.problemFullName+" Tutorial")

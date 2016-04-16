@@ -23,7 +23,11 @@
 	<div class="container">
 		<?php include 'includes/navbar.php'; ?>
 		<div class="pageContent">
-			<?php include 'includes/jumbo.php'; ?>
+      <div class="row">
+				<div class="col-sm-12">
+          <h1 id="header"></h1>
+        	<p id="paragraph"></p>
+        </div>
 		</div>
 	</div>
 
