@@ -246,10 +246,170 @@ int main() {
 <h1>Minimax</h1>
 <p>The minimax bot is the most advanced bot we'll implement in this tutorial series. It will simulate all sixteen possible moves (4 for us and 4 for them) one turn into the future, simulate the results, and rank the resulting game positions. The system that it uses to do rankings is called the Voronoi system after Voronoi diagrams; it takes the number of pieces we can reach before our opponent can, subtracts the number of pieces our opponent can reach before we can, and makes that the value of the position. Finally, once the moves have been simulated, it will move in the direction such that, no matter what move our opponent makes, the value of the position is as large as possible.</p>
 <p>There are two important functions we'll need to write before we can make this work. The first one will be to simulate a move. It will take a map, my move, their move, and output the resulting map. If a player wins with that set of moves, it will throw an enum which is defined as:</p>
-[CODE SNIPPET]: 39-43
+<pre><code>enum Result {
+	OUR_VICTORY,
+	THEIR_VICTORY,
+	BOTH_DEATH
+};
+</code></pre>
 <p>The function which does the simulation looks like:</p>
-[CODE SNIPPET]: 45-72
+<pre><code>std::vector< std::vector<int> > simulateMove(std::vector< std::vector<int> > map, int myMove, int opMove) {
+	//Let's figure out where we and our opponent are:
+	std::pair<int, int> myLocation, opLocation;
+	for(int y = 0; y < 16; y++)  {
+		for(int x = 0; x < 16; x++) {
+			if(map[y][x] == ME) {
+				myLocation = { x, y };
+			}
+			if(map[y][x] == OPPONENT) {
+				opLocation = { x, y };
+			}
+		}
+	}
+
+	map[myLocation.second][myLocation.first] = TAKEN_BY_ME;
+	map[opLocation.second][opLocation.first] = TAKEN_BY_OPPONENT;
+
+	auto newMyLocation = getLocation(myLocation, myMove), newOpLocation = getLocation(opLocation, opMove);
+	if(newMyLocation == BAD_LOCATION || map[newMyLocation.second][newMyLocation.first] != EMPTY) {
+		throw newOpLocation == BAD_LOCATION || map[newOpLocation.second][newOpLocation.first] != EMPTY ? BOTH_DEATH : THEIR_VICTORY;
+	}
+	if(newOpLocation == BAD_LOCATION || map[newOpLocation.second][newOpLocation.first] != EMPTY) throw OUR_VICTORY;
+
+	map[newMyLocation.second][newMyLocation.first] = ME;
+	map[newOpLocation.second][newOpLocation.first] = OPPONENT;
+
+	return map;
+}
+
+</code></pre>
 <p>The second function we'll need efficiently finds the voronoi value of a position. To do this, it conducts a specialized breadth-first search to find how far away pieces are from us. Here's a visualization of a breadth-first search similar to what we'll use:</p> http://joseph-harrington.com/2012/02/breadth-first-search-visual/
 <p>To do this, we maintain a front of the pieces we're examining, and we also maintain a new front - the pieces that we're assembling for the next front. We can then seed our search with a location, namely our location or our opponent's, and then run the search to find out how many moves are required to reach a location.</p>
-[CODE SNIPPET]: 74-171
-<p>Finally, we can now evaluate moves. We'll create a two dimensional, 4 by 4 array of values, and iterate through it and then simulate moves. If we win in the simulation, we'll assign it a value of 257, which is larger than any possible value on a 16 by 16 map; if we lose we'll call it -257. If it's a tie we'll let it be zero, and else we'll use our Voronoi evaluation to determine the value. In the array, the first, outer array represents our moves and the second, inner array represents their moves. So, to conduct our minimax search, all we must do is to first find the minimum of every</p>
+<pre><code>int voronoiCount(const std::vector< std::vector<int> > & map) {
+
+	//Let's figure out where we and our opponent are:
+	std::pair<int, int> myLocation, opLocation;
+	for(int y = 0; y < 16; y++)  {
+		for(int x = 0; x < 16; x++) {
+			if(map[y][x] == ME) {
+				myLocation = { x, y };
+			}
+			if(map[y][x] == OPPONENT) {
+				opLocation = { x, y };
+			}
+		}
+	}
+
+	/*Initialize distanceFromMe, which stores how far squares are from me.
+	Furthermore, it can also tell me whether a square has been visited by the BFS.*/
+	int distanceFromMe[16][16];
+	for(int a = 0; a < 16; a++) for(int b = 0; b < 16; b++) distanceFromMe[a][b] = 0;
+
+	//Initialize myFront to have only my location in it.
+	std::set< std::pair<int, int> > myFront;
+	myFront.insert(myLocation);
+
+	//Conduct BFS. Rather than going line by line, I'm going to explain it all here in the hopes that it's more cohesive.
+	for(unsigned char dist = 1; myFront.size() != 0; dist++) {
+		std::set< std::pair<int, int> > newFront;
+		for(auto a = myFront.begin(); a != myFront.end(); a++) {
+			auto n = getLocation(*a, NORTH), e = getLocation(*a, EAST), s = getLocation(*a, SOUTH), w = getLocation(*a, WEST);
+			if(n != BAD_LOCATION && distanceFromMe[n.second][n.first] == 0 && map[n.second][n.first] == EMPTY) {
+				newFront.insert(n);
+				distanceFromMe[n.second][n.first] = dist;
+			}
+			if(e != BAD_LOCATION && distanceFromMe[e.second][e.first] == 0 && map[e.second][e.first] == EMPTY) {
+				newFront.insert(e);
+				distanceFromMe[e.second][e.first] = dist;
+			}
+			if(s != BAD_LOCATION && distanceFromMe[s.second][s.first] == 0 && map[s.second][s.first] == EMPTY) {
+				newFront.insert(s);
+				distanceFromMe[s.second][s.first] = dist;
+			}
+			if(w != BAD_LOCATION && distanceFromMe[w.second][w.first] == 0 && map[w.second][w.first] == EMPTY) {
+				newFront.insert(w);
+				distanceFromMe[w.second][w.first] = dist;
+			}
+		}
+		myFront.clear();
+		for(auto a = newFront.begin(); a != newFront.end(); a++) myFront.insert(*a);
+	}
+
+	/*Initialize distanceFromOp, which stores how far squares are from me.
+	Furthermore, it can also tell me whether a square has been visited by the BFS.*/
+	int distanceFromOp[16][16];
+	for(int a = 0; a < 16; a++) for(int b = 0; b < 16; b++) distanceFromOp[a][b] = 0;
+
+	//Initialize opFront to have only their location in it.
+	std::set< std::pair<int, int> > opFront;
+	opFront.insert(opLocation);
+
+	//Conduct BFS. Rather than going line by line, I'm going to explain it all here in the hopes that it's more cohesive.
+	for(unsigned char dist = 1; opFront.size() != 0; dist++) {
+		std::set< std::pair<int, int> > newFront;
+		for(auto a = opFront.begin(); a != opFront.end(); a++) {
+			auto n = getLocation(*a, NORTH), e = getLocation(*a, EAST), s = getLocation(*a, SOUTH), w = getLocation(*a, WEST);
+			if(n != BAD_LOCATION && distanceFromOp[n.second][n.first] == 0 && map[n.second][n.first] == EMPTY) {
+				newFront.insert(n);
+				distanceFromOp[n.second][n.first] = dist;
+			}
+			if(e != BAD_LOCATION && distanceFromOp[e.second][e.first] == 0 && map[e.second][e.first] == EMPTY) {
+				newFront.insert(e);
+				distanceFromOp[e.second][e.first] = dist;
+			}
+			if(s != BAD_LOCATION && distanceFromOp[s.second][s.first] == 0 && map[s.second][s.first] == EMPTY) {
+				newFront.insert(s);
+				distanceFromOp[s.second][s.first] = dist;
+			}
+			if(w != BAD_LOCATION && distanceFromOp[w.second][w.first] == 0 && map[w.second][w.first] == EMPTY) {
+				newFront.insert(w);
+				distanceFromOp[w.second][w.first] = dist;
+			}
+		}
+		opFront.clear();
+		for(auto a = newFront.begin(); a != newFront.end(); a++) opFront.insert(*a);
+	}
+
+	/*Finally, let's go through the board and tally up which squares are closer to whom, and then use that to evaluate the position.
+	Bear in mind that a value of 0 here actually means that the square is unreachable.
+	We'll let the score be equal to the number of squares that are closer to us minus the number closer to them.*/
+	int total = 0;
+	for(int a = 0; a < 16; a++) for(int b = 0; b < 16; b++) {
+		if(distanceFromMe[a][b] == distanceFromOp[a][b]) continue;
+		if(distanceFromOp[a][b] == 0 || (distanceFromMe[a][b] < distanceFromOp[a][b] && distanceFromMe[a][b] != 0)) {
+			total++;
+		}
+		else total--;
+	}
+	return total;
+}
+</pre></code>
+<p>Finally, we can now evaluate moves. We’ll create a two dimensional, 4 by 4 array of values, and iterate through it and then simulate moves. If we win in the simulation, we’ll assign it a value of 257, which is larger than any possible value on a 16 by 16 map; if we lose we’ll call it -257. If it’s a tie we’ll let it be zero, and else we’ll use our Voronoi evaluation to determine the value. In the array, the first, outer array represents our moves and the second, inner array represents their moves. So, to conduct our minimax search, all we must do is to first find the minimum of every individual inner array and put it into its own array, and then move in the direction corresponding to the largest value in that array.</p>
+<pre><code>for(int a = 0; a < 4; a++) {
+	for(int b = 0; b < 4; b++) {
+		try {
+			results[a][b] = voronoiCount(simulateMove(m, a, b));
+		}
+		catch(Result r) {
+			results[a][b] = r == BOTH_DEATH ? 0 : r == THEIR_VICTORY ? -257 : 257;
+		}
+	}
+}
+</code></pre>
+<pre><code>int miniResults[4];
+for(int a = 0; a < 4; a++) {
+	miniResults[a] = *std::min_element(results[a], results[a] + 4);
+}
+</code></pre>
+<p>There’s also some additional output done with the debugger which allows us to time how long our bot takes to move to better improve our bot.</p>
+<pre><code>clock_t startTime = clock();</code></pre>
+<pre><code>double elapsedTime = 1000 * double(clock() - startTime) / CLOCKS_PER_SEC;
+
+dbg::logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
+dbg::logln("Minimax evaluation time took " + std::to_string(elapsedTime) + " milliseconds.");
+for(int a = 0; a < 4; a++) {
+	for(int b = 0; b < 4; b++) {
+		dbg::logln("If I move " + stringFromDirection(a) + ", and they move " + stringFromDirection(b) + ", my resulting value will be " + std::to_string(results[a][b]));
+	}
+}
+</code></pre>
