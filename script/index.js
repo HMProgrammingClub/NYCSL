@@ -55,7 +55,10 @@ $(function() {
 		};
 		this.displayGame = function(event) {
 			var gameID = $(event.target).attr("gameID");
-			var game = getGame(gameID);
+			var game = null;
+			for(var a = 0; a < this.games.length; a++) {
+				if(this.games[a].gameID == gameID) game = this.games[a];
+			}
 			var users = game.users;
 			users.sort(function(a, b) {
 				return a.playerIndex > b.playerIndex;

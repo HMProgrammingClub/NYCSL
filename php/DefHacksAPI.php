@@ -389,11 +389,11 @@ class DefHacksAPI extends API
 				$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
 				
 				// Get information about users
-				/*$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID");
+				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID");
 				foreach($gameArray['users'] as &$gameUserRow) {
 					$userInfo = $this->select("SELECT * FROM User WHERE userID = {$gameUserRow['userID']}");
 					foreach($userInfo as $key => $value) $gameUserRow[$key] = $value;
-				}*/
+				}
 				array_push($gameArrays, $gameArray);
 			}
 			return $gameArrays;
@@ -402,12 +402,12 @@ class DefHacksAPI extends API
 		if(isset($_GET['gameID'])) {
 			$gameID = $_GET['gameID'];
 
-			$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
+			$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID LIMIT 1");
 
                         // Get information about users
-                        $gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID");
+                        $gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID LIMIT 2");
                         foreach($gameArray['users'] as &$gameUserRow) {
-                        	$userInfo = $this->select("SELECT * FROM User WHERE userID = {$gameUserRow['userID']}");
+                        	$userInfo = $this->select("SELECT userID, firstName, lastName FROM User WHERE userID = {$gameUserRow['userID']} LIMIT 1");
                         	foreach($userInfo as $key => $value) $gameUserRow[$key] = $value;
                         }
 			return $gameArray;
