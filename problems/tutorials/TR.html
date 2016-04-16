@@ -142,10 +142,10 @@ for(int a = 0; a < 4; a++) if(safe[a]) {
 	}
 }
 else dirEmptyCount[a] = 5;
-<code></pre>
+</code></pre>
 <p>Finally, we can find the direction with the smallest value in the above array and move that way.</p>
 <pre><code>sendMove(std::min_element(dirEmptyCount, dirEmptyCount + 4) - dirEmptyCount);
-<code></pre>
+</code></pre>
 
 <p>Here is the full source of the wall-hugging bot:</p>
 <pre><code>#include "Tron.h"
@@ -241,7 +241,7 @@ int main() {
 		delete[] safe; //Cleanup
 	}
 }
-<code></pre>
+</code></pre>
 
 <h1>Minimax</h1>
 <p>The minimax bot is the most advanced bot we'll implement in this tutorial series. It will simulate all sixteen possible moves (4 for us and 4 for them) one turn into the future, simulate the results, and rank the resulting game positions. The system that it uses to do rankings is called the Voronoi system after Voronoi diagrams; it takes the number of pieces we can reach before our opponent can, subtracts the number of pieces our opponent can reach before we can, and makes that the value of the position. Finally, once the moves have been simulated, it will move in the direction such that, no matter what move our opponent makes, the value of the position is as large as possible.</p>
