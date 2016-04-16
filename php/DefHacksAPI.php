@@ -389,14 +389,28 @@ class DefHacksAPI extends API
 				$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
 				
 				// Get information about users
-				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID");
+				/*$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID");
 				foreach($gameArray['users'] as &$gameUserRow) {
 					$userInfo = $this->select("SELECT * FROM User WHERE userID = {$gameUserRow['userID']}");
 					foreach($userInfo as $key => $value) $gameUserRow[$key] = $value;
-				}
+				}*/
 				array_push($gameArrays, $gameArray);
 			}
 			return $gameArrays;
+		}
+
+		if(isset($_GET['gameID'])) {
+			$gameID = $_GET['gameID'];
+
+			$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
+
+                        // Get information about users
+                        $gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID");
+                        foreach($gameArray['users'] as &$gameUserRow) {
+                        	$userInfo = $this->select("SELECT * FROM User WHERE userID = {$gameUserRow['userID']}");
+                        	foreach($userInfo as $key => $value) $gameUserRow[$key] = $value;
+                        }
+			return $gameArray;
 		}
 		return NULL;
 	}
