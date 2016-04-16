@@ -29,6 +29,7 @@ $(function() {
 			this.games = games;
 			this.render();
 			this.hide();
+			console.log("Done set")
 		};
 		this.render = function() {
 			this.$parentField.find(".gameRow").remove();
@@ -40,6 +41,7 @@ $(function() {
 			}
 		};
 		this.toggle = function() {
+			console.log("toggle")
 			if(this.isShown == true) this.hide();
 			else this.show();
 		};
@@ -53,13 +55,7 @@ $(function() {
 		};
 		this.displayGame = function(event) {
 			var gameID = $(event.target).attr("gameID");
-			var game = null;
-			for(var a = 0; a < this.games.length; a++) {
-				if (this.games[a].gameID == gameID) {
-					game = this.games[a];
-					break;
-				}
-			}
+			var game = getGame(gameID);
 			var users = game.users;
 			users.sort(function(a, b) {
 				return a.playerIndex > b.playerIndex;
@@ -91,7 +87,7 @@ $(function() {
 		},
 		setSubmissions: function(submissions) {
 			this.submissions = submissions;
-			
+
 			this.render();
 
 			if(this.isLatestGame) {
@@ -151,9 +147,9 @@ $(function() {
 		render: function() {
 			this.$header.html(this.problem.problemFullName);
 			this.$paragraph.html(this.problem.problemDescription);
-			
+
 			var result = $.ajax({
-				url: "problems/descriptions/"+this.problem.problemName+".html", 
+				url: "problems/descriptions/"+this.problem.problemName+".html",
 				async: true,
 				method: "GET",
 				context: this,
