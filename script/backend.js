@@ -1,4 +1,4 @@
-var url = "php/"
+var url = "http://nycsl.io/php/"
 
 function getUser(userID, email, password) {
 	var params = {}

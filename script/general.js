@@ -59,7 +59,7 @@ function logOut() {
 
 function populateSchools() {
 	$("#schoolsDropdown").empty()
-	var schools = getSchools()
+	var schools = getSchools();
 	for(var a = 0; a < schools.length; a++) {
 		$("#schoolsDropdown").append("<li><a href='school.php?schoolName="+schools[a]+"'>"+schools[a]+"</a></li>");
 	}
@@ -116,7 +116,7 @@ $(document).ready(function() {
 	$("#loginButton").click(function() {
 		var email = $("#login_user").val();
 		var password = $("#login_pass").val();
-		
+
 		if(getUser(null, email, password) == null) {
 			loginError("Email password combination could not be found.")
 		} else {
@@ -135,7 +135,7 @@ $(document).ready(function() {
 			sendRecoveryEmail(email);
 		}
 	});
-	
+
 	$("#registerButton").click(function() {
 		var email = $("#register_email").val();
 		var password = $("#register_pass").val();
@@ -156,7 +156,7 @@ $(document).ready(function() {
 		var email = $('#register_email').val();
 		var ind = email.indexOf("@");
 		var domain = email.slice((ind+1),email.length);
-		
+
 		var response = "Enter your school email.";
 		if (domain === "horacemann.org") response = "Horace Mann School"
 		else if (domain === "dalton.org") response = "The Dalton School"
@@ -172,7 +172,7 @@ $(document).ready(function() {
 	$('#submitButton').click(function() {
 		$('#myFile').click();
 	})
-	
+
 	$('#gameButton').click(function() {
 		$('#gameFile').click();
 	})
