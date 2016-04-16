@@ -25,8 +25,14 @@
 		<div class="pageContent">
       <div class="row">
 				<div class="col-sm-12">
-          <h1 id="header"></h1>
-        	<p id="paragraph"></p>
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h1 class="panel-title" id="header"></h1>
+						</div>
+						<div class="panel-body" id="paragraph">
+
+						</div>
+  				</div>
         </div>
 		</div>
 	</div>
