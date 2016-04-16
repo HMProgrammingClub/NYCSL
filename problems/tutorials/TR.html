@@ -253,9 +253,9 @@ int main() {
 };
 </code></pre>
 <p>The function which does the simulation looks like:</p>
-<pre><code>std::vector< std::vector<int> > simulateMove(std::vector< std::vector<int> > map, int myMove, int opMove) {
+<pre><code>std::vector< std::vector&lt;int> > simulateMove(std::vector< std::vector&lt;int> > map, int myMove, int opMove) {
 	//Let's figure out where we and our opponent are:
-	std::pair<int, int> myLocation, opLocation;
+	std::pair&lt;int, int> myLocation, opLocation;
 	for(int y = 0; y < 16; y++)  {
 		for(int x = 0; x < 16; x++) {
 			if(map[y][x] == ME) {
@@ -285,10 +285,10 @@ int main() {
 </code></pre>
 <p>The second function we'll need efficiently finds the voronoi value of a position. To do this, it conducts a specialized breadth-first search to find how far away pieces are from us. Here's a visualization of a breadth-first search similar to what we'll use:</p> http://joseph-harrington.com/2012/02/breadth-first-search-visual/
 <p>To do this, we maintain a front of the pieces we're examining, and we also maintain a new front - the pieces that we're assembling for the next front. We can then seed our search with a location, namely our location or our opponent's, and then run the search to find out how many moves are required to reach a location.</p>
-<pre><code>int voronoiCount(const std::vector< std::vector<int> > & map) {
+<pre><code>int voronoiCount(const std::vector< std::vector&lt;int> > & map) {
 
 	//Let's figure out where we and our opponent are:
-	std::pair<int, int> myLocation, opLocation;
+	std::pair&lt;int, int> myLocation, opLocation;
 	for(int y = 0; y < 16; y++)  {
 		for(int x = 0; x < 16; x++) {
 			if(map[y][x] == ME) {
@@ -306,12 +306,12 @@ int main() {
 	for(int a = 0; a < 16; a++) for(int b = 0; b < 16; b++) distanceFromMe[a][b] = 0;
 
 	//Initialize myFront to have only my location in it.
-	std::set< std::pair<int, int> > myFront;
+	std::set< std::pair&lt;int, int> > myFront;
 	myFront.insert(myLocation);
 
 	//Conduct BFS. Rather than going line by line, I'm going to explain it all here in the hopes that it's more cohesive.
 	for(unsigned char dist = 1; myFront.size() != 0; dist++) {
-		std::set< std::pair<int, int> > newFront;
+		std::set< std::pair&lt;int, int> > newFront;
 		for(auto a = myFront.begin(); a != myFront.end(); a++) {
 			auto n = getLocation(*a, NORTH), e = getLocation(*a, EAST), s = getLocation(*a, SOUTH), w = getLocation(*a, WEST);
 			if(n != BAD_LOCATION && distanceFromMe[n.second][n.first] == 0 && map[n.second][n.first] == EMPTY) {
@@ -341,12 +341,12 @@ int main() {
 	for(int a = 0; a < 16; a++) for(int b = 0; b < 16; b++) distanceFromOp[a][b] = 0;
 
 	//Initialize opFront to have only their location in it.
-	std::set< std::pair<int, int> > opFront;
+	std::set< std::pair&lt;int, int> > opFront;
 	opFront.insert(opLocation);
 
 	//Conduct BFS. Rather than going line by line, I'm going to explain it all here in the hopes that it's more cohesive.
 	for(unsigned char dist = 1; opFront.size() != 0; dist++) {
-		std::set< std::pair<int, int> > newFront;
+		std::set< std::pair&lt;int, int> > newFront;
 		for(auto a = opFront.begin(); a != opFront.end(); a++) {
 			auto n = getLocation(*a, NORTH), e = getLocation(*a, EAST), s = getLocation(*a, SOUTH), w = getLocation(*a, WEST);
 			if(n != BAD_LOCATION && distanceFromOp[n.second][n.first] == 0 && map[n.second][n.first] == EMPTY) {
@@ -384,7 +384,7 @@ int main() {
 	return total;
 }
 </pre></code>
-<p>Finally, we can now evaluate moves. We’ll create a two dimensional, 4 by 4 array of values, and iterate through it and then simulate moves. If we win in the simulation, we’ll assign it a value of 257, which is larger than any possible value on a 16 by 16 map; if we lose we’ll call it -257. If it’s a tie we’ll let it be zero, and else we’ll use our Voronoi evaluation to determine the value. In the array, the first, outer array represents our moves and the second, inner array represents their moves. So, to conduct our minimax search, all we must do is to first find the minimum of every individual inner array and put it into its own array, and then move in the direction corresponding to the largest value in that array.</p>
+<p>Finally, we can now evaluate moves. We'll create a two dimensional, 4 by 4 array of values, and iterate through it and then simulate moves. If we win in the simulation, we'll assign it a value of 257, which is larger than any possible value on a 16 by 16 map; if we lose we'll call it -257. If it's a tie we'll let it be zero, and else we'll use our Voronoi evaluation to determine the value. In the array, the first, outer array represents our moves and the second, inner array represents their moves. So, to conduct our minimax search, all we must do is to first find the minimum of every individual inner array and put it into its own array, and then move in the direction corresponding to the largest value in that array.</p>
 <pre><code>for(int a = 0; a < 4; a++) {
 	for(int b = 0; b < 4; b++) {
 		try {
@@ -401,7 +401,7 @@ for(int a = 0; a < 4; a++) {
 	miniResults[a] = *std::min_element(results[a], results[a] + 4);
 }
 </code></pre>
-<p>There’s also some additional output done with the debugger which allows us to time how long our bot takes to move to better improve our bot.</p>
+<p>There's also some additional output done with the debugger which allows us to time how long our bot takes to move to better improve our bot.</p>
 <pre><code>clock_t startTime = clock();</code></pre>
 <pre><code>double elapsedTime = 1000 * double(clock() - startTime) / CLOCKS_PER_SEC;
 
