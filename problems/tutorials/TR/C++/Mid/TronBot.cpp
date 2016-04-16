@@ -13,7 +13,7 @@ inline std::string stringFromDirection(int dir) {
 /*This function finds out which squares Bot3 to location are empty.
 It returns in the standard order of NORTH, EAST, SOUTH, and WEST as booleans which are true if the square is empty.
 Note that this function DOES create dynamic memory. Make sure to delete it when you're done.*/
-inline bool * emptyAjacentSquares(const std::vector< std::vector<int> > & map, const std::pair<int, int> & location) {
+inline bool * emptyAdjacentSquares(const std::vector< std::vector<int> > & map, const std::pair<int, int> & location) {
 	bool * empty = new bool[4];
 	empty[NORTH] = location.second != 15 && map[location.second + 1][location.first] == EMPTY;
 	empty[EAST] = location.first != 15 && map[location.second][location.first + 1] == EMPTY;
@@ -63,7 +63,7 @@ int main() {
 		}
 
 		//Let's find out which directions are safe to go in:
-		bool * safe = emptyAjacentSquares(m, myLocation);
+		bool * safe = emptyAdjacentSquares(m, myLocation);
 
 		//Let's look at the counts of empty squares around the possible squares to go to:
 		int dirEmptyCount[4];
@@ -73,7 +73,7 @@ int main() {
 			//Make sure that square exists:
 			if(possibleSquare != BAD_LOCATION) {
 				//Find the squares around that square:
-				bool * around = emptyAjacentSquares(m, possibleSquare);
+				bool * around = emptyAdjacentSquares(m, possibleSquare);
 				//Count the number of empty squares around that square and set it in our array:
 				dirEmptyCount[a] = std::count(around, around + 4, true);
 				//Cleanup:
