@@ -54,6 +54,16 @@ function getLatestGamesForUser(userID) {
 	return result.responseJSON;
 }
 
+function getGame(gameID) {
+	var result = $.ajax({
+		url: url+"game",
+		async: false,
+		method: "GET",
+		data: {gameID: gameID, limit: 5}
+	});
+	return result.responseJSON;
+}
+
 function storeUserSession(userID, email, password, async) {
 	if(userID != null && password != null) {
 		var result = $.ajax({
