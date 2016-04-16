@@ -6,8 +6,8 @@ $(function() {
       this.render();
     },
     cacheDOM: function() {
-      this.$header = $("jHeader");
-      this.$body = $("jParagraph")
+      this.$header = $("#jHeader");
+      this.$body = $("#jParagraph")
     },
     render: function() {
       this.$header.html(this.problem.problemFullName+" Tutorial")
@@ -22,6 +22,7 @@ $(function() {
 			});
     }
   };
+  console.log(getGET("problemID"))
   if (getGET("problemID") != null) {
     tutorialDisplay.init(parseInt(getGET("problemID")));
   }
