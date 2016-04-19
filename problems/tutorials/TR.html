@@ -24,8 +24,8 @@ safe[SOUTH] = myLocation.second != 0 && m[myLocation.second - 1][myLocation.firs
 safe[WEST] = myLocation.first != 0 && m[myLocation.second][myLocation.first - 1] == EMPTY;
 </code></pre>
 <p>Next, we can do a bit of output to make debugging easier for later, as once you modify it something is bound to break. We'll log our location and whether each individual direction is safe. To make this easier, we can also write a little function which will tell us what direction a given integer corresponds to. 0 corresponds to NORTH, 1 to EAST, 2 to SOUTH, and 3 to WEST.</p>
-<pre><code>logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
-for(int a = 0; a < 4; a++) logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe." : "not safe."));
+<pre><code>dbg::logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
+for(int a = 0; a < 4; a++) dbg::logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe." : "not safe."));
 </code></pre>
 <p>Finally, we need to find the first direction in the order NORTH, EAST, SOUTH, WEST which is safe to go in, and to move in that direction.</p>
 <pre><code>bool * safeLoc = std::find(safe, safe + 4, true);
@@ -84,8 +84,8 @@ int main() {
 		safe[SOUTH] = myLocation.second != 0 && m[myLocation.second - 1][myLocation.first] == EMPTY;
 		safe[WEST] = myLocation.first != 0 && m[myLocation.second][myLocation.first - 1] == EMPTY;
 
-		logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
-		for(int a = 0; a < 4; a++) logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe." : "not safe."));
+		dbg::logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
+		for(int a = 0; a < 4; a++) dbg::logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe." : "not safe."));
 
 		/*Let's see if there's a safe direction to go in.
 		If so, we'll go that way, preferentially North, East, South, and then West.
@@ -237,8 +237,8 @@ int main() {
 		}
 		else dirEmptyCount[a] = 5; //Irrelevant, but we must ensure it's as large as possible because we don't want to go there.
 
-		logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
-		for(int a = 0; a < 4; a++) logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe " : "not safe ") + "and has " + std::to_string(dirEmptyCount[a]) + " Bot3 empty squares.");
+		dbg::logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
+		for(int a = 0; a < 4; a++) dbg::logln("Direction " + std::to_string(a) + " is " + (safe[a] ? "safe " : "not safe ") + "and has " + std::to_string(dirEmptyCount[a]) + " Bot3 empty squares.");
 
 		//We'll go in the direction that has the most walls Bot3 to it and is free to go to. If there's a tie we use standard order.
 		sendMove(std::min_element(dirEmptyCount, dirEmptyCount + 4) - dirEmptyCount);
@@ -412,11 +412,11 @@ for(int a = 0; a < 4; a++) {
 <pre><code>clock_t startTime = clock();</code></pre>
 <pre><code>double elapsedTime = 1000 * double(clock() - startTime) / CLOCKS_PER_SEC;
 
-logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
-logln("Minimax evaluation time took " + std::to_string(elapsedTime) + " milliseconds.");
+dbg::logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
+dbg::logln("Minimax evaluation time took " + std::to_string(elapsedTime) + " milliseconds.");
 for(int a = 0; a < 4; a++) {
 	for(int b = 0; b < 4; b++) {
-		logln("If I move " + stringFromDirection(a) + ", and they move " + stringFromDirection(b) + ", my resulting value will be " + std::to_string(results[a][b]));
+		dbg::logln("If I move " + stringFromDirection(a) + ", and they move " + stringFromDirection(b) + ", my resulting value will be " + std::to_string(results[a][b]));
 	}
 }
 </code></pre>
@@ -638,11 +638,11 @@ int main() {
 		}
 		double elapsedTime = 1000 * double(clock() - startTime) / CLOCKS_PER_SEC;
 
-		logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
-		logln("Minimax evaluation time took " + std::to_string(elapsedTime) + " milliseconds.");
+		dbg::logln("-----------------------------------------------------\nDebug for turn #" + std::to_string(turnNumber) + ':');
+		dbg::logln("Minimax evaluation time took " + std::to_string(elapsedTime) + " milliseconds.");
 		for(int a = 0; a < 4; a++) {
 			for(int b = 0; b < 4; b++) {
-				logln("If I move " + stringFromDirection(a) + ", and they move " + stringFromDirection(b) + ", my resulting value will be " + std::to_string(results[a][b]));
+				dbg::logln("If I move " + stringFromDirection(a) + ", and they move " + stringFromDirection(b) + ", my resulting value will be " + std::to_string(results[a][b]));
 			}
 		}
 

@@ -21,11 +21,11 @@ int main() {
 		}
 
 		//Sample - logs where each player is.
-		logln("Me: " + std::to_string(myLocX) + ' ' + std::to_string(myLocY) + "; Opponent: " + std::to_string(opLocX) + ' ' + std::to_string(opLocY));
+		dbg::logln("Me: " + std::to_string(myLocX) + ' ' + std::to_string(myLocY) + "; Opponent: " + std::to_string(opLocX) + ' ' + std::to_string(opLocY));
 
 		//Figure out what direction to go in.
 
 		//Send NORTH, EAST, SOUTH, or WEST
 		sendMove(WEST);
 	}
-}	
+}

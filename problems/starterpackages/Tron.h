@@ -2,7 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <string>
 #include <time.h>
+#include <stdlib.h>
 
 #define NORTH 0
 #define EAST 1
@@ -28,11 +30,13 @@ static void init() {
 	debug.open("debug"+getString()+".log");
 }
 
-template<typename T> static void log(T s) {
-	debug << s;
-}
-template<typename T> static void logln(T s) {
-	debug << s << '\n';
+namespace dbg {
+	template<typename T> static void log(T s) {
+		debug << s;
+	}
+	template<typename T> static void logln(T s) {
+		debug << s << '\n';
+	}
 }
 
 static std::vector< std::vector<int> > deserializeMap(std::string mapString) {
