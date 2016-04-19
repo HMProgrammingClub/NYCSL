@@ -15,7 +15,7 @@ class DefHacksAPI extends API
 		$this->initDB();
 
 		$this->sanitizeHTTPParameters();
-		
+
 		parent::__construct($request);
 	}
 
@@ -34,14 +34,14 @@ class DefHacksAPI extends API
 
 	// Initializes and returns a mysqli object that represents our mysql database
 	private function initDB() {
-		$this->mysqli = new mysqli($this->config['hostname'], 
-			$this->config['username'], 
-			$this->config['password'], 
+		$this->mysqli = new mysqli($this->config['hostname'],
+			$this->config['username'],
+			$this->config['password'],
 			$this->config['databaseName']);
 
-		if (mysqli_connect_errno()) { 
+		if (mysqli_connect_errno()) {
 			echo "<br><br>There seems to be a problem with our database. Reload the page or try again later.";
-			exit(); 
+			exit();
 		}
 	}
 
@@ -88,7 +88,7 @@ class DefHacksAPI extends API
 					if($name === $user['schoolName']) {
 						$alreadyIn = true;
 						break;
-					} 
+					}
 				}
 				if($alreadyIn == false) {
 					array_push($schoolNames, $user['schoolName']);
@@ -111,7 +111,7 @@ class DefHacksAPI extends API
 				$this->insert("INSERT INTO Recovery (userID, recoveryCode) VALUES ($userID, $recoveryCode)");
 
 				exec("php MailOperation.php \"$email\" $userID \"$firstName $lastName\" \"Click <a href='http://nycsl.io/recover.php?code={$recoveryCode}&userID={$userID}'>here</a> to change the password for $firstName $lastName at NYCSL.io. If you did not try to reset your password, ignore this message.\"> /dev/null 2>/dev/null &");
-				
+
 				// To stop email spam, sleep 10 seconds
 				sleep(10);
 				return "Success";
@@ -200,7 +200,7 @@ class DefHacksAPI extends API
 			$userID = $_GET['userID'];
 			return $this->select("SELECT userID, email, schoolName, firstName, lastName FROM User WHERE userID = $userID and isVerified = 1");
 		} elseif(
-			isset($_POST['email']) && 
+			isset($_POST['email']) &&
 			isset($_POST['password']) &&
 			isset($_POST['firstName']) &&
 			isset($_POST['lastName'])) {
@@ -209,19 +209,7 @@ class DefHacksAPI extends API
 			$password = $this->encryptPassword($_POST['password']);
 			$firstName = $_POST['firstName'];
 			$lastName = $_POST['lastName'];
-			$schoolName = "";
-
-			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-				$domain = array_pop(explode('@', $email));
-				if ($domain == "dalton.org") $schoolName = "Dalton";
-				elseif ($domain == "horacemann.org") $schoolName = "Horace Mann";
-				elseif ($domain == "riverdale.edu") $schoolName = "Riverdale Country";
-				elseif ($domain == "stuy.edu") $schoolName = "Stuyvesant";
-				elseif ($domain == "ecfs.org") $schoolName = "Fieldston";
-				elseif ($domain == "trinityschoolnyc.org") $schoolName = "Trinity";
-				elseif ($domain == "bxscience.edu") $schoolName = "Bronx Science";
-				else return "School not recognized.  You must use your school email."; 
-			} else return "Email is invalid.";
+			$schoolName = "Nothing";
 
 			$otherEmail = $this->select("SELECT * FROM User WHERE email = '".$email."'");
 
@@ -236,7 +224,7 @@ class DefHacksAPI extends API
 
 			$verificationCode = rand(0, 99999);
 			$this->insert("INSERT INTO Verification (userID, verificationCode) VALUES ($userID, $verificationCode)");
-			
+
 			exec("php MailOperation.php \"$email\" $userID \"$firstName $lastName\" \"Click <a href='http://nycsl.io/verify.php?code={$verificationCode}&userID={$userID}'>here</a> to confirm registration for $firstName $lastName at NYCSL.io. If you did not register, ignore this message.\"> /dev/null 2>/dev/null &");
 		} elseif(isset($_GET['email'])) {
 			$email = $_GET['email'];
@@ -248,7 +236,7 @@ class DefHacksAPI extends API
 	}
 
 	protected function problem() {
-		if(isset($_GET['problemID'])) {	
+		if(isset($_GET['problemID'])) {
 			return $this->getProblem($_GET['problemID']);
 		}
 		if(isset($_GET['index'])) {
@@ -259,7 +247,7 @@ class DefHacksAPI extends API
 		if(isset($_GET['size'])) {
 			$problems = $this->selectMultiple("SELECT problemID FROM Problem");
 			return count($problems);
-		} 
+		}
 	}
 
 	protected function rank() {
@@ -273,7 +261,7 @@ class DefHacksAPI extends API
 			$submissions = array();
 			if($problemArray['isAscending'] == 0) $submissions = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score DESC");
 			else $submissions = $this->selectMultiple("SELECT * FROM Submission WHERE problemID = $problemID ORDER BY score ASC");
-			
+
 			$place = 1;
 			foreach($submissions as $otherSubmission) {
 				if($otherSubmission['submissionID'] == $submissionID) {
@@ -325,7 +313,7 @@ class DefHacksAPI extends API
 
 			// Parameters
 			$userID = $_POST['userID'];
-			
+
 			// Last one is current one
 			$problemArrayArray = $this->selectMultiple("SELECT * FROM Problem");
 			$problemArray = $problemArrayArray[count($problemArrayArray)-1];
@@ -341,28 +329,28 @@ class DefHacksAPI extends API
 			if($problemArray['doReset'] == true) {
 				$this->insert("UPDATE Submission SET score = 0, mu = 25.000, sigma = 8.333 WHERE submissionID = {$submissionArray['submissionID']}");
 			}
-			
+
 			$targetPath = "../problems/outputs/{$problemName}/";
 			if(!file_exists($targetPath)) mkdir($targetPath);
 			$ext = explode('.', basename( $_FILES['outputFile']['name']));
 			$targetPath = $targetPath . $userID . "." . $ext[count($ext)-1];
 			if(file_exists($targetPath)) unlink($targetPath);
-			
+
 			move_uploaded_file($_FILES['outputFile']['tmp_name'], $targetPath);
 			chmod($targetPath, 400);
 
 			// Pass target file to python script
-			exec("python3 ../problems/scripts/$problemName.py $targetPath", $rawOutput);	
+			exec("python3 ../problems/scripts/$problemName.py $targetPath", $rawOutput);
 			if(!isset($rawOutput[0])) return array("isError" => true, "message" => "There was a problem with your submission file.");
 			$programOutput = json_decode($rawOutput[count($rawOutput)-1]);
-			
+
 			// Some problems dont return score from their submission scripts
 			// For example, if it were an ai game competition, where bots play against one another
 			if(isset($programOutput->score)) {
 				$userArray = $this->select("SELECT * FROM Submission WHERE userID = $userID and problemID = $problemID");
 				if($userArray['userID'] != NULL) {
-					if(($isAscending == true && $userArray['score'] > $programOutput->score) || ($isAscending == false && $userArray['score'] < $programOutput->score) || $problemArray['doReset'] == true) {		
-						$this->insert("UPDATE Submission SET score = {$programOutput->score}, isReady = 1, mu = 25.000, sigma = 8.333  WHERE userID = $userID and problemID = $problemID");	
+					if(($isAscending == true && $userArray['score'] > $programOutput->score) || ($isAscending == false && $userArray['score'] < $programOutput->score) || $problemArray['doReset'] == true) {
+						$this->insert("UPDATE Submission SET score = {$programOutput->score}, isReady = 1, mu = 25.000, sigma = 8.333  WHERE userID = $userID and problemID = $problemID");
 					}
 				} else {
 					$this->insert("INSERT INTO Submission (problemID, userID, score, isReady) VALUES ($problemID, $userID, {$programOutput->score}, 1)");
@@ -382,12 +370,12 @@ class DefHacksAPI extends API
 
 			$gameIDArrays = $this->selectMultiple("SELECT * FROM GameToUser WHERE userID = $userID ORDER BY gameID DESC LIMIT $limit");
 			$gameArrays = array();
-			
+
 			// Get each game's info
 			foreach ($gameIDArrays as $gameIDArray) {
 				$gameID = $gameIDArray['gameID'];
 				$gameArray = $this->select("SELECT * FROM Game WHERE gameID = $gameID");
-				
+
 				// Get information about users
 				$gameArray['users'] = $this->selectMultiple("SELECT userID, rank, playerIndex FROM GameToUser WHERE gameID = $gameID");
 				foreach($gameArray['users'] as &$gameUserRow) {
