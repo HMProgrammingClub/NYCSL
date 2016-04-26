@@ -486,6 +486,7 @@ std::vector< std::vector&lt;int> > simulateMove(std::vector< std::vector&lt;int>
 	map[opLocation.second][opLocation.first] = TAKEN_BY_OPPONENT;
 
 	auto newMyLocation = getLocation(myLocation, myMove), newOpLocation = getLocation(opLocation, opMove);
+	if(newMyLocation == newOpLocation) throw BOTH_DEATH;
 	if(newMyLocation == BAD_LOCATION || map[newMyLocation.second][newMyLocation.first] != EMPTY) {
 		throw newOpLocation == BAD_LOCATION || map[newOpLocation.second][newOpLocation.first] != EMPTY ? BOTH_DEATH : THEIR_VICTORY;
 	}
