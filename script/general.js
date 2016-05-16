@@ -146,7 +146,7 @@ $(document).ready(function() {
 			if (resp === "Success") {
 				$("#messageBox").empty()
 				storeUserSession(null, email, password, false);
-				verifyAccountMessage();
+				congratsError("Registration was successful. Log in, start working on the current problem, and submit a solution when you are ready.");
 			} else registerError(resp);
 		});
 

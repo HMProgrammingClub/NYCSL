@@ -217,8 +217,9 @@ class DefHacksAPI extends API
 			if (strlen($_POST['password']) < 4) return "Password too short.";
 			if (strlen(preg_replace('/\s+/','',$firstName)) < 2 && strlen(preg_replace('/\s+/','',$lastName)) < 2) return "Must enter a valid name.";
 
-			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName, isVerified) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName', 0)");
-
+			//$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName, isVerified) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName', 0)");
+			$this->insert("INSERT INTO User (email, password, firstName, lastName, schoolName, isVerified) VALUES ('$email', '$password', '$firstName', '$lastName', '$schoolName', 1)");
+/*
 			$userIDArray = $this->select("SELECT userID FROM User WHERE email = '$email' LIMIT 1");
 			$userID = $userIDArray['userID'];
 
@@ -226,6 +227,8 @@ class DefHacksAPI extends API
 			$this->insert("INSERT INTO Verification (userID, verificationCode) VALUES ($userID, $verificationCode)");
 
 			exec("php MailOperation.php \"$email\" $userID \"$firstName $lastName\" \"Click <a href='http://nycsl.io/verify.php?code={$verificationCode}&userID={$userID}'>here</a> to confirm registration for $firstName $lastName at NYCSL.io. If you did not register, ignore this message.\"> /dev/null 2>/dev/null &");
+*/		
+
 		} elseif(isset($_GET['email'])) {
 			$email = $_GET['email'];
 			return $this->select("SELECT userID FROM User WHERE email = '$email' and isVerified = 1");

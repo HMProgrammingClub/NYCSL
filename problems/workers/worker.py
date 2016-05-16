@@ -39,6 +39,8 @@ def unpack(filePath, destinationFilePath):
 	#os.remove(filePath)
 
 def runGame(userIDs, muValues, sigmaValues):
+	print("Starting game")
+
 	# Setup working path
 	workingPath = "workingPath"
 	if os.path.exists(workingPath):
@@ -79,6 +81,9 @@ def runGame(userIDs, muValues, sigmaValues):
 	print("----------------------------")
 	
 	# Get player ranks and scores by parsing shellOutput
+	if len(lines) < 2:
+		print("NOT ENOUGH OUTPUT!!!!\n ABORTING")
+		return
 	if "won!" in lines[-2]:
 		winnerIndex = int(lines[-2][len("Player ") : -len("won!")]) - 1
 		loserIndex = 0 if winnerIndex == 1 else 1
@@ -112,8 +117,12 @@ def runGame(userIDs, muValues, sigmaValues):
 	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, winnerID, 0, 0 if userIDs[0] == winnerID else 1))
 	cursor.execute("INSERT INTO GameToUser (gameID, userID, rank, playerIndex) VALUES (%d, %d, %d, %d)" % (gameID, loserID, 1, 0 if userIDs[0] == loserID else 1))
 	cnx.commit()
+	
+	print("Done inserting into mysql")
 
 	shutil.rmtree(workingPath)
+	
+	print("Done with game")
 
 def getRank(submissionID):
 	return int(urllib.request.urlopen("http://nycsl.io/php/rank?submissionID="+str(submissionID)).read())
@@ -151,7 +160,7 @@ while True:
 	if newOpponentRank != opponentStartingRank:
 		rankChangePost(opponent['userID'], newOpponentRank)
 
-	if len(os.listdir("../storage")) > 1000: 
+	if len(os.listdir("../storage")) > 100000: 
 		files = os.listdir("../storage")
 		files.sort()
 		for f in files:				
