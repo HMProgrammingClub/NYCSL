@@ -99,11 +99,17 @@ $(function() {
 			}
 		},
 		render: function() {
+			var curve = 0; // curve uniformly pushes up avg to 87
+			this.submissions.forEach(function(submission) {
+				curve += submission.score;
+			}); curve /= this.submissions.length;
+			curve = 87 - curve;
+
 			this.$table.empty();
 			for(var a = 0; a < this.submissions.length; a++) {
 				var user = this.submissions[a].user;
 				var score = this.submissions[a].score;
-				this.$table.append("<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' userID= '"+user.userID+"' href='#'>"+score+"</a></td></tr></tbody>");
+				this.$table.append("<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' title='"+(score+curve)+"' userID='"+user.userID+"' href='#'>"+score+"</a></td></tr></tbody>");
 			}
 		},
 		toggleDropdown: function(event) {
