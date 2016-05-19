@@ -120,9 +120,11 @@ $(function() {
 				console.log(user)
 				for(var a = 0; a < this.submissions.length; a++) {
 					if(this.submissions[a].user.userID == user.userID) {
-						console.log(user.userID)
-						if(this.dropdowns[a].games == null) this.dropdowns[a].setGames(getLatestGamesForUser(user.userID));
-						this.dropdowns[a].toggle();
+						if(this.dropdowns[a].games == null) {
+							$('<div id="overlay"><img id="loading" src="http://bit.ly/pMtW1K"></div>').appendTo('body');
+							this.dropdowns[a].setGames(getLatestGamesForUser(user.userID));
+							$('#overlay').remove();
+						} this.dropdowns[a].toggle();
 						break;
 					}
 				}
