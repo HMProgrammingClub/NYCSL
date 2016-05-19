@@ -1,6 +1,6 @@
-/**
- * Created by njk on 5/18/16.
- */
+/*
+Sample 1-Layer-Deep Minimax
+*/
 import java.util.*;
 import java.io.*;
 
