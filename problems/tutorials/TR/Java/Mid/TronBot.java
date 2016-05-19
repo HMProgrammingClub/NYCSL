@@ -1,7 +1,10 @@
+/**
+ * Created by njk on 5/18/16.
+ */
 import java.util.*;
 import java.io.*;
 
-public class TronBot {    
+public class TronBot {
     public static void main(String[] args) {
         //Initialize bot with respect to the Tron Environment.
         Tron.init();
@@ -15,17 +18,23 @@ public class TronBot {
             turnNumber++;
 
             /* Get an integer map of the field. Each int
-             * can either be Tron.Tile.EMPTY, Tron.Tile.PLAYER1, 
-             * Tron.Tile.PLAYER2, Tron.Tile.TAKEN_BY_PLAYER1, or
-             * Tron.Tile.TAKEN_BY_PLAYER2.   */
-            int[][] m = Tron.getMap();
+             * can either be Tron.Tile.EMPTY, Tron.Tile.ME,
+             * Tron.Tile.OPPONENT, Tron.Tile.TAKEN_BY_ME,
+             * Tron.Tile.TAKEN_BY_OPPONENT, or Tron.Tile.WALL */
+            ArrayList<ArrayList<Tron.Tile>> mList = Tron.getMap();
+            int[][] m = new int[mList.size()][mList.get(0).size()];
+            for (int i = 0; i < mList.size(); i++) {
+                for (int j = 0; j < mList.get(i).size(); j++) {
+                    m[i][j] = mList.get(i).get(j).ordinal();
+                }
+            }
 
             //Let's figure out where we are:
             int myLocX = 0, myLocY = 0;
             for(int y = 0; y < 16; y++)  {
                 for(int x = 0; x < 16; x++) {
                     //I want to note that this is a little bit of a disgusting way of doing this comparison, and that you should change it later, but Java makes this uglier than C++
-                    if(Tron.Tile.values()[m[y][x]] == Tron.Tile.PLAYER1) {
+                    if(Tron.Tile.values()[m[y][x]] == Tron.Tile.ME) {
                         myLocX = x;
                         myLocY = y;
                     }
@@ -73,7 +82,7 @@ public class TronBot {
 
     //Little useful function for debugging, as it will tell us what direction, in words, an integer corresponds to.
     public static String stringFromDirection(int dir) {
-        return dir == 0 ? "NORTH" : dir == 1 ? "EAST" : dir == 2 ? "SOUTH" : dir == 3 ? "WEST" : "NONSENSE"; 
+        return dir == 0 ? "NORTH" : dir == 1 ? "EAST" : dir == 2 ? "SOUTH" : dir == 3 ? "WEST" : "NONSENSE";
     }
 
     /*This function finds out which squares adjacent to location are empty.
