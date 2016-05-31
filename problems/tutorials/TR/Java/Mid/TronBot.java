@@ -1,5 +1,5 @@
 /*
-Sample 1-Layer-Deep Minimax
+Sample Wall Hugging Bot in Java
 */
 import java.util.*;
 import java.io.*;
