@@ -99,8 +99,8 @@ def runGame(userIDs, muValues, sigmaValues):
 	loserRating = trueskill.Rating(mu=float(muValues[loserIndex]), sigma=float(sigmaValues[loserIndex]))
 	winnerRating, loserRating = trueskill.rate_1vs1(winnerRating, loserRating)
 	print(winnerRating)	
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (winnerRating.mu, winnerRating.sigma, int(winnerRating.mu - (3*winnerRating.sigma)), winnerID, TRON_PROBLEM_ID))
-	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (loserRating.mu, loserRating.sigma, int(loserRating.mu - (3*loserRating.sigma)), loserID, TRON_PROBLEM_ID))
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (winnerRating.mu, winnerRating.sigma, float(winnerRating.mu - (3*winnerRating.sigma)), winnerID, TRON_PROBLEM_ID))
+	cursor.execute("UPDATE Submission SET mu = %f, sigma = %f, score = %d WHERE userID = %d and problemID = %d" % (loserRating.mu, loserRating.sigma, float(loserRating.mu - (3*loserRating.sigma)), loserID, TRON_PROBLEM_ID))
 	cnx.commit()
 
 	# Get replay file by parsing shellOutput
