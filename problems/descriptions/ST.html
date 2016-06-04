@@ -1,10 +1,31 @@
 <h3>Problem Description</h3>
-<p>This month, your goal will be to work with an optimization problem, the Steiner Problem. In the Steiner problem, you are given a set of points and you must connect them all with a set of edges such that the sum of the lengths of the edges is as small as possible. Edges may connect to locations not provided in the given points, but all given points must be reachable from any other given point through following the edges of the graph. The solutions submitted with the smallest total length are the winners of the competition.</p>
+<p>This month, your goal will be to find the shortest way to connect a set of points, otherwise known as the Steiner Tree Problem.  Not only can you draw lines between points, but you can also generate new points to further minimize your solution.  All of the given points must be connected in your solution, and the Steiner Tree with the smallest total distance wins.</p>
 
 <h3>Problem Specifics</h3>
-<p>Upon opening the starter package, you will find st.txt, a file containing one thousand lines of two space-separated decimal numbers. Each line represents one given point, and on each line, the first number corresponds to the x location and the second number the y location. The output should consist of a file containing some number of lines (although fewer than nine hundred ninety nine would necessarily give an invalid solution) each representing an edge. Each line should contain four space-separated decimal numbers, corresponding to the x and y locations of the first point of the edge and the x and y locations of the second point of the edge. It is highly recommended that you use double-precision floating point numbers for your calculations and output or we cannot guarantee that your solution will be valid, as points on the edges must precisely match the points from st.txt to be counted as matching. The starter code, provided for C++, Java, and Python, will read in and parse the file for you, as well as output a given set of edges to solution file out.txt for submission. The filename of your submission will not affect your solution in any way.</p>
+<p>Upon opening the starter package, you will find <code>st.txt</code>, a file containing one thousand lines of two space-separated decimal numbers. Each line represents one given point, with an x and y value seperated by a space. The input file looks like this:</p>
 
-<p>To aid you with the problem, we are providing starter packages which can be found <a href="problems/starterpackages/ST.zip" download>here</a> for Java, C++ and Python. The input file can be found <a href="problems/input/st.txt" download>here</a>. Good luck!</p>
+<pre>
+x_1 y_1
+x_2 y_2
+x_3 y_3
+...
+x_999 y_999
+x_1000 y1_000
+</pre>
+
+<p>The output should consist of a file containing some number of lines (although fewer than 999 would necessarily give an invalid solution) connecting two points. Each line should contain four space-separated decimal numbers, corresponding to the x and y locations of the first point of the line and the x and y locations of the second point of the line.</p>
+
+<pre>
+x_1 y_1 x_2 y_2
+x_1 y_1 x_2 y_2
+x_1 y_1 x_2 y_2
+...
+x_1 y_1 x_2 y_2
+</pre>
+
+It is highly recommended that you use double-precision floating point numbers for your calculations and output or we cannot guarantee that your solution will be valid, as points on the lines must precisely match the points from <code>st.txt</code> to be counted as matching.</p>
+
+<p>The starter code, provided for C++, Java, and Python, will read in and parse the file for you, as well as output a given set of edges to solution file out.txt for submission. The filename of your submission will not affect your solution in any way. The starter packages can be found <a href="problems/starterpackages/ST.zip" download>here</a>, and the input file can be found <a href="problems/input/st.txt" download>here</a>. Good luck!</p>
 
 <h3>Restrictions</h3>
-<p>You can use anything on Wikipedia for reference. Use of the Internet for algorithmic purposes is acceptable, but you may not copy and paste code. Use of websites such as python.org, the Java API, and cplusplus.com is encouraged. Existing StackOverflow answers can also be referenced as a guide. Collaboration between students is encouraged, but your solutions should be your own.</p>
+<p>You can use anything on Wikipedia for reference. Use of the Internet for algorithmic purposes is acceptable, but you may not copy and paste code.  Online documentation and existing StackOverflow answers can be used as a guide. Academic papers can also be referenced for algorithmic purposes, but copying code is not allowed.  Collaboration between students is encouraged, but your solutions should be your own.</p>
