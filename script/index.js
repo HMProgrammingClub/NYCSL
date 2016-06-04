@@ -37,7 +37,7 @@ $(function() {
 				var opponent = this.games[a].users[0].userID == this.user.userID ? this.games[a].users[1] : this.games[a].users[0];
 				var gameResult = opponent.rank === "0" ? "Lost" : "Won";
 
-				this.$parentField.append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td><a href='#' gameID='"+this.games[a].gameID+"' class='gameLink"+this.user.userID+"'>"+gameResult+"</a></td></tr>");
+				this.$parentField.append("<tr class='gameRow'><td></td><td>vs <a href='student.php?userID="+opponent.userID+"'>"+opponent.firstName+" "+opponent.lastName+"</a></td><td><a href='school.php?schoolName="+opponent.schoolName+"'>"+opponent.schoolName+"</a></td><td>"+gameResult+"</td></tr>");
 			}
 		};
 		this.toggle = function() {
@@ -110,7 +110,7 @@ $(function() {
 			for(var a = 0; a < this.submissions.length; a++) {
 				var user = this.submissions[a].user;
 				var score = this.submissions[a].score;
-				this.$table.append("<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td><a class='matchDrop' title='"+Math.round(parseInt(score)+curve)+"' userID='"+user.userID+"' href='#'>"+score+"</a></td></tr></tbody>");
+				this.$table.append("<tbody id='user" + user.userID + "'><tr><th scope='row'>"+(a+1)+"</th><td><a href='student.php?userID="+user.userID+"'>"+user.firstName+" "+user.lastName+"</a></td><td><a href='school.php?schoolName="+user.schoolName+"'>"+user.schoolName+"</a></td><td>"+score+"</td></tr></tbody>");
 			}
 		},
 		toggleDropdown: function(event) {
@@ -121,7 +121,7 @@ $(function() {
 				for(var a = 0; a < this.submissions.length; a++) {
 					if(this.submissions[a].user.userID == user.userID) {
 						if(this.dropdowns[a].games == null) {
-							$('<div id="overlay"><img id="loading" src="http://bit.ly/pMtW1K"></div>').appendTo('body');
+							$('<div id="overlay"><img id="loading" src="http://bit.ly/pMtW1K"></div>').prependTo('body');
 							this.dropdowns[a].setGames(getLatestGamesForUser(user.userID));
 							$('#overlay').remove();
 						} this.dropdowns[a].toggle();
