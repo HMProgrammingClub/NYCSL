@@ -19,7 +19,7 @@ vertices = {}
 dist = 0
 
 # Get the points from the input file.
-with open('../input/st.txt', 'r') as input:
+with open('../problems/input/st.txt', 'r') as input:
 	for line in input:
 		l = line.split(' ')
 		pts.append(((float(l[0]), float(l[1]))))
